@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.font-inter {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.floating-animation {
+  animation: floating 6s ease-in-out infinite;
+}
+
+.fade-in-up {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, 0px);
+  }
+  50% {
+    transform: translate(0, -20px);
+  }
+  100% {
+    transform: translate(0, -0px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
