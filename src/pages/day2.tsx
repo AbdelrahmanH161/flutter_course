@@ -6,7 +6,6 @@ import {
   Clock,
   Database,
   ArrowRight,
-  GitBranch,
   Box,
 } from 'lucide-react';
 
@@ -22,7 +21,7 @@ const sessions = [
   {
     id: 1,
     title: 'Data Structures and Collections',
-    duration: '1 Hour',
+    duration: '1.5 Hour',
     icon: <Database className='w-6 h-6' />,
     content: {
       description:
@@ -131,42 +130,8 @@ assert(!teas.every((tea) => tea == 'chamomile'));`
   },
   {
     id: 2,
-    title: 'More on Functions',
-    duration: '1 Hour',
-    icon: <GitBranch className='w-6 h-6' />,
-    content: {
-      description:
-        'Dive deeper into Dart functions by exploring closures and generators.',
-      topics: [
-        'Closures: Functions that can access variables in their lexical scope.',
-      ],
-      detailedTopics: {
-        closures: {
-          title: 'Closures',
-          code: `/// Returns a function that adds [addBy] to the
-/// function's argument.
-Function makeAdder(int addBy) {
-  return (int i) => addBy + i;
-}
-
-void main() {
-  // Create a function that adds 2.
-  var add2 = makeAdder(2);
-
-  // Create a function that adds 4.
-  var add4 = makeAdder(4);
-
-  assert(add2(3) == 5);
-  assert(add4(3) == 7);
-}`,
-        },
-      },
-    },
-  },
-  {
-    id: 3,
     title: 'Introduction to OOP',
-    duration: '1 Hour',
+    duration: '1.5 Hour',
     icon: <Box className='w-6 h-6' />,
     content: {
       description:

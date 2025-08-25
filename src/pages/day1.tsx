@@ -23,7 +23,7 @@ const sessions = [
   {
     id: 1,
     title: 'What is Dart and Why?',
-    duration: '1 Hour',
+    duration: '30 Minutes',
     icon: <Database className='w-6 h-6' />,
     content: {
       description:
@@ -39,7 +39,7 @@ const sessions = [
   {
     id: 2,
     title: 'Variable Data Types',
-    duration: '1 Hour',
+    duration: '30 minute',
     icon: <Code className='w-6 h-6' />,
     content: {
       description:
@@ -102,6 +102,95 @@ print(description);`
   },
   {
     id: 3,
+    title: 'Operators',
+    duration: '30 minutes',
+    icon: <Code className='w-6 h-6' />,
+    content: {
+      description:
+        'Operators in Dart are special symbols that perform operations on one or more operands. They help you perform calculations, comparisons, and logical operations in your code.',
+      topics: [
+        'Arithmetic operators (+, -, *, /, ~/, %)',
+        'Increment/Decrement operators (++, --)',
+        'Equality and Relational operators (==, !=, >, <, >=, <=)',
+        'Type test operators (is, is!)',
+        'Assignment operators (=, +=, -=, etc.)',
+        'Logical operators (&&, ||, !)',
+        'Conditional expressions (?:, ??)',
+      ],
+      detailedTopics: {
+        arithmetic: {
+          title: 'Arithmetic Operators',
+          code: `// Basic arithmetic
+assert(2 + 3 == 5);
+assert(2 - 3 == -1);
+assert(2 * 3 == 6);
+assert(5 / 2 == 2.5); // Result is double
+assert(5 ~/ 2 == 2);  // Integer division
+assert(5 % 2 == 1);   // Modulo/remainder`,
+        },
+        incrementDecrement: {
+          title: 'Increment/Decrement',
+          code: `int a = 0;
+int b = ++a;    // Increment a before
+assert(a == b); // 1 == 1
+
+a = 0;
+b = a++;        // Increment a after
+assert(a != b); // 1 != 0`,
+        },
+        equality: {
+          title: 'Equality and Relational',
+          code: `assert(2 == 2);
+assert(2 != 3);
+assert(3 > 2);
+assert(2 < 3);
+assert(3 >= 3);
+assert(2 <= 3);`,
+        },
+        typeTest: {
+          title: 'Type Test Operators',
+          code: `Object obj = 'Hello';
+if (obj is String) {
+  // Type check
+  print(obj.length);
+}
+
+// Type cast
+String str = obj as String;`,
+        },
+        assignment: {
+          title: 'Assignment Operators',
+          code: `int a = 2;    // Basic assignment
+a += 3;         // Add and assign
+assert(a == 5);
+
+String? name;
+name ??= 'Guest'; // Assign if null`,
+        },
+        logical: {
+          title: 'Logical Operators',
+          code: `bool done = false;
+int col = 0;
+
+if (!done && (col == 0 || col == 3)) {
+  print('Condition met');
+}`,
+        },
+        conditional: {
+          title: 'Conditional Expressions',
+          code: `// Ternary operator
+bool isPublic = true;
+String visibility = isPublic ? 'public' : 'private';
+
+// Null-coalescing operator
+String? name;
+String displayName = name ?? 'Guest';`,
+        },
+      },
+    },
+  },
+  {
+    id: 4,
     title: 'Control Statements',
     duration: '1 Hour',
     icon: <Play className='w-6 h-6' />,
@@ -136,7 +225,7 @@ print(description);`
     },
   },
   {
-    id: 4,
+    id: 5,
     title: 'Functions',
     duration: '1 Hour',
     icon: <Coffee className='w-6 h-6' />,
