@@ -745,6 +745,135 @@ const Day1 = () => {
 									</div>
 								</div>
 
+								{/* Exercise 8: Lists and Iteration */}
+								<div className='bg-gradient-to-r from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-6 border-l-4 border-sky-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											8
+										</div>
+										<h5 className='text-xl font-semibold text-sky-700 dark:text-sky-300'>
+											Lists and Iteration
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Create a List of String called fruits containing at least
+										five different fruit names. Use a for...in loop to iterate
+										through the list and print each fruit name. After the loop,
+										use the built-in .add() method to add a new fruit to the
+										list and print the updated list to show the change.
+									</p>
+									{/* <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+										<div className='text-sm text-gray-600 dark:text-gray-400'>
+											<p><strong>Skills:</strong> List creation, for...in loops, .add() method</p>
+											<p><strong>Example:</strong> ["Apple", "Banana", "Orange", "Mango", "Grape"]</p>
+										</div>
+									</div> */}
+								</div>
+
+								{/* Exercise 11: Ternary Operator */}
+								<div className='bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											9
+										</div>
+										<h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
+											Ternary Operator (?:)
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Declare an int variable named temperature. Use a ternary
+										operator (?:) to assign a String value to a new variable
+										called weatherCondition. If the temperature is greater than
+										25, the weatherCondition should be "Hot." Otherwise, it
+										should be "Cool." Print the final weatherCondition to
+										confirm the logic.
+									</p>
+								</div>
+
+								{/* Exercise 12: Null-Aware Operators */}
+								<div className='bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-red-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											10
+										</div>
+										<h5 className='text-xl font-semibold text-red-700 dark:text-red-300'>
+											Null-Aware Operators
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Create a nullable String? variable named name and set its
+										value to null. Use the null-aware access operator (?.) to
+										try to print the length of the string. Observe that it
+										doesn't cause an error. Then, set name to a non-null value
+										(e.g., "Dart") and use the ?. operator again to successfully
+										print the length.
+									</p>
+								</div>
+
+								{/* Exercise 13: Named Parameters with Default Values */}
+								<div className='bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-6 border-l-4 border-indigo-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											11
+										</div>
+										<h5 className='text-xl font-semibold text-indigo-700 dark:text-indigo-300'>
+											Named Parameters with Default Values
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Write a function named sendEmail that takes three named
+										parameters: to (required, String), subject (required,
+										String), and body (optional, String, with a default value of
+										"No body text."). Call this function twice, once providing
+										all three parameters and once omitting the body parameter.
+										Print the results to see the default value in action.
+									</p>
+									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+										<div className='text-sm text-gray-600 dark:text-gray-400'>
+											<p>
+												<strong>Skills:</strong> Named parameters, default
+												values, function calls
+											</p>
+											<p>
+												<strong>Syntax:</strong> void sendEmail(required String
+												to, required String subject, String body = "No body
+												text.")
+											</p>
+										</div>
+									</div>
+								</div>
+
+								{/* Exercise 14: First-Class Functions */}
+								<div className='bg-gradient-to-r from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-xl p-6 mb-6 border-l-4 border-cyan-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											12
+										</div>
+										<h5 className='text-xl font-semibold text-cyan-700 dark:text-cyan-300'>
+											First-Class Functions
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Declare a variable named addNumbers that holds a function.
+										This function should take two int parameters and return
+										their sum. Call this function-variable with two numbers and
+										print the result. This exercise demonstrates how functions
+										are first-class objects in Dart.
+									</p>
+									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+										<div className='text-sm text-gray-600 dark:text-gray-400'>
+											<p>
+												<strong>Skills:</strong> First-class functions, function
+												variables, function types
+											</p>
+											<p>
+												<strong>Syntax:</strong> int Function(int, int)
+												addNumbers = (int a, int b) = {'>'} a + b;
+											</p>
+										</div>
+									</div>
+								</div>
+
 								{/* Challenge Section */}
 								<div className='bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl p-6 border-l-4 border-amber-500'>
 									<div className='flex items-center gap-3 mb-4'>
