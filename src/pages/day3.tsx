@@ -5,7 +5,6 @@ import {
 	CheckCircle,
 	Clock,
 	ArrowRight,
-	Layers,
 	Box,
 	Zap,
 } from 'lucide-react';
@@ -19,142 +18,6 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
 	{
 		id: 1,
-		title: 'OOP - Inheritance & Polymorphism',
-		duration: '60 Minutes',
-		icon: <Layers className='w-6 h-6' />,
-		content: {
-			description:
-				'Inheritance is a mechanism where a new class (child or subclass) can inherit properties and methods from an existing class (parent or superclass). Polymorphism is the ability of an object to take on many forms.',
-			topics: [
-				'Understanding inheritance and parent-child relationships',
-				'Using the extends keyword and super constructor',
-				'Method overriding with @override',
-				'Abstract classes and interfaces',
-			],
-			detailedTopics: {
-				inheritance: {
-					title: 'Inheritance Example',
-					code: `class ElectricCar extends Car {
-  int batteryLevel;
-
-  ElectricCar(String color, String model, this.batteryLevel) : super(color, model);
-  // The super() keyword calls the parent constructor.
-
-  void charge() {
-    print('The electric car is charging.');
-  }
-}`,
-				},
-				polymorphism: {
-					title: 'Polymorphism Example',
-					code: `@override
-void drive() {
-  print('The electric car is driving silently.');
-}`,
-				},
-			},
-		},
-	},
-	{
-		id: 2,
-		title: 'Encapsulation, Abstraction & Static Members',
-		duration: '60 Minutes',
-		icon: <Box className='w-6 h-6' />,
-		content: {
-			description:
-				'Encapsulation is the bundling of data and methods that operate on that data within a single unit. Abstraction is the concept of hiding complex implementation details and showing only necessary features.',
-			topics: [
-				'Private members using underscore (_) prefix',
-				'Getters and setters for controlled access',
-				'Abstract classes and methods',
-				'Static members and their uses',
-				'Understanding encapsulation principles',
-			],
-			detailedTopics: {
-				encapsulation: {
-					title: 'Encapsulation with Private Members',
-					code: `class BankAccount {
-  // Private member (starts with underscore)
-  double _balance = 0.0;
-  
-  // Public getter
-  double get balance => _balance;
-  
-  // Public setter with validation
-  set balance(double value) {
-    if (value >= 0) {
-      _balance = value;
-    }
-  }
-  
-  void deposit(double amount) {
-    if (amount > 0) {
-      _balance += amount;
-    }
-  }
-  
-  bool withdraw(double amount) {
-    if (amount > 0 && amount <= _balance) {
-      _balance -= amount;
-      return true;
-    }
-    return false;
-  }
-}`,
-				},
-				abstraction: {
-					title: 'Abstraction with Abstract Classes',
-					code: `// Abstract class - cannot be instantiated
-abstract class Shape {
-  // Abstract method - must be implemented by subclasses
-  double calculateArea();
-  double calculatePerimeter();
-  
-  // Concrete method - has implementation
-  void displayInfo() {
-    print('Area: \${calculateArea()}');
-    print('Perimeter: \${calculatePerimeter()}');
-  }
-}
-
-class Circle extends Shape {
-  double radius;
-  
-  Circle(this.radius);
-  
-  @override
-  double calculateArea() => 3.14159 * radius * radius;
-  
-  @override
-  double calculatePerimeter() => 2 * 3.14159 * radius;
-}`,
-				},
-				staticMembers: {
-					title: 'Static Members',
-					code: `class MathUtils {
-  // Static constant
-  static const double pi = 3.14159;
-  
-  // Static method
-  static int add(int a, int b) => a + b;
-  static int multiply(int a, int b) => a * b;
-  
-  // Static getter
-  static String get description => 'Utility class for mathematical operations';
-}
-
-void main() {
-  // Access static members without creating an instance
-  print(MathUtils.pi); // 3.14159
-  print(MathUtils.add(5, 3)); // 8
-  print(MathUtils.description); // Utility class for mathematical operations
-}`,
-				},
-			},
-		},
-	},
-	{
-		id: 3,
 		title: 'More on OOP',
 		duration: '30 Minutes',
 		icon: <Box className='w-6 h-6' />,
@@ -164,6 +27,7 @@ void main() {
 			topics: [
 				'Mixins for code reuse across multiple class hierarchies',
 				'Enums for defining sets of named constants',
+				'Abstract Classes vs Interfaces for defining contracts',
 				'Best practices in OOP design',
 			],
 			detailedTopics: {
@@ -198,11 +62,189 @@ void main() {
   print(currentStatus); // Output: Status.inProgress
 }`,
 				},
+				abstractClasses: {
+					title: 'Abstract Classes vs Interfaces',
+					code: `// Abstract Class - can have implementation
+abstract class Vehicle {
+  void start(); // Abstract method
+  
+  void stop() {
+    print('Vehicle stopped');
+  }
+}
+
+class Car extends Vehicle {
+  @override
+  void start() {
+    print('Car started with engine');
+  }
+}
+
+// Interface - only method signatures
+class Logger {
+  void log(String message) => print(message);
+}
+
+class ConsoleLogger implements Logger {
+  @override
+  void log(String message) {
+    print('[CONSOLE] \$message');
+  }
+}`,
+				},
+				mixinsDetailed: {
+					title: 'Advanced Mixins',
+					code: `mixin LoggerMixin {
+  void log(String message) {
+    print('[LOG] \${DateTime.now()}: \$message');
+  }
+}
+
+mixin JsonConverterMixin {
+  String toJson() {
+    return '{}';
+  }
+}
+
+class User with LoggerMixin, JsonConverterMixin {
+  String name;
+  int age;
+  
+  User(this.name, this.age);
+  
+  void displayInfo() {
+    log('Displaying user info');
+    print('Name: \$name, Age: \$age');
+  }
+  
+  @override
+  String toJson() {
+    return '{"name": "\$name", "age": \$age}';
+  }
+}`,
+				},
+				enumsAdvanced: {
+					title: 'Advanced Enums with Values',
+					code: `enum Status {
+  pending('Pending'),
+  approved('Approved'),
+  rejected('Rejected');
+  
+  final String displayName;
+  const Status(this.displayName);
+}
+
+enum Day {
+  saturday,
+  sunday,
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday
+}
+
+void main() {
+  Status myStatus = Status.approved;
+  print(myStatus.displayName); // Output: Approved
+  
+  Day today = Day.monday;
+  print(today.index); // Output: 2 (zero-based)
+  
+  // Iterate through all enum values
+  for (var day in Day.values) {
+    print(day);
+  }
+}`,
+				},
+				extendsVsImplements: {
+					title: 'Extends vs Implements',
+					code: `// Using extends (Inheritance)
+class Animal {
+  String name;
+  int age;
+  
+  Animal(this.name, this.age);
+  
+  void eat() {
+    print('\$name is eating');
+  }
+}
+
+class Dog extends Animal {
+  String breed;
+  
+  Dog(String name, int age, this.breed) : super(name, age);
+  
+  @override
+  void eat() {
+    print('\$name (a \$breed) is eating quickly!');
+    super.eat(); // Can access parent class methods
+  }
+}
+
+// Using implements (Interface implementation)
+class Logger {
+  void log(String message) => print(message);
+}
+
+class ConsoleLogger implements Logger {
+  @override
+  void log(String message) {
+    print('[CONSOLE] \$message');
+  }
+  // Must implement ALL methods from Logger
+}
+
+class FileLogger implements Logger {
+  @override
+  void log(String message) {
+    print('[FILE] \$message');
+  }
+}
+
+void main() {
+  // Inheritance example
+  Dog myDog = Dog('Rex', 3, 'Golden Retriever');
+  myDog.eat(); // Can use parent class methods
+  
+  // Interface implementation example
+  Logger logger1 = ConsoleLogger();
+  Logger logger2 = FileLogger();
+  
+  logger1.log('Test message'); // [CONSOLE] Test message
+  logger2.log('Another message'); // [FILE] Another message
+}`,
+				},
+				comparisonTable: {
+					title: 'Key Differences: Extends vs Implements',
+					code: `/*
+EXTENDS vs IMPLEMENTS Comparison:
+
+EXTENDS (Inheritance):
+✓ Inherits implementation from parent class
+✓ Can use 'super' to access parent members
+✓ Can inherit from only ONE class
+✓ Creates "is-a" relationship
+✓ Can override methods optionally
+
+IMPLEMENTS (Interface):
+✗ Must implement ALL inherited members
+✗ Cannot use 'super' keyword
+✓ Can implement MULTIPLE interfaces
+✓ Creates "can-do" relationship
+✓ Must override all methods
+
+Example Usage:
+class MyClass extends ParentClass { ... }     // Single inheritance
+class MyClass implements Interface1, Interface2 { ... }  // Multiple interfaces
+*/`,
+				},
 			},
 		},
 	},
 	{
-		id: 4,
+		id: 2,
 		title: 'Introduction to Flutter Framework',
 		duration: '30 Minutes',
 		icon: <Zap className='w-6 h-6' />,

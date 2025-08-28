@@ -7,6 +7,7 @@ import {
 	Database,
 	ArrowRight,
 	Box,
+	Layers,
 } from 'lucide-react';
 
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -241,6 +242,142 @@ void main() {
 class MySimpleClass {}
 
 var myObject = MySimpleClass(); // Uses the default constructor.`,
+				},
+			},
+		},
+	},
+	{
+		id: 3,
+		title: 'OOP - Inheritance & Polymorphism',
+		duration: '60 Minutes',
+		icon: <Layers className='w-6 h-6' />,
+		content: {
+			description:
+				'Inheritance is a mechanism where a new class (child or subclass) can inherit properties and methods from an existing class (parent or superclass). Polymorphism is the ability of an object to take on many forms.',
+			topics: [
+				'Understanding inheritance and parent-child relationships',
+				'Using the extends keyword and super constructor',
+				'Method overriding with @override',
+				'Abstract classes and interfaces',
+			],
+			detailedTopics: {
+				inheritance: {
+					title: 'Inheritance Example',
+					code: `class ElectricCar extends Car {
+  int batteryLevel;
+
+  ElectricCar(String color, String model, this.batteryLevel) : super(color, model);
+  // The super() keyword calls the parent constructor.
+
+  void charge() {
+    print('The electric car is charging.');
+  }
+}`,
+				},
+				polymorphism: {
+					title: 'Polymorphism Example',
+					code: `@override
+void drive() {
+  print('The electric car is driving silently.');
+}`,
+				},
+			},
+		},
+	},
+	{
+		id: 4,
+		title: 'Encapsulation, Abstraction & Static Members',
+		duration: '60 Minutes',
+		icon: <Box className='w-6 h-6' />,
+		content: {
+			description:
+				'Encapsulation is the bundling of data and methods that operate on that data within a single unit. Abstraction is the concept of hiding complex implementation details and showing only necessary features.',
+			topics: [
+				'Private members using underscore (_) prefix',
+				'Getters and setters for controlled access',
+				'Abstract classes and methods',
+				'Static members and their uses',
+				'Understanding encapsulation principles',
+			],
+			detailedTopics: {
+				encapsulation: {
+					title: 'Encapsulation with Private Members',
+					code: `class BankAccount {
+  // Private member (starts with underscore)
+  double _balance = 0.0;
+  
+  // Public getter
+  double get balance => _balance;
+  
+  // Public setter with validation
+  set balance(double value) {
+    if (value >= 0) {
+      _balance = value;
+    }
+  }
+  
+  void deposit(double amount) {
+    if (amount > 0) {
+      _balance += amount;
+    }
+  }
+  
+  bool withdraw(double amount) {
+    if (amount > 0 && amount <= _balance) {
+      _balance -= amount;
+      return true;
+    }
+    return false;
+  }
+}`,
+				},
+				abstraction: {
+					title: 'Abstraction with Abstract Classes',
+					code: `// Abstract class - cannot be instantiated
+abstract class Shape {
+  // Abstract method - must be implemented by subclasses
+  double calculateArea();
+  double calculatePerimeter();
+  
+  // Concrete method - has implementation
+  void displayInfo() {
+    print('Area: \${calculateArea()}');
+    print('Perimeter: \${calculatePerimeter()}');
+  }
+}
+
+class Circle extends Shape {
+  double radius;
+  
+  Circle(this.radius);
+  
+  @override
+  double calculateArea() => 3.14159 * radius * radius;
+  
+  @override
+  double calculatePerimeter() => 2 * 3.14159 * radius;
+}`,
+				},
+				staticMembers: {
+					title: 'Static Members',
+					code: `class MathUtils {
+  // Static constant
+  static const double pi = 3.14159;
+  
+  // Static method
+  static int add(int a, int b) => a + b;
+  static int multiply(int a, int b) => a * b;
+  
+  // Static getter
+  static String get description => 'Utility class for mathematical operations';
+}
+
+void main() {
+  // Access static members without creating an instance
+  print(MathUtils.pi); // 3.14159
+  print(MathUtils.add(5, 3)); // 8
+  print(MathUtils.description); // Utility class for mathematical operations
+}`,
 				},
 			},
 		},
