@@ -579,30 +579,214 @@ const Day3 = () => {
 									Lab Exercises
 								</h3>
 
-								<div className='bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6'>
-									<h5 className='text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4'>
-										Practice Problems
-									</h5>
-									<ol className='space-y-4'>
-										<li className='text-gray-700 dark:text-gray-300'>
-											<strong>1. Animal Hierarchy:</strong> Create a base Animal
-											class with subclasses like Dog, Cat, and Bird. Implement
-											inheritance and polymorphism with different sound methods
-											for each animal.
-										</li>
-										<li className='text-gray-700 dark:text-gray-300'>
-											<strong>2. Shape Calculator:</strong> Create an abstract
-											Shape class with abstract methods for area and perimeter.
-											Implement concrete classes for Circle, Rectangle, and
-											Triangle.
-										</li>
-										<li className='text-gray-700 dark:text-gray-300'>
-											<strong>3. Flutter Setup Verification:</strong> Install
-											Flutter on your system, run flutter doctor, and create a
-											simple "Hello World" Flutter app to verify your setup is
-											working correctly.
-										</li>
-									</ol>
+								{/* Exercise 1: E-Commerce Cart */}
+								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											1
+										</div>
+										<h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
+											E-Commerce Cart (Collections + Classes)
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Build a simple cart system with the following requirements:
+									</p>
+									<div className='space-y-3'>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+												Class Structure:
+											</h6>
+											<ul className='space-y-2 text-sm text-gray-600 dark:text-gray-400'>
+												<li>
+													• <strong>Product:</strong> name, price properties
+												</li>
+												<li>
+													• <strong>Cart:</strong> List&lt;Product&gt; items
+												</li>
+												<li>
+													• <strong>Methods:</strong> addProduct(),
+													removeProduct(), totalPrice()
+												</li>
+											</ul>
+										</div>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+												Required Features:
+											</h6>
+											<ul className='space-y-2 text-sm text-gray-600 dark:text-gray-400'>
+												<li>
+													• Use forEach, map, and reduce to calculate total cost
+												</li>
+												<li>• Apply Set to prevent duplicate products</li>
+												<li>• Implement proper error handling</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								{/* Exercise 2: Custom Enum with Switch */}
+								<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											2
+										</div>
+										<h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
+											Custom Enum with Switch
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Create an enum OrderStatus and implement status-based
+										filtering:
+									</p>
+									<div className='space-y-3'>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+												Enum Definition:
+											</h6>
+											<ul className='space-y-2 text-sm text-gray-600 dark:text-gray-400'>
+												<li>
+													• <strong>OrderStatus:</strong> pending, shipped,
+													delivered, cancelled
+												</li>
+												<li>
+													• Function to return user-friendly messages using
+													switch-case
+												</li>
+												<li>• Method to filter orders based on status</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								{/* Exercise 3: Number Processing */}
+								<div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											3
+										</div>
+										<h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
+											Number Processing & Analysis
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Write a program that processes a list of numbers with
+										multiple functions:
+									</p>
+									<div className='space-y-3'>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+												Required Functions:
+											</h6>
+											<ul className='space-y-2 text-sm text-gray-600 dark:text-gray-400'>
+												<li>
+													• <strong>isPrime():</strong> Find prime numbers
+												</li>
+												<li>
+													• <strong>Separate:</strong> Find even and odd numbers
+												</li>
+												<li>
+													• <strong>factorial():</strong> Calculate factorial
+													using recursion
+												</li>
+												<li>
+													• <strong>Loops:</strong> Use for, while, and
+													conditional expressions
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								{/* Exercise 4: Flight Booking System */}
+								<div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											4
+										</div>
+										<h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
+											Flight Booking System (Maps + Classes)
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Build a comprehensive flight booking system with the
+										following components:
+									</p>
+									<div className='space-y-3'>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+												Class Structure:
+											</h6>
+											<ul className='space-y-2 text-sm text-gray-600 dark:text-gray-400'>
+												<li>
+													• <strong>Flight:</strong> flightNumber, destination,
+													seatsAvailable
+												</li>
+												<li>
+													• <strong>Booking:</strong> passengerName,
+													flightNumber
+												</li>
+												<li>
+													• <strong>Storage:</strong> Map&lt;String, Flight&gt;
+													for flights
+												</li>
+												<li>
+													• <strong>Storage:</strong> List&lt;Booking&gt; for
+													bookings
+												</li>
+											</ul>
+										</div>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+												Required Methods:
+											</h6>
+											<ul className='space-y-2 text-sm text-gray-600 dark:text-gray-400'>
+												<li>
+													• <strong>addBooking():</strong> Decrease seats if
+													available
+												</li>
+												<li>
+													• <strong>cancelBooking():</strong> Increase seats
+													back
+												</li>
+												<li>
+													• <strong>listPassengers():</strong> Use .where to
+													find passengers in a flight
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								{/* Challenge Section */}
+								<div className='bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl p-6 border-l-4 border-amber-500'>
+									<div className='flex items-center gap-3 mb-4'>
+										<div className='w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg'>
+											🏆
+										</div>
+										<h5 className='text-xl font-semibold text-amber-700 dark:text-amber-300'>
+											Bonus Challenge
+										</h5>
+									</div>
+									<p className='text-gray-700 dark:text-gray-300 mb-4'>
+										Try to solve all exercises and test them with different
+										inputs. Challenge yourself to write clean, readable code and
+										experiment with advanced Dart concepts!
+									</p>
+									<div className='flex flex-wrap gap-2'>
+										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+											Collections
+										</span>
+										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+											OOP
+										</span>
+										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+											Enums
+										</span>
+										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+											Maps
+										</span>
+									</div>
 								</div>
 							</motion.div>
 						</div>
