@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import Picture1 from '/images/Picture1.jpg';
+import Picture2 from '/images/Picture2.jpg';
 
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
@@ -539,102 +541,75 @@ const Day4 = () => {
 									Lab Exercises
 								</h3>
 
-								{/* Exercise 1: Flutter Architecture */}
+								{/* Exercise 1: Picture1 Layout */}
 								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-500'>
 									<div className='flex items-center gap-3 mb-4'>
 										<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
 											1
 										</div>
 										<h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-											Flutter Architecture Understanding
+											Layout Task 1: Picture1.jpg Design
 										</h5>
 									</div>
 									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Explain the three layers of Flutter architecture (Framework,
-										Engine, Embedder) and describe what happens in each layer.
-										Draw a simple diagram showing how they interact.
+										Recreate the layout shown in Picture1.jpg using Flutter
+										widgets. Focus on the arrangement, spacing, and visual
+										hierarchy of elements.
 									</p>
+									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+											Requirements:
+										</h6>
+										<img
+											src={Picture1}
+											alt='Picture1'
+										/>
+										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+											<li>
+												• Analyze the image structure and identify key
+												components
+											</li>
+											<li>
+												• Use appropriate layout widgets (Row, Column, Stack,
+												etc.)
+											</li>
+											<li>• Implement proper spacing and alignment</li>
+											<li>• Match the visual style and proportions</li>
+										</ul>
+									</div>
 								</div>
 
-								{/* Exercise 2: Basic Widget Tree */}
+								{/* Exercise 2: Picture2 Layout */}
 								<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
 									<div className='flex items-center gap-3 mb-4'>
 										<div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
 											2
 										</div>
 										<h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-											Build Your First Widget Tree
+											Layout Task 2: Picture2.jpg Design
 										</h5>
 									</div>
 									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Create a simple Flutter app with a Scaffold that contains:
-										AppBar with title "My First App", Body with a Column
-										containing a Text widget and an Icon, and
-										FloatingActionButton with a heart icon.
+										Build the layout structure from Picture2.jpg. Pay attention
+										to the positioning, sizing, and relationships between UI
+										elements.
 									</p>
-								</div>
-
-								{/* Exercise 3: Container Styling */}
-								<div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											3
-										</div>
-										<h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
-											Container Styling Challenge
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Create three different Container widgets: 1) A red container
-										with rounded corners, 2) A blue container with a border and
-										shadow, 3) A green container with padding and a child Text
-										widget.
-									</p>
-								</div>
-
-								{/* Exercise 4: User Profile App */}
-								<div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											4
-										</div>
-										<h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-											User Profile App (Main Project)
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Create the complete User Profile app as shown in the
-										examples: Colorful header section with profile image, User
-										details in styled cards, Use assets for profile image, and
-										implement proper spacing with Material Design principles.
-									</p>
-								</div>
-
-								{/* Challenge Section */}
-								<div className='bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl p-6 border-l-4 border-amber-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg'>
-											🏆
-										</div>
-										<h5 className='text-xl font-semibold text-amber-700 dark:text-amber-300'>
-											Bonus Challenge
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Enhance your User Profile app with custom fonts, gradient
-										backgrounds, custom icons, and make it responsive for
-										different screen sizes.
-									</p>
-									<div className='flex flex-wrap gap-2'>
-										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-											Flutter Widgets
-										</span>
-										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-											Material Design
-										</span>
-										<span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-											Layout
-										</span>
+									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+											Requirements:
+										</h6>
+										<img
+											src={Picture2}
+											alt='Picture2'
+										/>
+										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+											<li>
+												• Study the image layout and component arrangement
+											</li>
+											<li>• Choose the right combination of layout widgets</li>
+											<li>• Implement responsive design principles</li>
+											<li>• Ensure proper widget nesting and hierarchy</li>
+										</ul>
 									</div>
 								</div>
 							</motion.div>
