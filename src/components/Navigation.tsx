@@ -63,6 +63,11 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
 										Days 3
 									</a>
+									<a
+										href='/day4'
+										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
+										Days 4
+									</a>
 									{/* <a
 										href='/day4'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
@@ -150,21 +155,26 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 								<div className='text-gray-500 dark:text-gray-400 text-sm font-medium mb-2'>
 									10 Day Plan
 								</div>
-								<a
-									href='#part1'
-									className='block px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
-									Days 1-3: Dart Foundation
-								</a>
-								<a
-									href='#part2'
-									className='block px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
-									Days 4-8: Building Flutter
-								</a>
-								<a
-									href='#part3'
-									className='block px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
-									Days 9-10: Firebase Integration
-								</a>
+								<Link
+									to='/day1'
+									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
+									Days 1
+								</Link>
+								<Link
+									to='/day2'
+									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
+									Days 1
+								</Link>
+								<Link
+									to='/day3'
+									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
+									Days 1
+								</Link>
+								<Link
+									to='/day4'
+									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
+									Days 1
+								</Link>
 							</div>
 							<div className='px-3 py-2'>
 								<button
