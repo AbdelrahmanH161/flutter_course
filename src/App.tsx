@@ -7,6 +7,7 @@ import Day1 from './pages/day1';
 import Day2 from './pages/day2';
 import Day3 from './pages/day3';
 import Day4 from './pages/day4';
+import Day5 from './pages/day5';
 
 function App() {
 	const [isDarkMode, setIsDarkMode] = useState(false);
@@ -108,6 +109,11 @@ function App() {
 					<Route
 						path='/day4'
 						element={<Day4 />}
+					/>
+
+					<Route
+						path='/day5'
+						element={<Day5 />}
 					/>
 				</Routes>
 
