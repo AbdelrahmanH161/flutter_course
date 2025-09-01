@@ -757,106 +757,129 @@ const Day5 = () => {
 								viewport={{ once: true }}
 								className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
 								<h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-									Hands-on Exercises
+									Hands-on Exercise
 								</h3>
 
-								{/* Exercise 1: Favorite Items List */}
-								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-500'>
+								{/* Product Page Task */}
+								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
 									<div className='flex items-center gap-3 mb-4'>
 										<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											1
+											📝
 										</div>
 										<h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-											Favorite Items List
+											Task: Product Page with Form and Switchable Layout
 										</h5>
 									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Create a simple ListView of favorite items (hobbies, fruits,
-										tasks) with the ability to add new items dynamically.
-									</p>
-									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-											Requirements:
-										</h6>
-										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-											<li>• Use StatefulWidget to manage the list state</li>
-											<li>• Implement a form to add new items</li>
-											<li>• Display items in a ListView.builder</li>
-											<li>• Add delete functionality for each item</li>
-											<li>
-												• Use setState() to update the UI when adding/removing
-												items
-											</li>
-										</ul>
-									</div>
-								</div>
 
-								{/* Exercise 2: Image Gallery Grid */}
-								<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											2
-										</div>
-										<h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-											Image Gallery Grid
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Build a GridView to display a set of images or colored boxes
-										with dynamic content management.
-									</p>
-									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-											Requirements:
+									<div className='mb-6'>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
+											Objective
 										</h6>
-										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-											<li>• Create a GridView with 3 columns</li>
-											<li>
-												• Display colored containers or placeholder images
-											</li>
-											<li>• Add a button to dynamically add new grid items</li>
-											<li>• Implement item removal functionality</li>
-											<li>• Use proper spacing and responsive design</li>
-										</ul>
+										<p className='text-gray-700 dark:text-gray-300'>
+											Build a Product Page that allows users to add new products
+											through a form, display products under the form, and
+											switch between List View and Grid View for displaying
+											products.
+										</p>
 									</div>
-								</div>
 
-								{/* Exercise 3: Combined Form + List + Grid */}
-								<div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border-l-4 border-purple-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											3
-										</div>
-										<h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
-											Complete App: Form + List + Grid
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Combine all concepts to build a complete app that uses forms
-										to collect data and displays it in both list and grid
-										formats.
-									</p>
-									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-											Requirements:
+									<div className='mb-6'>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
+											Requirements
 										</h6>
-										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-											<li>
-												• Create a form to collect user information (name,
-												hobby, etc.)
-											</li>
-											<li>
-												• Display collected data in a ListView below the form
-											</li>
-											<li>
-												• Add a toggle to switch between list and grid views
-											</li>
-											<li>
-												• Implement CRUD operations (Create, Read, Update,
-												Delete)
-											</li>
-											<li>• Use proper state management and UI updates</li>
-										</ul>
+
+										<div className='space-y-4'>
+											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
+													Form Section (Top of the Page)
+												</h6>
+												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+													<li>
+														• Create a form with fields: Product Name (Text),
+														Product Price (Number), Product Image URL (Text)
+													</li>
+													<li>• Add a Submit button</li>
+													<li>
+														• When the form is submitted, the product should be
+														added to a products list
+													</li>
+												</ul>
+											</div>
+
+											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
+													Products Display Section (Below the Form)
+												</h6>
+												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+													<li>• Show all added products</li>
+													<li>
+														• Each product card should display: Product Image
+														(loaded from the given URL), Product Name, Product
+														Price
+													</li>
+												</ul>
+											</div>
+
+											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
+													View Switcher
+												</h6>
+												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+													<li>
+														• Add a button or toggle to switch between List View
+														and Grid View
+													</li>
+													<li>
+														• List View: Products shown vertically in a column
+														(like a list)
+													</li>
+													<li>
+														• Grid View: Products shown in a grid layout with
+														multiple items per row
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+									<div className='mb-6'>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
+											Example Flow
+										</h6>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+												<li>
+													• User fills in product name = "Laptop", price = 1200,
+													image = "https://example.com/laptop.png", then clicks
+													Add
+												</li>
+												<li>
+													• The product appears in the products display section
+													with its image, name, and price
+												</li>
+												<li>• User adds more products</li>
+												<li>
+													• User switches between List View and Grid View to see
+													products displayed differently
+												</li>
+											</ul>
+										</div>
+									</div>
+
+									<div>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
+											👉 Bonus Challenge
+										</h6>
+										<div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
+											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+												<li>• Add a delete button for each product</li>
+												<li>
+													• Validate the form (e.g., product name not empty,
+													price &gt; 0, image URL must not be empty)
+												</li>
+												<li>• Add placeholder image if the URL is invalid</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</motion.div>
