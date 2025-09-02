@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-
+import Exercise1 from '/images/maxresdefault.jpg';
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 const Loading = () => <div>Loading...</div>;
@@ -760,17 +760,23 @@ const Day6 = () => {
 								viewport={{ once: true }}
 								className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
 								<h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-									Hands-on Exercise
+									📝 Hands-on Exercise
 								</h3>
 
-								{/* Navigation App Task */}
+								<img
+									src={Exercise1}
+									alt='Exercise1'
+									className='w-full h-auto rounded-lg mb-6'
+								/>
+
+								{/* Multi-Screen Navigation with Login Flow Task */}
 								<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border-l-4 border-green-500'>
 									<div className='flex items-center gap-3 mb-4'>
 										<div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											📱
+											🔐
 										</div>
 										<h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-											Task: Multi-Screen Navigation App with Custom Theme
+											Task: Multi-Screen Navigation with Login Flow
 										</h5>
 									</div>
 
@@ -779,10 +785,10 @@ const Day6 = () => {
 											Objective
 										</h6>
 										<p className='text-gray-700 dark:text-gray-300'>
-											Build a complete navigation app that demonstrates all
-											navigation patterns learned today. Include bottom
-											navigation, tabs, drawer, and screen-to-screen navigation
-											with a custom theme throughout.
+											Build a Flutter app with multiple screens to practice
+											navigation basics. The app should start with a Splash
+											Screen, then move to Login/Signup, and finally navigate to
+											a Home Page with a Drawer and BottomNavigationBar.
 										</p>
 									</div>
 
@@ -794,94 +800,75 @@ const Day6 = () => {
 										<div className='space-y-4'>
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													1. Bottom Navigation (Main Structure)
+													1. Splash Screen
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+													<li>• Show a simple splash (app logo or text)</li>
 													<li>
-														• Create 4 main screens: Home, Profile, Favorites,
-														Settings
-													</li>
-													<li>
-														• Use BottomNavigationBar to switch between them
-													</li>
-													<li>
-														• Each screen should have distinct content and icons
+														• After 2–3 seconds, automatically navigate to the
+														Login Page
 													</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													2. Profile Screen with Tabs
+													2. Login Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+													<li>• Email (TextField)</li>
+													<li>• Password (TextField, obscured)</li>
+													<li>• Add a Login button</li>
 													<li>
-														• Profile screen should have 3 tabs: Info, Posts,
-														Activity
+														• Add a "Don't have an account? Sign up" button to
+														navigate to the Signup Page
 													</li>
 													<li>
-														• Info tab: Display user information and avatar
+														• Validate form: Email should not be empty and must
+														contain @
 													</li>
-													<li>• Posts tab: Show a list of user posts</li>
+													<li>• Password should be at least 6 characters</li>
 													<li>
-														• Activity tab: Display recent user activities
+														• If validation passes, navigate to the Home Page
 													</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													3. Drawer Navigation
+													3. Signup Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>• Add a drawer to the Home screen</li>
-													<li>• Include user header with avatar and name</li>
+													<li>• Name (TextField)</li>
+													<li>• Email (TextField)</li>
+													<li>• Password (TextField, obscured)</li>
+													<li>• Add a Sign Up button</li>
 													<li>
-														• Menu items: Home, Profile, Favorites, Settings,
-														About, Logout
+														• Add a "Already have an account? Login" button to
+														go back to Login Page
 													</li>
 													<li>
-														• Drawer should navigate to respective screens
+														• No need to store real data—just validate inputs
 													</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													4. Screen-to-Screen Navigation
+													4. Home Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 													<li>
-														• Add "Edit Profile" button in Profile screen that
-														navigates to edit screen
+														• Add a Drawer with some dummy menu items (e.g.,
+														Profile, Settings, Logout)
 													</li>
 													<li>
-														• Edit screen should allow changing name, email, and
-														bio
-													</li>
-													<li>• Return updated data back to Profile screen</li>
-													<li>
-														• Show confirmation message when profile is updated
-													</li>
-												</ul>
-											</div>
-
-											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													5. Custom Theme Implementation
-												</h6>
-												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>
-														• Create a custom color scheme (choose your brand
-														colors)
+														• Add a BottomNavigationBar with at least 3 tabs
+														(e.g., Home, Search, Profile)
 													</li>
 													<li>
-														• Define consistent typography throughout the app
-													</li>
-													<li>• Style all buttons, cards, and input fields</li>
-													<li>• Support both light and dark themes</li>
-													<li>
-														• Use theme colors consistently across all screens
+														• Tapping items should switch between dummy screens
+														inside the Home Page
 													</li>
 												</ul>
 											</div>
@@ -890,31 +877,24 @@ const Day6 = () => {
 
 									<div className='mb-6'>
 										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-											Expected App Flow
+											Example Flow
 										</h6>
 										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 												<li>
-													• User opens app → Home screen with drawer and bottom
-													navigation
+													• App starts → Splash Screen (2s) → navigates to Login
+													Page
 												</li>
 												<li>
-													• User taps Profile → Profile screen with tabs (Info,
-													Posts, Activity)
+													• User enters correct login → navigates to Home Page
 												</li>
 												<li>
-													• User taps "Edit Profile" → Edit screen with form
+													• If user doesn't have an account → goes to Signup
+													Page, fills the form, then can log in
 												</li>
 												<li>
-													• User saves changes → Returns to Profile with updated
-													data
-												</li>
-												<li>
-													• User can navigate using bottom navigation, drawer,
-													or back buttons
-												</li>
-												<li>
-													• All screens maintain consistent theme and styling
+													• On Home Page → user can open Drawer or switch
+													between tabs with BottomNavigationBar
 												</li>
 											</ul>
 										</div>
@@ -922,22 +902,19 @@ const Day6 = () => {
 
 									<div>
 										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-											🌟 Bonus Challenges
+											👉 Bonus Challenge
 										</h6>
 										<div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
 											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-												<li>• Add splash screen animation on app start</li>
-												<li>• Implement pull-to-refresh on the Posts tab</li>
-												<li>• Add floating action button for "Add New Post"</li>
 												<li>
-													• Create custom page transitions between screens
+													• Add a Logout button in the Drawer that takes the
+													user back to the Login Page
 												</li>
 												<li>
-													• Add theme switcher in Settings (Light/Dark/System)
+													• Keep track of which tab is active in the
+													BottomNavigationBar
 												</li>
-												<li>
-													• Include search functionality in the Home screen
-												</li>
+												<li>• Show SnackBar on invalid login attempt</li>
 											</ul>
 										</div>
 									</div>
