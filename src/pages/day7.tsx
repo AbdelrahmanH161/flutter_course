@@ -837,14 +837,14 @@ const Day7 = () => {
 									📝 Hands-on Exercise
 								</h3>
 
-								{/* Weather App Task */}
-								<div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 border-l-4 border-orange-500'>
+								{/* Login & Product Catalog Task */}
+								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
 									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											🌤️
+										<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											🛍️
 										</div>
-										<h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-											Task: Weather App with API Integration
+										<h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
+											Task: Login & Product Catalog with API Integration
 										</h5>
 									</div>
 
@@ -853,10 +853,41 @@ const Day7 = () => {
 											Objective
 										</h6>
 										<p className='text-gray-700 dark:text-gray-300'>
-											Build a Weather App that fetches real weather data from an
-											API, displays it in a beautiful UI, and handles loading
-											states and errors gracefully.
+											Build a Flutter app with API integration for login and
+											products, where the Home Page displays products with a
+											scrollable category tab bar at the top.
 										</p>
+									</div>
+
+									<div className='mb-6'>
+										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
+											API References
+										</h6>
+										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-2'>
+												<li>
+													<strong>Login API:</strong>{' '}
+													https://dummyjson.com/auth/login
+												</li>
+												<li className='ml-4'>• Requires: username, password</li>
+												<li className='ml-4'>
+													• Example: kminchelle / 0lelplR
+												</li>
+												<li className='ml-4'>• Returns: user data + token</li>
+												<li className='mt-3'>
+													<strong>Get All Products:</strong>{' '}
+													https://dummyjson.com/products
+												</li>
+												<li>
+													<strong>Get Categories:</strong>{' '}
+													https://dummyjson.com/products/categories
+												</li>
+												<li>
+													<strong>Get Products by Category:</strong>{' '}
+													https://dummyjson.com/products/category/{'{category}'}
+												</li>
+											</ul>
+										</div>
 									</div>
 
 									<div className='mb-6'>
@@ -867,67 +898,61 @@ const Day7 = () => {
 										<div className='space-y-4'>
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													1. API Integration
+													1. Splash Screen
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>
-														• Use OpenWeatherMap API (free tier available)
-													</li>
-													<li>• Create a service class to handle API calls</li>
-													<li>
-														• Implement both http and Dio versions (choose one
-														for main implementation)
-													</li>
-													<li>• Handle API key and base URL configuration</li>
+													<li>• Show a simple splash (logo/text)</li>
+													<li>• After 2–3 seconds → navigate to Login Page</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													2. Data Models
+													2. Login Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 													<li>
-														• Create Weather model class with fromJson/toJson
-														methods
+														• Form with: Username (TextField), Password
+														(TextField, obscured)
 													</li>
 													<li>
-														• Include fields: temperature, humidity,
-														description, city name
+														• On pressing Login button: Call the Login API
 													</li>
 													<li>
-														• Handle nested JSON structure from API response
+														• If success → navigate to Home Page and store token
 													</li>
+													<li>• If fail → show error message</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													3. UI Components
+													3. Home Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>• Search bar to enter city name</li>
+													<li>• Layout: AppBar with title = "Products"</li>
 													<li>
-														• Weather card displaying temperature, humidity,
-														description
+														• Scrollable TabBar at the top: First Tab → "All
+														Products", Other Tabs → dynamically loaded
+														categories
 													</li>
-													<li>• Loading indicator while fetching data</li>
-													<li>• Error message display for failed requests</li>
-													<li>• Refresh button to get latest weather</li>
-												</ul>
-											</div>
-
-											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													4. State Management
-												</h6>
-												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 													<li>
-														• Use StatefulWidget with setState for state
-														management
+														• TabBarView below: For "All Products" → fetch from
+														products API, For each category → fetch from
+														category API
 													</li>
-													<li>• Handle loading, success, and error states</li>
-													<li>• Store current weather data and search query</li>
+													<li>
+														• Product Card should show: Product Image, Title,
+														Price
+													</li>
+													<li>
+														• Add a Drawer with dummy menu items (Profile,
+														Settings, Logout)
+													</li>
+													<li>
+														• Add Logout button inside Drawer to go back to
+														Login Page
+													</li>
 												</ul>
 											</div>
 										</div>
@@ -940,20 +965,24 @@ const Day7 = () => {
 										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 												<li>
-													• User opens app → shows default city weather (e.g.,
-													Cairo)
+													• Open App → Splash Screen → navigates to Login Page
 												</li>
 												<li>
-													• User types "London" in search bar → shows loading
-													indicator
+													• User logs in with (kminchelle / 0lelplR) → success →
+													goes to Home Page
 												</li>
 												<li>
-													• API call completes → displays London weather data
+													• On Home Page: Categories load into scrollable TabBar
+												</li>
+												<li>• First tab → All Products (default)</li>
+												<li>
+													• User taps "smartphones" → Products reload with only
+													smartphones
 												</li>
 												<li>
-													• If API fails → shows error message with retry option
+													• User taps Logout in Drawer → navigates back to Login
+													Page
 												</li>
-												<li>• User can refresh to get latest data</li>
 											</ul>
 										</div>
 									</div>
@@ -964,13 +993,14 @@ const Day7 = () => {
 										</h6>
 										<div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
 											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-												<li>• Add weather icons based on weather conditions</li>
-												<li>• Implement 5-day forecast (if API supports it)</li>
-												<li>• Add location-based weather using device GPS</li>
+												<li>• Add a loading spinner when fetching products</li>
 												<li>
-													• Cache weather data locally to reduce API calls
+													• Add a Pull-to-Refresh feature in the product list
 												</li>
-												<li>• Add pull-to-refresh functionality</li>
+												<li>• Show product details when a product is tapped</li>
+												<li>
+													• Use Dio interceptors to attach token automatically
+												</li>
 											</ul>
 										</div>
 									</div>
