@@ -78,6 +78,11 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
 										Days 6
 									</a>
+									<a
+										href='/day7'
+										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
+										Days 7
+									</a>
 									{/* <a
 										href='/day4'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
@@ -189,6 +194,11 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 									to='/day6'
 									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
 									Days 6
+								</Link>
+								<Link
+									to='/day7'
+									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
+									Days 7
 								</Link>
 							</div>
 							<div className='px-3 py-2'>
