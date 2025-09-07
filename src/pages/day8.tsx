@@ -1009,17 +1009,17 @@ const Day8 = () => {
 								viewport={{ once: true }}
 								className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
 								<h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-									📝 Final Project Exercise
+									📝 Hands-on Exercise
 								</h3>
 
-								{/* Complete App with All Features Task */}
-								<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border-l-4 border-green-500'>
+								{/* Persisting Data & Global State with Provider Task */}
+								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
 									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											🚀
+										<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+											🔄
 										</div>
-										<h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-											Task: Complete Flutter App with All Features
+										<h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
+											Task: Persisting Data & Global State with Provider
 										</h5>
 									</div>
 
@@ -1028,85 +1028,97 @@ const Day8 = () => {
 											Objective
 										</h6>
 										<p className='text-gray-700 dark:text-gray-300'>
-											Build a complete Flutter app that incorporates all the
-											concepts learned throughout the course: navigation,
-											theming, networking, state management, persistence, and
-											device access.
+											Enhance the previous login & product catalog app by
+											introducing persistent login with SharedPreferences and
+											global state management with Provider + ChangeNotifier.
 										</p>
 									</div>
 
 									<div className='mb-6'>
 										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-											App Features
+											Requirements
 										</h6>
 
 										<div className='space-y-4'>
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													1. User Authentication & Persistence
+													1. Splash Screen
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>• Login/Register screens with form validation</li>
-													<li>• Save login state using SharedPreferences</li>
 													<li>
-														• Auto-login on app restart if user was logged in
+														• On app start, check if a valid token exists in
+														SharedPreferences
 													</li>
 													<li>
-														• Logout functionality that clears stored data
+														• If token exists → navigate directly to Home Page
+													</li>
+													<li>• If no token → navigate to Login Page</li>
+												</ul>
+											</div>
+
+											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
+													2. State Management Setup
+												</h6>
+												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
+													<li>
+														• Wrap the app with MultiProvider (or
+														ChangeNotifierProvider) at the root
+													</li>
+													<li>
+														• Create a AuthProvider (extends ChangeNotifier) to:
+													</li>
+													<li className='ml-4'>
+														• Manage authentication state (token, user data,
+														isLoggedIn)
+													</li>
+													<li className='ml-4'>
+														• Provide methods: login(), logout(), autoLogin()
+													</li>
+													<li>
+														• Create a ProductProvider (extends ChangeNotifier)
+														to:
+													</li>
+													<li className='ml-4'>
+														• Fetch and hold categories and products
+													</li>
+													<li className='ml-4'>
+														• Handle selected category state
 													</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													2. State Management & Navigation
+													3. Login Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>• Use Provider for app-wide state management</li>
-													<li>• BottomNavigationBar with 3+ tabs</li>
-													<li>• Drawer navigation with user profile</li>
-													<li>• TabBar for sub-navigation within screens</li>
+													<li>• On successful login:</li>
+													<li className='ml-4'>
+														• Store the token using SharedPreferences
+													</li>
+													<li className='ml-4'>• Update AuthProvider state</li>
+													<li className='ml-4'>• Navigate to Home Page</li>
 												</ul>
 											</div>
 
 											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													3. Networking & Data Display
+													4. Home Page
 												</h6>
 												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 													<li>
-														• Fetch data from APIs (users, posts, products)
+														• Fetch categories and products using
+														ProductProvider
 													</li>
 													<li>
-														• Display data in ListView/GridView with custom
-														cards
+														• Use Consumer or Selector to listen for state
+														updates
 													</li>
-													<li>• Handle loading states and error messages</li>
-													<li>• Implement pull-to-refresh functionality</li>
-												</ul>
-											</div>
-
-											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													4. Device Access & Media
-												</h6>
-												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>• Image picker for profile pictures</li>
-													<li>• Camera access for taking photos</li>
-													<li>• Permission handling for device resources</li>
-													<li>• Display selected images in the app</li>
-												</ul>
-											</div>
-
-											<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-												<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-													5. Theming & UI Polish
-												</h6>
-												<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-													<li>• Consistent app theming with ThemeData</li>
-													<li>• Dark/Light theme support</li>
-													<li>• Custom colors and typography</li>
-													<li>• Smooth animations and transitions</li>
+													<li>• Add Logout in Drawer:</li>
+													<li className='ml-4'>• Clear SharedPreferences</li>
+													<li className='ml-4'>• Reset AuthProvider state</li>
+													<li className='ml-4'>• Navigate to Login Page</li>
 												</ul>
 											</div>
 										</div>
@@ -1114,18 +1126,24 @@ const Day8 = () => {
 
 									<div className='mb-6'>
 										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-											Technical Requirements
+											Example Flow
 										</h6>
 										<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
 											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
 												<li>
-													• Use proper folder structure and code organization
+													• User opens app → Splash checks SharedPreferences
 												</li>
-												<li>• Implement error handling throughout the app</li>
-												<li>• Add loading indicators for async operations</li>
-												<li>• Follow Flutter best practices and conventions</li>
 												<li>
-													• Test the app on both Android and iOS (if possible)
+													• If token found → auto login via AuthProvider → Home
+													Page
+												</li>
+												<li>• Else → Login Page</li>
+												<li>
+													• User logs in → token saved in SharedPreferences →
+													navigates Home
+												</li>
+												<li>
+													• User logs out → token removed → back to Login Page
 												</li>
 											</ul>
 										</div>
@@ -1133,17 +1151,23 @@ const Day8 = () => {
 
 									<div>
 										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-											🎯 Bonus Challenges
+											👉 Bonus Challenge
 										</h6>
 										<div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
 											<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-												<li>• Add search functionality for your data</li>
-												<li>• Implement local database with SQLite</li>
-												<li>• Add push notifications</li>
 												<li>
-													• Create a settings screen with user preferences
+													• Add a rememberMe checkbox on login (store
+													credentials in SharedPreferences if checked)
 												</li>
-												<li>• Build and test a release APK</li>
+												<li>
+													• Persist selected category in SharedPreferences and
+													auto-select it on next app start
+												</li>
+												<li>
+													• Add a "Dark Mode" toggle in Settings (save
+													preference in SharedPreferences + apply with
+													ChangeNotifier)
+												</li>
 											</ul>
 										</div>
 									</div>
