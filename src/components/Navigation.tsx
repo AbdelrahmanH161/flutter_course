@@ -25,7 +25,7 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 							className='flex items-center space-x-3'>
 							<FlutterLogo className='w-8 h-8' />
 							<span className='text-xl font-bold bg-gradient-to-r from-[#0175C2] to-[#01B5F2] bg-clip-text text-transparent'>
-								Flutter in 10 Days
+								Flutter in 8 Days
 							</span>
 						</Link>
 					</div>
@@ -43,7 +43,7 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 							<button
 								onClick={toggleDropdown}
 								className='flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
-								<span>10 Day Plan</span>
+								<span>8 Day Plan</span>
 								<ChevronDown className='w-4 h-4' />
 							</button>
 							{isDropdownOpen && (
@@ -88,41 +88,6 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
 										Days 8
 									</a>
-									{/* <a
-										href='/day4'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 4
-									</a>
-									<a
-										href='/day5'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 5
-									</a>
-									<a
-										href='/day6'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 6
-									</a>
-									<a
-										href='/day7'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 7
-									</a>
-									<a
-										href='/day8'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 8
-									</a>
-									<a
-										href='/day9'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 9
-									</a>
-									<a
-										href='/day10'
-										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 10
-									</a> */}
 								</div>
 							)}
 						</div>
@@ -173,7 +138,7 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 							</Link>
 							<div className='px-3 py-2'>
 								<div className='text-gray-500 dark:text-gray-400 text-sm font-medium mb-2'>
-									10 Day Plan
+									8 Day Plan
 								</div>
 								<Link
 									to='/day1'
@@ -204,6 +169,11 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 									to='/day7'
 									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
 									Days 7
+								</Link>
+								<Link
+									to='/day8'
+									className='block px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-[#01B5F2] transition-colors duration-200'>
+									Days 8
 								</Link>
 							</div>
 							<div className='px-3 py-2'>

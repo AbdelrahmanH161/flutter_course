@@ -58,7 +58,7 @@ const HeroSection = () => {
 						</span>{' '}
 						& <span className='text-[#01B5F2]'>Dart</span>
 						<br />
-						<span className='text-gray-600 dark:text-gray-300'>in 10 Days</span>
+						<span className='text-gray-600 dark:text-gray-300'>in 8 Days</span>
 					</h1>
 
 					<motion.p
@@ -91,7 +91,7 @@ const HeroSection = () => {
 							className='flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400'>
 							<div className='flex items-center space-x-2'>
 								<div className='w-2 h-2 bg-[#0175C2] rounded-full' />
-								<span>10 Days Intensive</span>
+								<span>8 Days Intensive</span>
 							</div>
 							<div className='flex items-center space-x-2'>
 								<div className='w-2 h-2 bg-[#0175C2] rounded-full' />
