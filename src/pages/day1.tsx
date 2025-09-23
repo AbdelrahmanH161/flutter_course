@@ -306,305 +306,157 @@ const Day1 = () => {
                   </div>
                 </div>
 
-                {/* Exercise 2: Even/Odd Checker */}
+                {/* Exercise 2: Personal Info Analyzer */}
                 <div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       2
                     </div>
                     <h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-                      Even/Odd Number Checker
+                      Personal Info Analyzer
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Write a program that takes a number from the user and
-                    determines if it's even or odd using two methods:
+                    Create variables for a person's name (String), age (int), height (double), and active status (bool).
+                    Use arithmetic operators to calculate the year they were born.
+                    Use a conditional operator (?:) to print whether they are an adult.
+                    Use a switch statement to classify their height range (short, average, tall).
                   </p>
-                  <div className='grid md:grid-cols-2 gap-4'>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-                        Method 1: Basic Arithmetic
-                      </h6>
-                      <p className='text-sm text-gray-600 dark:text-gray-400'>
-                        Using modulo operator (%)
-                      </p>
-                    </div>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-                        Method 2: Built-in Functions
-                      </h6>
-                      <p className='text-sm text-gray-600 dark:text-gray-400'>
-                        Using Dart's built-in methods
-                      </p>
-                    </div>
+                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+                      Skills to Practice:
+                    </h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Variable declarations and data types</li>
+                      <li>• Arithmetic operators (+, -, *, /)</li>
+                      <li>• Ternary operator (?:)</li>
+                      <li>• Switch statements</li>
+                      <li>• Conditional logic</li>
+                    </ul>
                   </div>
                 </div>
 
-                {/* Exercise 3: Grade Evaluator */}
+                {/* Exercise 3: Simple Grade Calculator */}
                 <div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       3
                     </div>
                     <h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
-                      Academic Performance Evaluator
+                      Simple Grade Calculator
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Write a program that asks the user to input their grade and
-                    evaluates their academic performance:
+                    Create a Map of subjects and marks.
+                    Use a for loop to calculate the total and average.
+                    Use if/else and relational operators to print the grade (A, B, etc.).
+                    Use ?? to handle a possible null value for an optional subject mark.
+                    Wrap the logic in a function calculateGrade(Map&lt;String,int&gt; marks) that returns a String grade.
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='grid md:grid-cols-2 gap-4 text-sm'>
-                      <div>
-                        <div className='flex items-center gap-2 mb-2'>
-                          <div className='w-3 h-3 bg-green-500 rounded-full'></div>
-                          <span className='font-medium text-gray-800 dark:text-gray-200'>
-                            Above 85: ممتاز
-                          </span>
-                        </div>
-                        <div className='flex items-center gap-2 mb-2'>
-                          <div className='w-3 h-3 bg-blue-500 rounded-full'></div>
-                          <span className='font-medium text-gray-800 dark:text-gray-200'>
-                            75-85: جيد جدًا
-                          </span>
-                        </div>
-                      </div>
-                      <div>
-                        <div className='flex items-center gap-2 mb-2'>
-                          <div className='w-3 h-3 bg-yellow-500 rounded-full'></div>
-                          <span className='font-medium text-gray-800 dark:text-gray-200'>
-                            65-75: جيد
-                          </span>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                          <div className='w-3 h-3 bg-red-500 rounded-full'></div>
-                          <span className='font-medium text-gray-800 dark:text-gray-200'>
-                            65 or less: مقبول
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+                      Skills to Practice:
+                    </h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Maps and data structures</li>
+                      <li>• For loops and iteration</li>
+                      <li>• Relational operators (&gt;, &lt;, &gt;=, &lt;=)</li>
+                      <li>• Null-aware operators (??)</li>
+                      <li>• Function creation and return types</li>
+                    </ul>
                   </div>
                 </div>
 
-                {/* Exercise 4: Day of Week */}
+                {/* Exercise 4: Product Price Adjuster */}
                 <div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       4
                     </div>
                     <h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-                      Day of Week Printer
+                      Product Price Adjuster
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Write a program that prints the day name based on the day
-                    number in the week using switch-case:
+                    Create a List of product prices.
+                    Use forEach or map to increase each price by 10% tax.
+                    Use a Set to store product categories (ensuring uniqueness).
+                    Use while to remove prices lower than a threshold.
+                    Use assignment operators (+=, -=) to modify totals and logical operators to check stock availability.
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      <p>
-                        Input: 1-7 → Output: Sunday, Monday, Tuesday, Wednesday,
-                        Thursday, Friday, Saturday
-                      </p>
-                    </div>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+                      Skills to Practice:
+                    </h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Lists and Sets</li>
+                      <li>• forEach and map methods</li>
+                      <li>• While loops</li>
+                      <li>• Assignment operators (+=, -=)</li>
+                      <li>• Logical operators (&&, ||)</li>
+                    </ul>
                   </div>
                 </div>
 
-                {/* Exercise 5: Number Printer */}
+                {/* Exercise 5: Lucky Number Checker */}
                 <div className='bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-xl p-6 mb-6 border-l-4 border-teal-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       5
                     </div>
                     <h5 className='text-xl font-semibold text-teal-700 dark:text-teal-300'>
-                      Number Printer (Skip 41)
+                      Lucky Number Checker
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Write a program that prints numbers from 1 to 100 but skips
-                    the number 41:
+                    Ask the user (hardcode or simulate input) for a lucky number (int).
+                    Use type test operators (is, is!) to confirm the input type.
+                    Use a for loop to check numbers 1–20:
+                    If the lucky number matches, print "You won!" and break.
+                    Use continue to skip even numbers if the lucky number is odd.
+                    Put this logic inside a function with an optional positional parameter for the range end (default 20).
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      <p>Output: 1, 2, 3... 40, 42, 43... 100</p>
-                    </div>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+                      Skills to Practice:
+                    </h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Type test operators (is, is!)</li>
+                      <li>• For loops with break and continue</li>
+                      <li>• Optional positional parameters</li>
+                      <li>• Function parameters and defaults</li>
+                      <li>• Control flow statements</li>
+                    </ul>
                   </div>
                 </div>
 
-                {/* Exercise 6: String Reverser */}
+                {/* Exercise 6: Discount Calculator with Functions */}
                 <div className='bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-rose-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       6
                     </div>
                     <h5 className='text-xl font-semibold text-rose-700 dark:text-rose-300'>
-                      String Reverser Function
+                      Discount Calculator with Functions
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Write a function that accepts text and returns it reversed
-                    using String functions:
+                    Create a function double applyDiscount(double price, {'{'}double discount = 0.1{'}'}) that uses named parameters.
+                    Use arrow function syntax to return the discounted price.
+                    Call the function for several prices stored in a List, then use map and where to filter discounted prices above a certain amount.
+                    Use a ternary operator to print "Big Discount!" if any final price drops below 50, otherwise "Regular Discount".
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      <p>
-                        <strong>Example:</strong> flutter → rettulf
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Exercise 7: Email Masker */}
-                <div className='bg-gradient-to-r from-violet-50 to-indigo-50 dark:from-violet-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-violet-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      7
-                    </div>
-                    <h5 className='text-xl font-semibold text-violet-700 dark:text-violet-300'>
-                      Email Masker
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Hide the first part of the email using asterisks (*):
-                  </p>
-                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      <p>
-                        <strong>Example:</strong> memo123@gmail.com →
-                        m****@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Exercise 8: Lists and Iteration */}
-                <div className='bg-gradient-to-r from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-6 border-l-4 border-sky-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      8
-                    </div>
-                    <h5 className='text-xl font-semibold text-sky-700 dark:text-sky-300'>
-                      Lists and Iteration
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a List of String called fruits containing at least
-                    five different fruit names. Use a for...in loop to iterate
-                    through the list and print each fruit name. After the loop,
-                    use the built-in .add() method to add a new fruit to the
-                    list and print the updated list to show the change.
-                  </p>
-                  {/* <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-										<div className='text-sm text-gray-600 dark:text-gray-400'>
-											<p><strong>Skills:</strong> List creation, for...in loops, .add() method</p>
-											<p><strong>Example:</strong> ["Apple", "Banana", "Orange", "Mango", "Grape"]</p>
-										</div>
-									</div> */}
-                </div>
-
-                {/* Exercise 11: Ternary Operator */}
-                <div className='bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      9
-                    </div>
-                    <h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-                      Ternary Operator (?:)
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Declare an int variable named temperature. Use a ternary
-                    operator (?:) to assign a String value to a new variable
-                    called weatherCondition. If the temperature is greater than
-                    25, the weatherCondition should be "Hot." Otherwise, it
-                    should be "Cool." Print the final weatherCondition to
-                    confirm the logic.
-                  </p>
-                </div>
-
-                {/* Exercise 12: Null-Aware Operators */}
-                <div className='bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-red-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      10
-                    </div>
-                    <h5 className='text-xl font-semibold text-red-700 dark:text-red-300'>
-                      Null-Aware Operators
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a nullable String? variable named name and set its
-                    value to null. Use the null-aware access operator (?.) to
-                    try to print the length of the string. Observe that it
-                    doesn't cause an error. Then, set name to a non-null value
-                    (e.g., "Dart") and use the ?. operator again to successfully
-                    print the length.
-                  </p>
-                </div>
-
-                {/* Exercise 13: Named Parameters with Default Values */}
-                <div className='bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-6 border-l-4 border-indigo-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      11
-                    </div>
-                    <h5 className='text-xl font-semibold text-indigo-700 dark:text-indigo-300'>
-                      Named Parameters with Default Values
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Write a function named sendEmail that takes three named
-                    parameters: to (required, String), subject (required,
-                    String), and body (optional, String, with a default value of
-                    "No body text."). Call this function twice, once providing
-                    all three parameters and once omitting the body parameter.
-                    Print the results to see the default value in action.
-                  </p>
-                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      <p>
-                        <strong>Skills:</strong> Named parameters, default
-                        values, function calls
-                      </p>
-                      <p>
-                        <strong>Syntax:</strong> void sendEmail(required String
-                        to, required String subject, String body = "No body
-                        text.")
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Exercise 14: First-Class Functions */}
-                <div className='bg-gradient-to-r from-cyan-50 to-teal-50 dark:from-cyan-900/20 dark:to-teal-900/20 rounded-xl p-6 mb-6 border-l-4 border-cyan-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      12
-                    </div>
-                    <h5 className='text-xl font-semibold text-cyan-700 dark:text-cyan-300'>
-                      First-Class Functions
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Declare a variable named addNumbers that holds a function.
-                    This function should take two int parameters and return
-                    their sum. Call this function-variable with two numbers and
-                    print the result. This exercise demonstrates how functions
-                    are first-class objects in Dart.
-                  </p>
-                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      <p>
-                        <strong>Skills:</strong> First-class functions, function
-                        variables, function types
-                      </p>
-                      <p>
-                        <strong>Syntax:</strong> int Function(int, int)
-                        addNumbers = (int a, int b) = {'>'} a + b;
-                      </p>
-                    </div>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
+                      Skills to Practice:
+                    </h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Named parameters with default values</li>
+                      <li>• Arrow function syntax</li>
+                      <li>• map and where methods</li>
+                      <li>• Ternary operator (?:)</li>
+                      <li>• Function composition and chaining</li>
+                    </ul>
                   </div>
                 </div>
 

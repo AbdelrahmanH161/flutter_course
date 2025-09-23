@@ -43,12 +43,10 @@ const Day2 = () => {
                   Day 2
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#0055A4] mb-8'>
-                  Intermediate Dart
+                  Object-Oriented Programming in Dart
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Today we'll dive deeper into Dart, exploring collections,
-                  advanced function concepts, and the basics of Object-Oriented
-                  Programming.
+                  Master the fundamentals of Object-Oriented Programming in Dart. Learn about classes, constructors, inheritance, polymorphism, encapsulation, and advanced OOP concepts like mixins and enums.
                 </p>
 
                 <motion.button
@@ -86,7 +84,7 @@ const Day2 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  3 sessions to level up your Dart skills.
+                  4 sessions to master Object-Oriented Programming in Dart.
                 </p>
               </motion.div>
 
@@ -218,29 +216,25 @@ const Day2 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#0055A4] mt-0.5 flex-shrink-0' />
                         <span>
-                          Mastered the use of Lists, Maps, and Sets for data
-                          collection.
+                          Mastered classes, objects, and different types of constructors (generative, named, constant).
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#0055A4] mt-0.5 flex-shrink-0' />
                         <span>
-                          Understood closures and how functions capture their
-                          scope.
+                          Understood inheritance, polymorphism, and method overriding with @override.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#0055A4] mt-0.5 flex-shrink-0' />
                         <span>
-                          Learned to create lazy sequences with generator
-                          functions.
+                          Learned encapsulation with private members, getters, setters, and static members.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#0055A4] mt-0.5 flex-shrink-0' />
                         <span>
-                          Grasped the basics of OOP with classes, objects, and
-                          constructors.
+                          Explored advanced OOP concepts including mixins, enums, and abstract classes.
                         </span>
                       </li>
                     </ul>
@@ -250,9 +244,7 @@ const Day2 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 3, we'll explore advanced OOP concepts like
-                      inheritance, mixins, and interfaces, and dive into error
-                      handling and asynchronous programming in Dart.
+                      In Day 3, we'll dive into error handling, asynchronous programming, and advanced Dart features like streams, futures, and exception handling to build robust applications.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 3
@@ -272,144 +264,90 @@ const Day2 = () => {
                   Lab Exercises
                 </h3>
 
-                {/* Exercise 1: Lists & Sets */}
+                {/* Exercise 1: Vehicle Class Variations */}
                 <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       1
                     </div>
                     <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Lists & Sets
+                      Vehicle Class Variations (Classes & Constructors)
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a list of 5 numbers and print the 3rd element. Then
-                    create a set of the same numbers and explain the difference
-                    between the list and the set.
+                    Create a class Vehicle with fields: brand (String) and speed (int). Implement:
+                    <br />• A default constructor that sets brand and speed
+                    <br />• A named constructor Vehicle.slow() that sets speed to a default of 10
+                    <br />• A constant constructor for a compile-time constant vehicle
+                    <br />• Create three objects using each constructor and print their details
                   </p>
                 </div>
 
-                {/* Exercise 2: Classes & Objects */}
+                {/* Exercise 2: Employee Hierarchy */}
                 <div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       2
                     </div>
                     <h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-                      Classes & Objects
+                      Employee Hierarchy (Inheritance & Polymorphism)
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Define a simple class Car with two properties: brand and
-                    year. Create an object of this class and print its
-                    properties.
+                    Create an abstract class Employee with a field name and a method calculatePay(). Extend it with two classes:
+                    <br />• FullTimeEmployee (monthly salary)
+                    <br />• PartTimeEmployee (hourly rate × hours worked)
+                    <br />• Use @override to implement calculatePay() differently for each
+                    <br />• In main(), store employees in a List&lt;Employee&gt;, loop through, and print pay—demonstrating polymorphism
                   </p>
                 </div>
 
-                {/* Exercise 3: Maps */}
+                {/* Exercise 3: Bank Account Security */}
                 <div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       3
                     </div>
                     <h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
-                      Maps
+                      Bank Account Security (Encapsulation & Static)
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a map of 3 students with their names as keys and
-                    grades as values. Print all students who have grades above
-                    80 using the .where() method.
+                    Create a class BankAccount with:
+                    <br />• A private _balance variable
+                    <br />• Getters and setters to read/update _balance safely (prevent setting a negative balance)
+                    <br />• A static member bankName shared by all accounts
+                    <br />• Demonstrate creating two accounts, setting balances, and printing the shared bankName
                   </p>
                 </div>
 
-                {/* Exercise 4: Constructors */}
+                {/* Exercise 4: Utility Tools */}
                 <div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       4
                     </div>
                     <h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-                      Constructors
+                      Utility Tools (Mixins, Enums, and Interfaces)
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a Student class with two constructors: A generative
-                    constructor that takes name and age, and a named constructor
-                    Student.withoutAge that only takes name and sets age to
-                    null. Demonstrate both in main().
+                    Define an enum LogLevel with values: info, warning, error. Create a mixin Logger with a method log(String message, LogLevel level). Define an abstract class Storable with a method save(). Create a class FileManager that implements Storable and with Logger. Demonstrate logging at different levels and calling save().
                   </p>
                 </div>
 
-                {/* Exercise 5: Inheritance */}
+                {/* Exercise 5: Shape Factory */}
                 <div className='bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-xl p-6 mb-6 border-l-4 border-teal-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       5
                     </div>
                     <h5 className='text-xl font-semibold text-teal-700 dark:text-teal-300'>
-                      Inheritance
+                      Shape Factory (Best Practices & Abstraction)
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a parent class Animal with a method makeSound().
-                    Extend it in two child classes: Dog and Cat, and override
-                    makeSound() in both.
-                  </p>
-                </div>
-
-                {/* Exercise 6: Maps (Hard Version) */}
-                <div className='bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-rose-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      6
-                    </div>
-                    <h5 className='text-xl font-semibold text-rose-700 dark:text-rose-300'>
-                      Maps (Hard Version)
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a map of students with their names as keys and
-                    another map as value (containing "math", "science", and
-                    "english" grades). Use .forEach to print each student's
-                    grades, .map to create average grades, and .where to find
-                    students above 85 average.
-                  </p>
-                </div>
-
-                {/* Exercise 7: Encapsulation & Getters/Setters */}
-                <div className='bg-gradient-to-r from-violet-50 to-indigo-50 dark:from-violet-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-violet-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      7
-                    </div>
-                    <h5 className='text-xl font-semibold text-violet-700 dark:text-violet-300'>
-                      Encapsulation & Getters/Setters
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a BankAccount class with a private _balance property.
-                    Provide a getter to check balance and a setter that prevents
-                    depositing a negative amount. Show how encapsulation is
-                    achieved.
-                  </p>
-                </div>
-
-                {/* Exercise 8: Abstract & Static */}
-                <div className='bg-gradient-to-r from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-6 border-l-4 border-sky-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      8
-                    </div>
-                    <h5 className='text-xl font-semibold text-sky-700 dark:text-sky-300'>
-                      Abstract & Static
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create an abstract class Shape with an abstract method
-                    area(). Implement two classes: Circle and Rectangle. Use
-                    @override to calculate area in each class. Add a static
-                    method Shape.info() that prints "All shapes have an area."
+                    Define an abstract class Shape with a method area(). Create classes Circle and Rectangle that extend Shape. Provide constructors for each and override area(). Use a named constructor in Circle (Circle.unit()) for a unit-radius circle. Demonstrate best practices: clear naming, encapsulation (use getters for dimensions), and consistent style.
                   </p>
                 </div>
 
@@ -424,22 +362,26 @@ const Day2 = () => {
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Try to solve all exercises and test them with different
-                    inputs. Challenge yourself to write clean, readable code and
-                    experiment with the concepts!
+                    Try to solve all exercises and test them with different inputs. Challenge yourself to write clean, readable code and experiment with the concepts! Focus on understanding the relationships between classes, proper encapsulation, and effective use of Dart's OOP features.
                   </p>
                   <div className='flex flex-wrap gap-2'>
                     <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-                      Collections
-                    </span>
-                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-                      OOP
+                      Constructors
                     </span>
                     <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
                       Inheritance
                     </span>
                     <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Polymorphism
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
                       Encapsulation
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Mixins
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Interfaces
                     </span>
                   </div>
                 </div>

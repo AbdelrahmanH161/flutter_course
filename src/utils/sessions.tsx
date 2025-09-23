@@ -1,7 +1,5 @@
 import { Database, Code, Play, Coffee, Box, Layers } from 'lucide-react';
 
-
-
 export const sessionsDay1 = [
   {
     id: 1,
@@ -375,7 +373,6 @@ assert(!teas.every((tea) => tea == 'chamomile'));`,
       },
     },
   },
-
 ];
 
 export const sessionsDay2 = [
