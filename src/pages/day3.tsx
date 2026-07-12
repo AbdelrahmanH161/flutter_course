@@ -1,625 +1,436 @@
 import { useState, Suspense, lazy, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
-	ChevronDown,
-	CheckCircle,
-	Clock,
-	Smartphone,
-	Monitor,
-	Palette,
-	ArrowRight,
+  ChevronDown,
+  CheckCircle,
+  Clock,
+  ArrowRight,
 } from 'lucide-react';
 
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import Picture1 from '/images/Picture1.jpg';
-import Picture2 from '/images/Picture2.jpg';
+import { sessionsDay3 } from '../utils/sessions';
 
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 const Loading = () => <div>Loading...</div>;
 
-const sessions = [
-	{
-		id: 1,
-		title: 'Introduction to Flutter',
-		duration: '1 Hour',
-		icon: <Smartphone className='w-6 h-6' />,
-		content: {
-			description:
-				'Flutter is a UI toolkit from Google for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.',
-			topics: [
-				'What is Flutter and why use it?',
-				'Flutter Architecture: Framework, Engine, Embedder',
-				'Everything is a Widget philosophy',
-				'Cross-platform development advantages',
-				'Hot Reload for instant feedback',
-			],
-			detailedTopics: {
-				whatIsFlutter: {
-					title: 'What is Flutter?',
-					code: `// Flutter is Google's UI toolkit for building natively compiled
-// applications for multiple platforms from a single codebase.
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(),
-    );
-  }
-}`,
-				},
-				flutterArchitecture: {
-					title: 'Flutter Architecture',
-					code: `/*
-Flutter Architecture (3 Layers):
-
-Framework Layer (Dart):
-- Material Design, Cupertino widgets
-- Rendering layer, Animation & gestures
-- Foundation classes
-
-Engine Layer (C++):
-- Skia graphics engine
-- Dart runtime
-- Text layout and rendering
-
-Embedder Layer (Platform Specific):
-- Platform-specific code
-- Window management
-- Native platform APIs
-*/`,
-				},
-			},
-		},
-	},
-	{
-		id: 2,
-		title: 'Your First Flutter UI',
-		duration: '1 Hour',
-		icon: <Monitor className='w-6 h-6' />,
-		content: {
-			description:
-				'Get hands-on with the most common Flutter widgets and learn how to structure your UI using layout widgets.',
-			topics: [
-				'Basic Widgets: Container, Text, Icon, Image',
-				'Layout Widgets: Row, Column, Center, Padding',
-				'Scaffold for Material Design structure',
-				'Building your first widget tree',
-				'Understanding widget composition',
-			],
-			detailedTopics: {
-				basicWidgets: {
-					title: 'Basic Widgets',
-					code: `// Container - A box for styling
-Container(
-  width: 200,
-  height: 100,
-  decoration: BoxDecoration(
-    color: Colors.blue,
-    borderRadius: BorderRadius.circular(10),
-  ),
-  padding: EdgeInsets.all(16),
-  child: Text('I am in a container!'),
-)
-
-// Text - For displaying strings
-Text(
-  'Hello Flutter!',
-  style: TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.blue,
-  ),
-)`,
-				},
-				layoutWidgets: {
-					title: 'Layout Widgets',
-					code: `// Row - Arranges children horizontally
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
-    Icon(Icons.star, color: Colors.amber),
-    Text('Rating'),
-    Text('4.5', style: TextStyle(fontWeight: FontWeight.bold)),
-  ],
-)
-
-// Column - Arranges children vertically
-Column(
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
-    Text('Welcome'),
-    SizedBox(height: 10), // Add spacing
-    ElevatedButton(
-      onPressed: () {},
-      child: Text('Get Started'),
-    ),
-  ],
-)
-
-// Center - Centers its child
-Center(
-  child: Text('I am centered!'),
-)
-
-// Padding - Adds space around its child
-Padding(
-  padding: EdgeInsets.all(16.0),
-  child: Text('I have padding around me'),
-)
-
-// SizedBox - For explicit spacing
-SizedBox(height: 20), // Vertical space
-SizedBox(width: 20),  // Horizontal space
-
-// Expanded - Takes remaining space
-Row(
-  children: [
-    Text('Left'),
-    Expanded(child: Text('Center - takes remaining space')),
-    Text('Right'),
-  ],
-)`,
-				},
-				scaffold: {
-					title: 'Scaffold Structure',
-					code: `class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My Flutter App'),
-        backgroundColor: Colors.blue,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.flutter_dash, size: 100, color: Colors.blue),
-            SizedBox(height: 20),
-            Text('Welcome to Flutter!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            ElevatedButton(
-              onPressed: () => print('Button pressed!'),
-              child: Text('Get Started'),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}`,
-				},
-			},
-		},
-	},
-	{
-		id: 3,
-		title: 'Material Design & Assets',
-		duration: '1 Hour',
-		icon: <Palette className='w-6 h-6' />,
-		content: {
-			description:
-				"Flutter makes it easy to create apps that follow Google's Material Design guidelines using pre-built widgets and learn how to work with assets like images.",
-			topics: [
-				'Material Design principles in Flutter',
-				'Material widgets: AppBar, Card, FloatingActionButton',
-				'Working with assets and images',
-				'Setting up pubspec.yaml for assets',
-				'Creating a complete User Profile app',
-			],
-			detailedTopics: {
-				workingWithAssets: {
-					title: 'Working with Assets',
-					code: `// 1. Create assets folder structure:
-/*
-your_project/
-├── assets/
-│   ├── images/
-│   │   ├── profile_picture.jpg
-│   │   └── flutter_logo.png
-├── lib/
-└── pubspec.yaml
-*/
-
-// 2. Declare assets in pubspec.yaml:
-/*
-flutter:
-  assets:
-    - assets/images/
-*/
-
-// 3. Use assets in your Flutter code:
-Image.asset(
-  'assets/images/flutter_logo.png',
-  width: 200,
-  height: 200,
-)`,
-				},
-				userProfileApp: {
-					title: 'User Profile App Example',
-					code: `class UserProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('My Profile')),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage('assets/images/profile.jpg'),
-            ),
-            SizedBox(height: 20),
-            Text('Sarah Johnson',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-            Text('Flutter Developer'),
-            SizedBox(height: 30),
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.email),
-                title: Text('Email'),
-                subtitle: Text('sarah@email.com'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}`,
-				},
-			},
-		},
-	},
-];
-
 const Day3 = () => {
-	const [activeSession, setActiveSession] = useState<number | null>(null);
-	const contentRef = useRef<HTMLDivElement>(null);
+  const [activeSession, setActiveSession] = useState<number | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-	const scrollToContent = () => {
-		contentRef.current?.scrollIntoView({ behavior: 'smooth' });
-	};
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-	return (
-		<div className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
-			<main>
-				<Suspense fallback={<Loading />}>
-					{/* Hero Section */}
-					<section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
-						<div className='absolute inset-0 opacity-10'>
-							<div className='absolute top-20 left-20 w-72 h-72 bg-[#02569B] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
-							<div className='absolute top-40 right-20 w-72 h-72 bg-[#13B9FD] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000'></div>
-							<div className='absolute -bottom-8 left-40 w-72 h-72 bg-[#0175C2] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000'></div>
-						</div>
+  return (
+    <div className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
+      <main>
+        <Suspense fallback={<Loading />}>
+          {/* Hero Section */}
+          <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
+            <div className='absolute inset-0 opacity-10'>
+              <div className='absolute top-20 left-20 w-72 h-72 bg-[#0175C2] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
+              <div className='absolute top-40 right-20 w-72 h-72 bg-[#00A99D] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000'></div>
+              <div className='absolute -bottom-8 left-40 w-72 h-72 bg-[#01B5F2] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000'></div>
+            </div>
 
-						<div className='relative z-10 text-center px-4 max-w-4xl mx-auto'>
-							<motion.div
-								initial={{ opacity: 0, y: 30 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8 }}>
-								<h1 className='text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6'>
-									Day 3
-								</h1>
-								<h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-									Flutter Fundamentals
-								</h2>
-								<p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-									Welcome to Flutter! Today we'll explore Google's powerful UI
-									toolkit and build our first static User Profile app using
-									Material Design principles.
-								</p>
+            <div className='relative z-10 text-center px-4 max-w-4xl mx-auto'>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}>
+                <h1 className='text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6'>
+                  Day 3
+                </h1>
+                <h2 className='text-3xl md:text-5xl font-bold text-[#0175C2] mb-8'>
+                  Object-Oriented Programming in Dart
+                </h2>
+                <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
+                  Master the full power of OOP in Dart. Classes, constructors, inheritance, polymorphism, encapsulation, abstract classes, interfaces, mixins, and enhanced enums — all in one day.
+                </p>
 
-								<motion.button
-									onClick={scrollToContent}
-									className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#024A87] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}>
-									<ChevronDown className='w-5 h-5' />
-									Explore Flutter Fundamentals
-								</motion.button>
-							</motion.div>
-						</div>
+                <motion.button
+                  onClick={scrollToContent}
+                  className='inline-flex items-center gap-2 bg-[#0175C2] hover:bg-[#005ea0] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}>
+                  <ChevronDown className='w-5 h-5' />
+                  Explore Day 3 Content
+                </motion.button>
+              </motion.div>
+            </div>
 
-						<motion.div
-							className='absolute bottom-8 left-1/2 transform -translate-x-1/2'
-							animate={{ y: [0, 10, 0] }}
-							transition={{ duration: 2, repeat: Infinity }}>
-							<ChevronDown className='w-6 h-6 text-gray-400' />
-						</motion.div>
-					</section>
+            <motion.div
+              className='absolute bottom-8 left-1/2 transform -translate-x-1/2'
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}>
+              <ChevronDown className='w-6 h-6 text-gray-400' />
+            </motion.div>
+          </section>
 
-					{/* Main Content */}
-					<section
-						id='content'
-						ref={contentRef}
-						className='py-20 px-4'>
-						<div className='max-w-6xl mx-auto'>
-							<motion.div
-								initial={{ opacity: 0, y: 30 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8 }}
-								viewport={{ once: true }}
-								className='text-center mb-16'>
-								<h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-4'>
-									Today's Sessions
-								</h3>
-								<p className='text-gray-600 dark:text-gray-300 text-lg'>
-									3 hours to master Flutter fundamentals and static UI.
-								</p>
-							</motion.div>
+          {/* Main Content */}
+          <section
+            id='content'
+            ref={contentRef}
+            className='py-20 px-4'>
+            <div className='max-w-6xl mx-auto'>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className='text-center mb-16'>
+                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-4'>
+                  Today's Sessions
+                </h3>
+                <p className='text-gray-600 dark:text-gray-300 text-lg'>
+                  5 sessions to master Object-Oriented Programming in Dart.
+                </p>
+              </motion.div>
 
-							<div className='space-y-8'>
-								{sessions.map((session, index) => (
-									<motion.div
-										key={session.id}
-										initial={{ opacity: 0, y: 30 }}
-										whileInView={{ opacity: 1, y: 0 }}
-										transition={{ duration: 0.8, delay: index * 0.1 }}
-										viewport={{ once: true }}
-										className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden'>
-										<div
-											className='p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors'
-											onClick={() =>
-												setActiveSession(
-													activeSession === session.id ? null : session.id
-												)
-											}>
-											<div className='flex items-center justify-between'>
-												<div className='flex items-center gap-4'>
-													<div className='p-3 bg-[#02569B]/20 rounded-xl text-[#02569B]'>
-														{session.icon}
-													</div>
-													<div>
-														<h4 className='text-xl font-semibold text-gray-900 dark:text-white'>
-															{session.title}
-														</h4>
-														<div className='flex items-center gap-4 mt-1'>
-															<span className='flex items-center gap-1 text-gray-500 dark:text-gray-400 text-sm'>
-																<Clock className='w-4 h-4' />
-																{session.duration}
-															</span>
-															<span className='text-gray-500 dark:text-gray-400'>
-																Session {session.id}
-															</span>
-														</div>
-													</div>
-												</div>
-												<motion.div
-													animate={{
-														rotate: activeSession === session.id ? 180 : 0,
-													}}
-													transition={{ duration: 0.3 }}>
-													<ChevronDown className='w-6 h-6 text-gray-400' />
-												</motion.div>
-											</div>
-										</div>
+              <div className='space-y-8'>
+                {sessionsDay3.map((session, index) => (
+                  <motion.div
+                    key={session.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden'>
+                    <div
+                      className='p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors'
+                      onClick={() =>
+                        setActiveSession(
+                          activeSession === session.id ? null : session.id
+                        )
+                      }>
+                      <div className='flex items-center justify-between'>
+                        <div className='flex items-center gap-4'>
+                          <div className='p-3 bg-[#0175C2]/20 rounded-xl text-[#0175C2]'>
+                            {session.icon}
+                          </div>
+                          <div>
+                            <h4 className='text-xl font-semibold text-gray-900 dark:text-white'>
+                              {session.title}
+                            </h4>
+                            <div className='flex items-center gap-4 mt-1'>
+                              <span className='flex items-center gap-1 text-gray-500 dark:text-gray-400 text-sm'>
+                                <Clock className='w-4 h-4' />
+                                {session.duration}
+                              </span>
+                              <span className='text-gray-500 dark:text-gray-400'>
+                                Session {session.id}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <motion.div
+                          animate={{
+                            rotate: activeSession === session.id ? 180 : 0,
+                          }}
+                          transition={{ duration: 0.3 }}>
+                          <ChevronDown className='w-6 h-6 text-gray-400' />
+                        </motion.div>
+                      </div>
+                    </div>
 
-										<motion.div
-											initial={false}
-											animate={{
-												height: activeSession === session.id ? 'auto' : 0,
-												opacity: activeSession === session.id ? 1 : 0,
-											}}
-											transition={{ duration: 0.3 }}
-											className='overflow-hidden'>
-											<div className='px-6 pb-6 space-y-6'>
-												<p className='text-gray-600 dark:text-gray-300 leading-relaxed'>
-													{session.content.description}
-												</p>
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        height: activeSession === session.id ? 'auto' : 0,
+                        opacity: activeSession === session.id ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className='overflow-hidden'>
+                      <div className='px-6 pb-6 space-y-6'>
+                        <p
+                          className='text-gray-600 dark:text-gray-300 leading-relaxed'
+                          dangerouslySetInnerHTML={{
+                            __html: session.content.description,
+                          }}></p>
 
-												<div>
-													<h5 className='text-lg font-semibold text-gray-900 dark:text-white mb-3'>
-														Key Topics:
-													</h5>
-													<ul className='space-y-2'>
-														{session.content.topics.map((topic, topicIndex) => (
-															<li
-																key={topicIndex}
-																className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-																<CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-																<span>{topic}</span>
-															</li>
-														))}
-													</ul>
-												</div>
+                        <div>
+                          <h5 className='text-lg font-semibold text-gray-900 dark:text-white mb-3'>
+                            Key Topics:
+                          </h5>
+                          <ul className='space-y-2'>
+                            {session.content.topics.map((topic, topicIndex) => (
+                              <li
+                                key={topicIndex}
+                                className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                                <CheckCircle className='w-5 h-5 text-[#0175C2] mt-0.5 flex-shrink-0' />
+                                <span>{topic}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-												{session.content.detailedTopics && (
-													<div className='space-y-4 mt-6'>
-														{Object.values(session.content.detailedTopics).map(
-															(topic, index) => (
-																<div
-																	key={index}
-																	className='bg-gray-50 dark:bg-gray-700 rounded-xl p-4'>
-																	<h6 className='text-md font-semibold text-gray-900 dark:text-white mb-2'>
-																		{topic.title}
-																	</h6>
-																	<Suspense fallback={<Loading />}>
-																		<SyntaxHighlighter
-																			language='dart'
-																			style={tomorrow}
-																			customStyle={{
-																				background: 'transparent',
-																				fontSize: '14px',
-																				borderRadius: '8px',
-																			}}>
-																			{topic.code}
-																		</SyntaxHighlighter>
-																	</Suspense>
-																</div>
-															)
-														)}
-													</div>
-												)}
-											</div>
-										</motion.div>
-									</motion.div>
-								))}
-							</div>
+                        {session.content.detailedTopics && (
+                          <div className='space-y-4 mt-6'>
+                            {Object.values(session.content.detailedTopics).map(
+                              (topic, index) => (
+                                <div
+                                  key={index}
+                                  className='bg-gray-50 dark:bg-gray-700 rounded-xl p-4'>
+                                  <h6 className='text-md font-semibold text-gray-900 dark:text-white mb-2'>
+                                    {topic.title}
+                                  </h6>
+                                  <Suspense fallback={<Loading />}>
+                                    <SyntaxHighlighter
+                                      language='dart'
+                                      style={tomorrow}
+                                      customStyle={{
+                                        background: 'transparent',
+                                        fontSize: '14px',
+                                        borderRadius: '8px',
+                                      }}>
+                                      {topic.code}
+                                    </SyntaxHighlighter>
+                                  </Suspense>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
 
-							<motion.div
-								initial={{ opacity: 0, y: 30 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8 }}
-								viewport={{ once: true }}
-								className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-12'>
-								<h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-									Day 3 Summary
-								</h3>
-								<div className='grid md:grid-cols-2 gap-8'>
-									<div>
-										<h4 className='text-xl font-semibold text-[#02569B] mb-4'>
-											Key Takeaways
-										</h4>
-										<ul className='space-y-3'>
-											<li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-												<CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-												<span>
-													Understanding Flutter architecture and "Everything is
-													a Widget" philosophy.
-												</span>
-											</li>
-											<li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-												<CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-												<span>
-													Mastering basic widgets: Container, Text, Icon, Image,
-													Row, Column.
-												</span>
-											</li>
-											<li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-												<CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-												<span>
-													Building structured UIs with Scaffold and layout
-													widgets.
-												</span>
-											</li>
-											<li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-												<CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-												<span>
-													Implementing Material Design principles and working
-													with assets.
-												</span>
-											</li>
-										</ul>
-									</div>
-									<div>
-										<h4 className='text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4'>
-											What's Next
-										</h4>
-										<p className='text-gray-600 dark:text-gray-300 mb-6'>
-											In Day 4, we'll add interactivity to our apps with
-											StatefulWidgets, handle user input, manage state, and
-											explore navigation between screens.
-										</p>
-										<button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
-											Next: Day 4
-											<ArrowRight className='w-5 h-5' />
-										</button>
-									</div>
-								</div>
-							</motion.div>
+              {/* Summary Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-12'>
+                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
+                  Day 3 Summary
+                </h3>
+                <div className='grid md:grid-cols-2 gap-8'>
+                  <div>
+                    <h4 className='text-xl font-semibold text-[#0175C2] mb-4'>
+                      Key Takeaways
+                    </h4>
+                    <ul className='space-y-3'>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#0175C2] mt-0.5 flex-shrink-0' />
+                        <span>
+                          Mastered classes and objects — the core building blocks of OOP in Dart.
+                        </span>
+                      </li>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#0175C2] mt-0.5 flex-shrink-0' />
+                        <span>
+                          Learned all constructor types: generative, named, factory, constant, and initializer lists.
+                        </span>
+                      </li>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#0175C2] mt-0.5 flex-shrink-0' />
+                        <span>
+                          Applied inheritance and polymorphism with extends, @override, and super.
+                        </span>
+                      </li>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#0175C2] mt-0.5 flex-shrink-0' />
+                        <span>
+                          Implemented encapsulation with private fields, getters/setters, abstract classes, and interfaces.
+                        </span>
+                      </li>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#0175C2] mt-0.5 flex-shrink-0' />
+                        <span>
+                          Used mixins for cross-cutting behavior and enhanced enums for expressive constant types.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className='text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4'>
+                      What's Next
+                    </h4>
+                    <p className='text-gray-600 dark:text-gray-300 mb-6'>
+                      Starting Day 4, we dive into Flutter! You'll learn what Flutter is, how the widget tree works, and start building beautiful UIs with Material and Cupertino design systems.
+                    </p>
+                    <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
+                      Next: Day 4 — Flutter Intro
+                      <ArrowRight className='w-5 h-5' />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
 
-							<motion.div
-								initial={{ opacity: 0, y: 30 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8 }}
-								viewport={{ once: true }}
-								className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
-								<h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-									Lab Exercises
-								</h3>
+              {/* Lab Exercises Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
+                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
+                  Lab Exercises
+                </h3>
 
-								{/* Exercise 1: Picture1 Layout */}
-								<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											1
-										</div>
-										<h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-											Layout Task 1: Picture1.jpg Design
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Recreate the layout shown in Picture1.jpg using Flutter
-										widgets. Focus on the arrangement, spacing, and visual
-										hierarchy of elements.
-									</p>
-									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-											Requirements:
-										</h6>
-										<img
-											src={Picture1}
-											alt='Picture1'
-										/>
-										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-											<li>
-												• Analyze the image structure and identify key
-												components
-											</li>
-											<li>
-												• Use appropriate layout widgets (Row, Column, Stack,
-												etc.)
-											</li>
-											<li>• Implement proper spacing and alignment</li>
-											<li>• Match the visual style and proportions</li>
-										</ul>
-									</div>
-								</div>
+                {/* Exercise 1: Shape Hierarchy */}
+                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-500'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+                      1
+                    </div>
+                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
+                      Shape Hierarchy (Abstract Classes & Inheritance)
+                    </h5>
+                  </div>
+                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                    Create an <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>abstract class Shape</code> with abstract methods <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>area()</code> and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>perimeter()</code>, and a concrete method <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>describe()</code>.
+                    <br />• Extend it with <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Circle</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Rectangle</code>, and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Triangle</code> classes — each with appropriate constructors.
+                    <br />• Use <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>@override</code> to implement area() and perimeter() for each.
+                    <br />• In main(), create a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>List&lt;Shape&gt;</code>, loop through it, and print each shape's description — demonstrating polymorphism.
+                  </p>
+                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>Skills to Practice:</h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Abstract classes and methods</li>
+                      <li>• extends and @override</li>
+                      <li>• Polymorphism with List&lt;Shape&gt;</li>
+                      <li>• Concrete methods in abstract classes</li>
+                    </ul>
+                  </div>
+                </div>
 
-								{/* Exercise 2: Picture2 Layout */}
-								<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
-									<div className='flex items-center gap-3 mb-4'>
-										<div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-											2
-										</div>
-										<h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-											Layout Task 2: Picture2.jpg Design
-										</h5>
-									</div>
-									<p className='text-gray-700 dark:text-gray-300 mb-4'>
-										Build the layout structure from Picture2.jpg. Pay attention
-										to the positioning, sizing, and relationships between UI
-										elements.
-									</p>
-									<div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-										<h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-											Requirements:
-										</h6>
-										<img
-											src={Picture2}
-											alt='Picture2'
-										/>
-										<ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-											<li>
-												• Study the image layout and component arrangement
-											</li>
-											<li>• Choose the right combination of layout widgets</li>
-											<li>• Implement responsive design principles</li>
-											<li>• Ensure proper widget nesting and hierarchy</li>
-										</ul>
-									</div>
-								</div>
-							</motion.div>
-						</div>
-					</section>
-				</Suspense>
-			</main>
-		</div>
-	);
+                {/* Exercise 2: Bank Account */}
+                <div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-l-4 border-green-500'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+                      2
+                    </div>
+                    <h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
+                      Bank Account (Encapsulation)
+                    </h5>
+                  </div>
+                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                    Build a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>BankAccount</code> class with proper encapsulation.
+                    <br />• Private field <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>_balance</code> — never directly accessible from outside.
+                    <br />• Getter for <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>balance</code> (read-only).
+                    <br />• Methods <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>deposit(double amount)</code> and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>withdraw(double amount)</code> with validation (no negative deposits, no overdraft).
+                    <br />• Named constructor <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>BankAccount.withInitialBalance(double)</code>.
+                    <br />• Override <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>toString()</code> to display account summary.
+                  </p>
+                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>Skills to Practice:</h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Private fields with _ prefix</li>
+                      <li>• Getters for controlled access</li>
+                      <li>• Named constructors</li>
+                      <li>• toString() override</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Exercise 3: Animal Kingdom with Mixins */}
+                <div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+                      3
+                    </div>
+                    <h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
+                      Animal Kingdom (Mixins)
+                    </h5>
+                  </div>
+                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                    Design an animal system using mixins for capabilities.
+                    <br />• Create mixins: <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>CanSwim</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>CanFly</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>CanRun</code> — each with an appropriate method.
+                    <br />• Create an abstract <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Animal</code> class with <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>name</code> and abstract <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>sound()</code>.
+                    <br />• Create at least 3 animals: <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Duck</code> (all 3), <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Dog</code> (swim + run), <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Eagle</code> (fly + run).
+                    <br />• In main(), demonstrate each animal's capabilities.
+                  </p>
+                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>Skills to Practice:</h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• mixin keyword</li>
+                      <li>• Multiple mixins with with</li>
+                      <li>• Abstract classes + extends</li>
+                      <li>• Combining mixins and inheritance</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Exercise 4: Task Status Machine */}
+                <div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+                      4
+                    </div>
+                    <h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
+                      Task Status Machine (Enhanced Enums)
+                    </h5>
+                  </div>
+                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                    Build a task management system using enhanced enums.
+                    <br />• Create an <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>enum Priority</code> with values: low, medium, high, critical — each with a display label and numeric weight.
+                    <br />• Create an <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>enum TaskStatus</code> with: todo, inProgress, blocked, done — with a boolean <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>isActive</code> getter.
+                    <br />• Create a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Task</code> class using these enums as field types.
+                    <br />• In main(), create tasks and filter active ones using <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>where()</code>.
+                  </p>
+                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
+                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>Skills to Practice:</h6>
+                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
+                      <li>• Enhanced enums with fields</li>
+                      <li>• Const constructors on enums</li>
+                      <li>• Getters on enum values</li>
+                      <li>• Enums as class field types</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Challenge: Mini Library System */}
+                <div className='bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl p-6 border-l-4 border-amber-500'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <div className='w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg'>
+                      🏆
+                    </div>
+                    <h5 className='text-xl font-semibold text-amber-700 dark:text-amber-300'>
+                      Bonus Challenge — Mini Library System
+                    </h5>
+                  </div>
+                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
+                    Combine everything from Day 3 into a complete mini-system:
+                    <br />• <strong>Abstract</strong> base class <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>LibraryItem</code> with <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>title</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>itemType()</code> abstract method.
+                    <br />• <strong>Subclasses:</strong> <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Book</code> and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>DVD</code> extending LibraryItem.
+                    <br />• <strong>Mixin</strong> <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Lendable</code> with <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>lend()</code> and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>returnItem()</code> methods.
+                    <br />• <strong>Enhanced enum</strong> <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Genre</code> with display names.
+                    <br />• <strong>Library</strong> class with encapsulated private collection, add/search methods.
+                    <br />• Named constructor <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Library.withSeed()</code> that pre-fills some items.
+                  </p>
+                  <div className='flex flex-wrap gap-2'>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Classes & Objects
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Constructors
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Inheritance
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Encapsulation
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Mixins
+                    </span>
+                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
+                      Enhanced Enums
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        </Suspense>
+      </main>
+    </div>
+  );
 };
 
 export default Day3;
-

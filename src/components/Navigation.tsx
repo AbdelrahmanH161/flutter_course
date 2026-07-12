@@ -38,7 +38,7 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 							Home
 						</Link>
 
-						{/* 10 Day Plan Dropdown */}
+						{/* Day Plan Dropdown */}
 						<div className='relative'>
 							<button
 								onClick={toggleDropdown}
@@ -47,46 +47,52 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 								<ChevronDown className='w-4 h-4' />
 							</button>
 							{isDropdownOpen && (
-								<div className='absolute top-full mt-2 w-48 bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-700 rounded-md shadow-lg transition-colors duration-300'>
+								<div className='absolute top-full mt-2 w-64 bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-700 rounded-md shadow-lg transition-colors duration-300'>
+									<div className='px-4 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700'>
+										Dart (Days 1–3)
+									</div>
 									<a
 										href='/day1'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 1
+										Day 1 — Dart Basics
 									</a>
 									<a
 										href='/day2'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 2
+										Day 2 — Functions & Collections
 									</a>
 									<a
 										href='/day3'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 3
+										Day 3 — OOP in Dart
 									</a>
+									<div className='px-4 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider border-t border-b border-gray-100 dark:border-gray-700'>
+										Flutter (Days 4–8)
+									</div>
 									<a
 										href='/day4'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 4
+										Day 4 — Flutter Intro
 									</a>
 									<a
 										href='/day5'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 5
+										Day 5 — Widgets & Layouts
 									</a>
 									<a
 										href='/day6'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 6
+										Day 6 — State Management
 									</a>
 									<a
 										href='/day7'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 7
+										Day 7 — Navigation
 									</a>
 									<a
 										href='/day8'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Days 8
+										Day 8 — Advanced Flutter
 									</a>
 								</div>
 							)}

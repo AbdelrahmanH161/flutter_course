@@ -88,7 +88,7 @@ const Day1 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 sessions to get you started with Dart.
+                  5 sessions to get you started with Dart.
                 </p>
               </motion.div>
 
@@ -237,7 +237,7 @@ const Day1 = () => {
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#007BFF] mt-0.5 flex-shrink-0' />
-                        <span>Write reusable code with functions.</span>
+                        <span>Practice variable declaration, final, and const constants.</span>
                       </li>
                     </ul>
                   </div>
@@ -246,9 +246,7 @@ const Day1 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 2, we'll explore more advanced Dart concepts like
-                      collections (Lists, Maps, Sets), null safety, and an
-                      introduction to Object-Oriented Programming (OOP) in Dart.
+                      In Day 2, we will cover Functions (from basic to advanced), Collections (Lists, Sets, Maps, and operators), Error Handling, and Null Safety.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 2
@@ -336,126 +334,58 @@ const Day1 = () => {
                   </div>
                 </div>
 
-                {/* Exercise 3: Simple Grade Calculator */}
+                {/* Exercise 3: Simple Arithmetic Calculator */}
                 <div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       3
                     </div>
                     <h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
-                      Simple Grade Calculator
+                      Simple Arithmetic Calculator
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a Map of subjects and marks.
-                    Use a for loop to calculate the total and average.
-                    Use if/else and relational operators to print the grade (A, B, etc.).
-                    Use ?? to handle a possible null value for an optional subject mark.
-                    Wrap the logic in a function calculateGrade(Map&lt;String,int&gt; marks) that returns a String grade.
+                    Create variables for two numbers (double) and an operation (String, e.g. "+", "-", "*", "/").
+                    Use if/else or switch statements to perform the appropriate mathematical calculation.
+                    Ensure you handle division by zero safely using a conditional check (print an error message instead of crashing).
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
                       Skills to Practice:
                     </h6>
                     <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
-                      <li>• Maps and data structures</li>
-                      <li>• For loops and iteration</li>
-                      <li>• Relational operators (&gt;, &lt;, &gt;=, &lt;=)</li>
-                      <li>• Null-aware operators (??)</li>
-                      <li>• Function creation and return types</li>
+                      <li>• Relational and equality operators</li>
+                      <li>• Conditional check (if/else if/else)</li>
+                      <li>• Arithmetic operations</li>
+                      <li>• Safety checks (division by zero)</li>
                     </ul>
                   </div>
                 </div>
 
-                {/* Exercise 4: Product Price Adjuster */}
+                {/* Exercise 4: Number Pattern Generator */}
                 <div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       4
                     </div>
                     <h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-                      Product Price Adjuster
+                      Number Filter Loop
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a List of product prices.
-                    Use forEach or map to increase each price by 10% tax.
-                    Use a Set to store product categories (ensuring uniqueness).
-                    Use while to remove prices lower than a threshold.
-                    Use assignment operators (+=, -=) to modify totals and logical operators to check stock availability.
+                    Write a loop (for or while) that iterates through numbers from 1 to 15.
+                    Print only the odd numbers.
+                    Use the `continue` statement to skip the even numbers in the loop.
+                    Stop the loop entirely using `break` if you encounter a number greater than 12.
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
                       Skills to Practice:
                     </h6>
                     <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
-                      <li>• Lists and Sets</li>
-                      <li>• forEach and map methods</li>
-                      <li>• While loops</li>
-                      <li>• Assignment operators (+=, -=)</li>
-                      <li>• Logical operators (&&, ||)</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Exercise 5: Lucky Number Checker */}
-                <div className='bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-xl p-6 mb-6 border-l-4 border-teal-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      5
-                    </div>
-                    <h5 className='text-xl font-semibold text-teal-700 dark:text-teal-300'>
-                      Lucky Number Checker
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Ask the user (hardcode or simulate input) for a lucky number (int).
-                    Use type test operators (is, is!) to confirm the input type.
-                    Use a for loop to check numbers 1–20:
-                    If the lucky number matches, print "You won!" and break.
-                    Use continue to skip even numbers if the lucky number is odd.
-                    Put this logic inside a function with an optional positional parameter for the range end (default 20).
-                  </p>
-                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-                      Skills to Practice:
-                    </h6>
-                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
-                      <li>• Type test operators (is, is!)</li>
-                      <li>• For loops with break and continue</li>
-                      <li>• Optional positional parameters</li>
-                      <li>• Function parameters and defaults</li>
-                      <li>• Control flow statements</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Exercise 6: Discount Calculator with Functions */}
-                <div className='bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-rose-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      6
-                    </div>
-                    <h5 className='text-xl font-semibold text-rose-700 dark:text-rose-300'>
-                      Discount Calculator with Functions
-                    </h5>
-                  </div>
-                  <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Create a function double applyDiscount(double price, {'{'}double discount = 0.1{'}'}) that uses named parameters.
-                    Use arrow function syntax to return the discounted price.
-                    Call the function for several prices stored in a List, then use map and where to filter discounted prices above a certain amount.
-                    Use a ternary operator to print "Big Discount!" if any final price drops below 50, otherwise "Regular Discount".
-                  </p>
-                  <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>
-                      Skills to Practice:
-                    </h6>
-                    <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
-                      <li>• Named parameters with default values</li>
-                      <li>• Arrow function syntax</li>
-                      <li>• map and where methods</li>
-                      <li>• Ternary operator (?:)</li>
-                      <li>• Function composition and chaining</li>
+                      <li>• Loop control statements (for, while)</li>
+                      <li>• Loop control flow (break, continue)</li>
+                      <li>• Modulo operator (%)</li>
                     </ul>
                   </div>
                 </div>
@@ -479,13 +409,10 @@ const Day1 = () => {
                       Dart Basics
                     </span>
                     <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-                      Control Flow
+                      Variables & Constants
                     </span>
                     <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-                      Functions
-                    </span>
-                    <span className='px-3 py-1 bg-amber-100 dark:bg-amber-800 text-amber-800 dark:text-amber-200 rounded-full text-sm font-medium'>
-                      String Manipulation
+                      Control Flow & Loops
                     </span>
                   </div>
                 </div>

@@ -6,7 +6,7 @@ const CourseOverview = () => {
       <div className='max-w-7xl mx-auto'>
         <div className='fade-section opacity-0 translate-y-8 transition-all duration-700 ease-out'>
           <h2 className='text-3xl sm:text-4xl font-bold text-center mb-16 bg-gradient-to-r from-[#0175C2] to-[#01B5F2] bg-clip-text text-transparent'>
-            Your 8-Day Learning Path
+            Your 3+5 Day Learning Path
           </h2>
 
           <div className='max-w-4xl mx-auto'>
@@ -24,13 +24,10 @@ const CourseOverview = () => {
                   </div>
                   <div className='ml-12 md:ml-0 md:w-1/2 md:pr-8 md:text-right'>
                     <h3 className='text-2xl font-bold text-[#01B5F2] mb-2'>
-                      Days 1-2: The Dart Foundation
+                      Days 1–3: The Dart Foundation
                     </h3>
                     <p className='text-gray-600 dark:text-gray-300 leading-relaxed'>
-                      Master Dart fundamentals, object-oriented programming
-                      concepts, and asynchronous programming. Build a solid
-                      foundation that will power your Flutter development
-                      journey.
+                      Master Dart fundamentals (variables, operators, control flow), advanced Dart patterns (functions, collections, error handling, null safety), and object-oriented programming. Three full days to build a rock-solid Dart foundation before Flutter.
                     </p>
                   </div>
                 </div>
@@ -46,7 +43,7 @@ const CourseOverview = () => {
                   </div>
                   <div className='ml-12  md:w-1/2 md:pl-8 md:ml-auto'>
                     <h3 className='text-2xl font-bold text-[#01B5F2] mb-2'>
-                      Days 3-8: Building with Flutter
+                      Days 4–8: Building with Flutter
                     </h3>
                     <p className='text-gray-600 dark:text-gray-300 leading-relaxed'>
                       Dive deep into Flutter widgets, state management,
