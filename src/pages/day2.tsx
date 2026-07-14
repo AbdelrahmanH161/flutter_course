@@ -319,59 +319,67 @@ const Day2 = () => {
                   </div>
                 </div>
 
-                {/* Exercise 3: Custom Exception Handler */}
+                {/* Exercise 3: Order Processing and Cash-on-Delivery Status */}
                 <div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 mb-6 border-l-4 border-purple-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       3
                     </div>
                     <h5 className='text-xl font-semibold text-purple-700 dark:text-purple-300'>
-                      Custom Exception Handler (Error Handling)
+                      Order Processing and Cash-on-Delivery Status
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Build a robust data processing pipeline.
-                    <br />• Create a custom exception <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>ValidationException</code> with a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>field</code> and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>message</code>.
-                    <br />• Write a function <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>validateAge(int? age)</code> that throws <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>ValidationException</code> for null or out-of-range values.
-                    <br />• Call it in a try/on/catch/finally block — catch ValidationException specifically and all others generally.
-                    <br />• Add a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>rethrow</code> in a wrapper function, and catch it in main.
+                    Write a Dart command-line script for a local point-of-sale system that processes customer orders.
+                    <br />• Use a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>do-while</code> loop and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>stdin.readLineSync()</code> to continuously prompt the cashier for a customer's first name, last name, and total order amount.
+                    <br />• Implement a function with named parameters (e.g. <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>required String firstName</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>required String lastName</code>) to format the customer's full profile name.
+                    <br />• Wrap input collection in a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>try-catch-finally</code> block to handle crashes when parsing the order amount with <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>int.parse()</code>.
+                    <br />• Store successfully parsed orders in a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Map&lt;String, int&gt;</code> using <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>.addAll()</code> (formatted name as key, amount as value).
+                    <br />• Ensure the <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>finally</code> block prints a cleanup message such as "Transaction cycle processed," regardless of invalid input.
+                    <br />• Once entry finishes, use <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>.map()</code> to transform <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Map&lt;String, int&gt;</code> into <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Map&lt;String, String&gt;</code> for the shipping department.
+                    <br />• Return a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>MapEntry</code> that assigns delivery tier: "Premium Cash-on-Delivery" if amount &gt; 100, otherwise "Standard Cash-on-Delivery".
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>Skills to Practice:</h6>
                     <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
-                      <li>• Custom Exception classes</li>
-                      <li>• throw, try, on, catch, finally</li>
-                      <li>• rethrow up the call stack</li>
-                      <li>• Specific vs generic catches</li>
+                      <li>• do-while loops & stdin input</li>
+                      <li>• Named parameters</li>
+                      <li>• try-catch-finally & int.parse()</li>
+                      <li>• Maps & .addAll()</li>
+                      <li>• .map() with MapEntry</li>
                     </ul>
                   </div>
                 </div>
 
-                {/* Exercise 4: Null Safety Challenge */}
+                {/* Exercise 4: Dynamic Inventory Filtering and Dashboard Menus */}
                 <div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 mb-6 border-l-4 border-orange-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       4
                     </div>
                     <h5 className='text-xl font-semibold text-orange-700 dark:text-orange-300'>
-                      User Profile Builder (Null Safety)
+                      Dynamic Inventory Filtering and Dashboard Menus
                     </h5>
                   </div>
                   <p className='text-gray-700 dark:text-gray-300 mb-4'>
-                    Model a user profile with nullable and non-nullable fields.
-                    <br />• Create variables: <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>String username</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>String? nickname</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>int? age</code>, <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>late String bio</code>.
-                    <br />• Use <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>??</code> to display nickname or username as fallback.
-                    <br />• Use <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>??=</code> to assign a default age if not set.
-                    <br />• Use <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>?.</code> to safely access a nullable object's method.
-                    <br />• Initialize <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>bio</code> after declaration using <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>late</code>.
+                    Write a Dart program that manages a product inventory list and generates a dynamic terminal menu for store staff.
+                    <br />• Start with a base <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>List&lt;String&gt;</code> of default items (e.g. <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>['cable', 'charger', 'battery']</code>).
+                    <br />• Prompt the store manager to input two new products using a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>for</code> loop and <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>stdin.readLineSync()</code>.
+                    <br />• Merge default inventory with new items using the spread operator (<code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>...</code>).
+                    <br />• Convert the combined list into a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>Set</code> with <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>.toSet()</code> to eliminate duplicate entries.
+                    <br />• Chain <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>.where()</code> to keep products starting with a specific letter (e.g. <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>'c'</code>), then <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>.toList()</code>.
+                    <br />• Declare <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>bool isLoggedIn</code> based on a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>switch</code> statement evaluating a simple terminal auth input.
+                    <br />• Generate the final menu using a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>collection for</code> loop over filtered products.
+                    <br />• In the same list literal, use a <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>collection if</code> to append "System Settings" only when <code className='bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-sm'>isLoggedIn</code> is true.
                   </p>
                   <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2'>Skills to Practice:</h6>
                     <ul className='space-y-1 text-sm text-gray-600 dark:text-gray-400'>
-                      <li>• Nullable vs non-nullable types (?)</li>
-                      <li>• If-null operator (??)</li>
-                      <li>• If-null assignment (??=)</li>
-                      <li>• Null-aware access (?.) and late</li>
+                      <li>• Lists, spread operator, & Sets</li>
+                      <li>• .where() filtering</li>
+                      <li>• switch statements</li>
+                      <li>• Collection for & collection if</li>
+                      <li>• Role-based dynamic menus</li>
                     </ul>
                   </div>
                 </div>
