@@ -72,27 +72,27 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 									<a
 										href='/day4'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 4 — Flutter Intro
+										Day 4 — Flutter Foundations
 									</a>
 									<a
 										href='/day5'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 5 — Widgets & Layouts
+										Day 5 — Layouts, Widgets & State
 									</a>
 									<a
 										href='/day6'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 6 — State Management
+										Day 6 — Material, Forms & Lists
 									</a>
 									<a
 										href='/day7'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 7 — Navigation
+										Day 7 — Navigation & Feedback
 									</a>
 									<a
 										href='/day8'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 8 — Advanced Flutter
+										Day 8 — Data, APIs & Provider
 									</a>
 								</div>
 							)}

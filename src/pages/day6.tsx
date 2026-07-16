@@ -4,9 +4,10 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Globe,
-  Zap,
-  Database,
+  Palette,
+  MousePointerClick,
+  List,
+  LayoutGrid,
   ArrowRight,
 } from 'lucide-react';
 
@@ -19,110 +20,103 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Asynchronous Dart',
+    title: 'ThemeData & Material Design',
     duration: '1 Hour',
-    icon: <Zap className='w-6 h-6' />,
+    icon: <Palette className='w-6 h-6' />,
     content: {
       description:
-        'Learn the fundamentals of asynchronous programming in Dart. Understand how Futures work, the difference between sync and async operations, and how to keep your UI responsive while performing background tasks.',
+        'Centralize your app look-and-feel with ThemeData: colorScheme, textTheme, and component themes so every screen stays consistent.',
       topics: [
-        'Sync vs Async: Understanding the difference',
-        'Futures: Promises for data that will be available later',
-        'async/await: Modern syntax for handling asynchronous code',
-        'Future.delayed(): Simulating time-consuming operations',
-        'Error handling in asynchronous operations',
+        'ThemeData and MaterialApp theme',
+        'ColorScheme and TextTheme',
+        'Component themes (AppBar, InputDecoration, Buttons)',
+        'Applying Theme.of(context) in widgets',
+        'Light theme setup for the whole app',
       ],
       detailedTopics: {
-        syncVsAsync: {
-          title: 'Sync vs Async Operations',
-          code: `// Synchronous - blocks the UI
-void syncOperation() {
-  print("Start");
-  // This blocks the entire app for 3 seconds
-  sleep(Duration(seconds: 3));
-  print("End");
+        themeSetup: {
+          title: 'ThemeData Configuration',
+          code: `void main() {
+  runApp(MyApp());
 }
 
-// Asynchronous - doesn't block the UI
-Future<void> asyncOperation() async {
-  print("Start");
-  // This runs in the background
-  await Future.delayed(Duration(seconds: 3));
-  print("End");
-}
-
-void main() {
-  print("Before sync");
-  syncOperation(); // UI freezes here
-  print("After sync");
-  
-  print("Before async");
-  asyncOperation(); // UI remains responsive
-  print("After async");
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.light,
+        ),
+        textTheme: TextTheme(
+          headlineMedium: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyLarge: TextStyle(fontSize: 16),
+        ),
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+      home: HomePage(),
+    );
+  }
 }`,
         },
-        futuresBasics: {
-          title: 'Working with Futures',
-          code: `// Future represents a value that will be available later
-Future<String> fetchData() async {
-  // Simulate network delay
-  await Future.delayed(Duration(seconds: 2));
-  return "Data loaded successfully!";
-}
+        usingTheme: {
+          title: 'Using Theme in Widgets',
+          code: `class ThemedCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
-// Using the Future
-void main() async {
-  print("Fetching data...");
-  
-  // Method 1: Using await
-  String result = await fetchData();
-  print(result);
-  
-  // Method 2: Using .then()
-  fetchData().then((data) {
-    print("Data received: $data");
-  }).catchError((error) {
-    print("Error: $error");
-  });
-  
-  print("This runs immediately, not waiting for fetchData");
-}`,
-        },
-        errorHandling: {
-          title: 'Error Handling in Async Operations',
-          code: `Future<String> fetchUserData(int userId) async {
-  await Future.delayed(Duration(seconds: 1));
-  
-  if (userId <= 0) {
-    throw Exception("Invalid user ID");
+    return Card(
+      color: colors.surface,
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Featured Product',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                color: colors.primary,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Styled with ThemeData — no hard-coded colors.',
+              style: theme.textTheme.bodyLarge,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Shop Now'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-  
-  if (userId == 404) {
-    throw Exception("User not found");
-  }
-  
-  return "User data for ID: $userId";
-}
-
-void main() async {
-  try {
-    // This will succeed
-    String user1 = await fetchUserData(1);
-    print(user1);
-    
-    // This will throw an error
-    String user2 = await fetchUserData(404);
-    print(user2);
-  } catch (e) {
-    print("Caught error: $e");
-  }
-  
-  // Alternative error handling
-  fetchUserData(-1).then((data) {
-    print("Success: $data");
-  }).catchError((error) {
-    print("Error occurred: $error");
-  });
 }`,
         },
       },
@@ -130,100 +124,147 @@ void main() async {
   },
   {
     id: 2,
-    title: 'Networking with http',
+    title: 'Buttons & Text Input',
     duration: '1 Hour',
-    icon: <Globe className='w-6 h-6' />,
+    icon: <MousePointerClick className='w-6 h-6' />,
     content: {
       description:
-        'Learn to make HTTP requests using the http package. This lightweight package is perfect for simple networking needs and is easy to get started with for basic API calls.',
+        'Use the right button for each action priority, then collect user input with TextField and TextFormField — controllers, decoration, keyboard types, and validators.',
       topics: [
-        'Adding http package to pubspec.yaml',
-        'Making GET requests to fetch data',
-        'Handling HTTP response status codes',
-        'Working with JSON data from APIs',
-        'Error handling for network requests',
+        'ElevatedButton, TextButton, OutlinedButton',
+        'IconButton, FAB, DropdownButton',
+        'TextField with controller and decoration',
+        'TextFormField with validator',
+        'keyboardType and onChanged',
       ],
       detailedTopics: {
-        httpSetup: {
-          title: 'Setting up http Package',
-          code: `# pubspec.yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  http: ^1.2.2
+        buttons: {
+          title: 'Flutter Button Types',
+          code: `class ButtonsDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Buttons')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Primary action
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('ElevatedButton — primary'),
+            ),
+            SizedBox(height: 12),
 
-# After adding, run: flutter pub get
+            // Secondary action
+            OutlinedButton(
+              onPressed: () {},
+              child: Text('OutlinedButton — secondary'),
+            ),
+            SizedBox(height: 12),
 
-# Import in your Dart file
-import 'dart:convert';
-import 'package:http/http.dart' as http;`,
-        },
-        httpGetRequest: {
-          title: 'Making GET Requests',
-          code: `import 'dart:convert';
-import 'package:http/http.dart' as http;
+            // Lowest emphasis
+            TextButton(
+              onPressed: () {},
+              child: Text('TextButton — tertiary'),
+            ),
+            SizedBox(height: 12),
 
-Future<void> fetchUsers() async {
-  try {
-    // Make GET request
-    final response = await http.get(
-      Uri.parse('https://jsonplaceholder.typicode.com/users')
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite),
+                  onPressed: () {},
+                ),
+                DropdownButton<String>(
+                  value: 'EGP',
+                  items: ['EGP', 'USD', 'EUR']
+                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                      .toList(),
+                  onChanged: (v) {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
-    
-    // Check if request was successful
-    if (response.statusCode == 200) {
-      // Parse JSON response
-      final List<dynamic> data = jsonDecode(response.body);
-      
-      // Access the data
-      print('First user: \${data[0]['name']}');
-      print('Email: \${data[0]['email']}');
-      
-      // Process all users
-      for (var user in data) {
-        print('User: \${user['name']} - \${user['email']}');
-      }
-    } else {
-      print('Failed to load users: \${response.statusCode}');
-    }
-  } catch (e) {
-    print('Error fetching users: $e');
   }
 }
 
-void main() async {
-  await fetchUsers();
-}`,
+/*
+Priority guide:
+  Elevated > Outlined > Text
+  FAB for the single main page action
+*/`,
         },
-        httpPostRequest: {
-          title: 'Making POST Requests',
-          code: `Future<void> createUser() async {
-  try {
-    // Prepare data to send
-    Map<String, dynamic> userData = {
-      'name': 'John Doe',
-      'email': 'john@example.com',
-      'phone': '123-456-7890'
-    };
-    
-    // Make POST request
-    final response = await http.post(
-      Uri.parse('https://jsonplaceholder.typicode.com/users'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(userData),
+        textInput: {
+          title: 'TextField & TextFormField',
+          code: `class LoginFields extends StatefulWidget {
+  @override
+  _LoginFieldsState createState() => _LoginFieldsState();
+}
+
+class _LoginFieldsState extends State<LoginFields> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          // Plain TextField
+          TextField(
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              hintText: 'you@example.com',
+              prefixIcon: Icon(Icons.email),
+            ),
+            onChanged: (value) {
+              print('Email: \$value');
+            },
+          ),
+          SizedBox(height: 16),
+
+          // TextFormField with validator
+          TextFormField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              prefixIcon: Icon(Icons.lock),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Password is required';
+              }
+              if (value.length < 6) {
+                return 'At least 6 characters';
+              }
+              return null;
+            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+          ),
+        ],
+      ),
     );
-    
-    if (response.statusCode == 201) {
-      final createdUser = jsonDecode(response.body);
-      print('User created: $ {createdUser['name']}');
-      print('ID: $ {createdUser['id']}');
-    } else {
-      print('Failed to create user: $ {response.statusCode}');
-    }
-  } catch (e) {
-    print('Error creating user: $e');
   }
 }`,
         },
@@ -232,347 +273,224 @@ void main() async {
   },
   {
     id: 3,
-    title: 'Networking with Dio',
+    title: 'Form Validation & ListView',
     duration: '1 Hour',
-    icon: <Database className='w-6 h-6' />,
+    icon: <List className='w-6 h-6' />,
     content: {
       description:
-        'Explore Dio, a powerful HTTP client for Dart that offers advanced features like interceptors, automatic JSON parsing, and built-in error handling. Perfect for complex networking needs.',
+        'Wrap inputs in a Form with GlobalKey for validation, then display dynamic collections efficiently with ListView.builder and ListView.separated.',
       topics: [
-        'Adding Dio package and basic setup',
-        'Making requests with automatic JSON parsing',
-        'Using interceptors for logging and authentication',
-        'Advanced error handling and timeout configuration',
-        'File upload and download capabilities',
+        'Form + GlobalKey<FormState>',
+        'Login / register validation patterns',
+        'Password confirmation matching',
+        'ListView, ListView.builder, ListView.separated',
+        'scrollDirection, physics, shrinkWrap',
       ],
       detailedTopics: {
-        dioSetup: {
-          title: 'Setting up Dio',
-          code: `# pubspec.yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  dio: ^5.4.0
-
-# Import in your Dart file
-import 'package:dio/dio.dart';
-
-# Basic Dio setup
-void main() {
-  final dio = Dio();
-  
-  // Optional: Set default timeout
-  dio.options.connectTimeout = Duration(seconds: 5);
-  dio.options.receiveTimeout = Duration(seconds: 3);
-  
-  // Optional: Set default headers
-  dio.options.headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
-}`,
-        },
-        dioGetRequest: {
-          title: 'Making GET Requests with Dio',
-          code: `Future<void> fetchUsersWithDio() async {
-  final dio = Dio();
-  
-  try {
-    // Simple GET request - Dio automatically parses JSON
-    final response = await dio.get('https://jsonplaceholder.typicode.com/users');
-    
-    // Access data directly (no need for jsonDecode)
-    final List<dynamic> users = response.data;
-    
-    print('Total users: \${users.length}');
-    print('First user: \${users[0]['name']}');
-    
-    // Process users
-    for (var user in users) {
-      print('User: \${user['name']} (\${user['email']})');
-    }
-  } on DioException catch (e) {
-    // Dio-specific error handling
-    if (e.response != null) {
-      print('Server error: \${e.response?.statusCode}');
-      print('Error data: \${e.response?.data}');
-    } else {
-      print('Network error: \${e.message}');
-    }
-  } catch (e) {
-    print('Unexpected error: $e');
-  }
-}`,
-        },
-        dioInterceptors: {
-          title: 'Using Interceptors',
-          code: `void setupDioWithInterceptors() {
-  final dio = Dio();
-  
-  // Request interceptor - runs before each request
-  dio.interceptors.add(InterceptorsWrapper(
-    onRequest: (options, handler) {
-      print('🚀 Request: \${options.method} \${options.path}');
-      print('Headers: \${options.headers}');
-      
-      // Add authentication token
-      options.headers['Authorization'] = 'Bearer your-token-here';
-      
-      handler.next(options);
-    },
-    
-    onResponse: (response, handler) {
-      print('✅ Response: \${response.statusCode}');
-      print('Data: \${response.data}');
-      handler.next(response);
-    },
-    
-    onError: (error, handler) {
-      print('❌ Error: \${error.message}');
-      handler.next(error);
-    },
-  ));
-  
-  // Use the configured dio instance
-  fetchDataWithInterceptors(dio);
+        formValidation: {
+          title: 'Complete Form with Validation',
+          code: `class RegisterForm extends StatefulWidget {
+  @override
+  _RegisterFormState createState() => _RegisterFormState();
 }
 
-Future<void> fetchDataWithInterceptors(Dio dio) async {
-  try {
-    final response = await dio.get('https://jsonplaceholder.typicode.com/posts');
-    print('Posts fetched: \${response.data.length}');
-  } catch (e) {
-    print('Request failed: $e');
+class _RegisterFormState extends State<RegisterForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
+  final _confirmCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
+    _confirmCtrl.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      // Form is valid — proceed
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registered as \${_emailCtrl.text}')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _emailCtrl,
+            decoration: InputDecoration(labelText: 'Email'),
+            validator: (v) {
+              if (v == null || v.isEmpty) return 'Enter email';
+              if (!RegExp(r'^[^@]+@[^@]+\\.[^@]+').hasMatch(v)) {
+                return 'Invalid email';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: 12),
+          TextFormField(
+            controller: _passCtrl,
+            obscureText: true,
+            decoration: InputDecoration(labelText: 'Password'),
+            validator: (v) {
+              if (v == null || v.length < 6) return 'Min 6 characters';
+              return null;
+            },
+          ),
+          SizedBox(height: 12),
+          TextFormField(
+            controller: _confirmCtrl,
+            obscureText: true,
+            decoration: InputDecoration(labelText: 'Confirm Password'),
+            validator: (v) {
+              if (v != _passCtrl.text) return 'Passwords do not match';
+              return null;
+            },
+          ),
+          SizedBox(height: 24),
+          ElevatedButton(onPressed: _submit, child: Text('Register')),
+        ],
+      ),
+    );
   }
 }`,
+        },
+        listView: {
+          title: 'ListView.builder & separated',
+          code: `final products = [
+  {'name': 'Laptop', 'price': 1200},
+  {'name': 'Phone', 'price': 800},
+  {'name': 'Headphones', 'price': 150},
+  {'name': 'Keyboard', 'price': 90},
+];
+
+class ProductList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      // physics: AlwaysScrollableScrollPhysics(),
+      // shrinkWrap: true, // when nested inside Column
+      itemCount: products.length,
+      separatorBuilder: (_, __) => Divider(height: 1),
+      itemBuilder: (context, index) {
+        final p = products[index];
+        return ListTile(
+          leading: CircleAvatar(child: Text('\${index + 1}')),
+          title: Text(p['name'] as String),
+          subtitle: Text('\\$\${p['price']}'),
+          trailing: Icon(Icons.chevron_right),
+          onTap: () {},
+        );
+      },
+    );
+  }
+}
+
+/*
+ListView          → small fixed children list
+ListView.builder  → large / dynamic lists (lazy)
+ListView.separated → builder + divider between items
+*/`,
         },
       },
     },
   },
   {
     id: 4,
-    title: 'Handling JSON Data',
+    title: 'Practical Lab — GridView & Product Display',
     duration: '1 Hour',
-    icon: <Database className='w-6 h-6' />,
+    icon: <LayoutGrid className='w-6 h-6' />,
     content: {
       description:
-        'Master JSON data handling in Dart. Learn to serialize Dart objects to JSON and deserialize JSON back to Dart objects, essential skills for working with APIs and data storage.',
+        'Build a product catalog grid with images, titles, and prices. Compare GridView.count vs GridView.builder and know when to prefer ListView.',
       topics: [
-        'Understanding JSON format and structure',
-        'JSON serialization: Converting Dart objects to JSON',
-        'JSON deserialization: Converting JSON to Dart objects',
-        'Working with complex nested JSON structures',
-        'Creating model classes for type safety',
+        'GridView.count and GridView.builder',
+        'SliverGridDelegateWithFixedCrossAxisCount',
+        'childAspectRatio, spacing, crossAxisCount',
+        'Product card UI (image + title + price)',
+        'ListView vs GridView — when to use each',
       ],
       detailedTopics: {
-        jsonBasics: {
-          title: 'JSON Serialization & Deserialization',
-          code: `import 'dart:convert';
-
-void main() {
-  // JSON String to Dart Map (Deserialization)
-  String jsonString = '''
-  {
-    "name": "Abdelrahman",
-    "age": 25,
-    "isStudent": true,
-    "hobbies": ["coding", "reading", "gaming"]
-  }
-  ''';
-  
-  // Parse JSON string to Dart Map
-  Map<String, dynamic> user = jsonDecode(jsonString);
-  
-  print('Name: \${user['name']}');
-  print('Age: \${user['age']}');
-  print('Is Student: \${user['isStudent']}');
-  print('Hobbies: \${user['hobbies']}');
-  
-  // Dart Map to JSON String (Serialization)
-  Map<String, dynamic> newUser = {
-    'name': 'Sarah',
-    'age': 30,
-    'isStudent': false,
-    'hobbies': ['painting', 'cooking']
-  };
-  
-  String jsonOutput = jsonEncode(newUser);
-  print('JSON String: $jsonOutput');
-}`,
-        },
-        modelClasses: {
-          title: 'Creating Model Classes',
-          code: `class User {
+        productGrid: {
+          title: 'Product Grid Lab',
+          code: `class Product {
   final String name;
-  final int age;
-  final bool isStudent;
-  final List<String> hobbies;
-  
-  User({
-    required this.name,
-    required this.age,
-    required this.isStudent,
-    required this.hobbies,
-  });
-  
-  // Factory constructor to create User from JSON
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      name: json['name'],
-      age: json['age'],
-      isStudent: json['isStudent'],
-      hobbies: List<String>.from(json['hobbies']),
-    );
-  }
-  
-  // Method to convert User to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'age': age,
-      'isStudent': isStudent,
-      'hobbies': hobbies,
-    };
-  }
-  
+  final double price;
+  final String imageUrl;
+
+  const Product(this.name, this.price, this.imageUrl);
+}
+
+const products = [
+  Product('Laptop', 1200, 'https://picsum.photos/200?1'),
+  Product('Phone', 800, 'https://picsum.photos/200?2'),
+  Product('Watch', 250, 'https://picsum.photos/200?3'),
+  Product('Headphones', 150, 'https://picsum.photos/200?4'),
+  Product('Camera', 540, 'https://picsum.photos/200?5'),
+  Product('Tablet', 400, 'https://picsum.photos/200?6'),
+];
+
+class ProductGridPage extends StatelessWidget {
   @override
-  String toString() {
-    return 'User(name: $name, age: $age, isStudent: $isStudent, hobbies: $hobbies)';
-  }
-}
-
-void main() {
-  // JSON to User object
-  String jsonString = '''
-  {
-    "name": "Ahmed",
-    "age": 28,
-    "isStudent": true,
-    "hobbies": ["swimming", "photography"]
-  }
-  ''';
-  
-  Map<String, dynamic> userJson = jsonDecode(jsonString);
-  User user = User.fromJson(userJson);
-  
-  print('User: $user');
-  
-  // User object to JSON
-  User newUser = User(
-    name: 'Fatima',
-    age: 24,
-    isStudent: false,
-    hobbies: ['dancing', 'music'],
-  );
-  
-  String userJsonString = jsonEncode(newUser.toJson());
-  print('JSON: $userJsonString');
-}`,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Products')),
+      body: GridView.builder(
+        padding: EdgeInsets.all(12),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.75, // taller cards
+        ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final p = products[index];
+          return Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Image.network(p.imageUrl, fit: BoxFit.cover),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        p.name,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        '\\$\${p.price.toStringAsFixed(0)}',
+                        style: TextStyle(color: Colors.green[700]),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
         },
-        complexJson: {
-          title: 'Working with Complex JSON',
-          code: `class Address {
-  final String street;
-  final String city;
-  final String country;
-  
-  Address({required this.street, required this.city, required this.country});
-  
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      street: json['street'],
-      city: json['city'],
-      country: json['country'],
+      ),
     );
-  }
-  
-  Map<String, dynamic> toJson() {
-    return {
-      'street': street,
-      'city': city,
-      'country': country,
-    };
   }
 }
 
-class Company {
-  final String name;
-  final Address address;
-  
-  Company({required this.name, required this.address});
-  
-  factory Company.fromJson(Map<String, dynamic> json) {
-    return Company(
-      name: json['name'],
-      address: Address.fromJson(json['address']),
-    );
-  }
-  
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'address': address.toJson(),
-    };
-  }
-}
-
-class Employee {
-  final String name;
-  final int age;
-  final Company company;
-  final List<String> skills;
-  
-  Employee({
-    required this.name,
-    required this.age,
-    required this.company,
-    required this.skills,
-  });
-  
-  factory Employee.fromJson(Map<String, dynamic> json) {
-    return Employee(
-      name: json['name'],
-      age: json['age'],
-      company: Company.fromJson(json['company']),
-      skills: List<String>.from(json['skills']),
-    );
-  }
-  
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'age': age,
-      'company': company.toJson(),
-      'skills': skills,
-    };
-  }
-}
-
-void main() {
-  String complexJson = '''
-  {
-    "name": "Omar",
-    "age": 32,
-    "company": {
-      "name": "Tech Corp",
-      "address": {
-        "street": "123 Tech Street",
-        "city": "Cairo",
-        "country": "Egypt"
-      }
-    },
-    "skills": ["Flutter", "Dart", "Firebase", "UI/UX"]
-  }
-  ''';
-  
-  Map<String, dynamic> employeeJson = jsonDecode(complexJson);
-  Employee employee = Employee.fromJson(employeeJson);
-  
-  print('Employee: \${employee.name}');
-  print('Company: \${employee.company.name}');
-  print('Address: \${employee.company.address.city}, \${employee.company.address.country}');
-  print('Skills: \${employee.skills.join(", ")}');
-}`,
+/*
+Use GridView when items share a uniform card layout
+Use ListView for rows of rich / varying content
+*/`,
         },
       },
     },
@@ -591,7 +509,6 @@ const Day6 = () => {
     <div className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
       <main>
         <Suspense fallback={<Loading />}>
-          {/* Hero Section */}
           <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
             <div className='absolute inset-0 opacity-10'>
               <div className='absolute top-20 left-20 w-72 h-72 bg-[#02569B] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
@@ -608,21 +525,20 @@ const Day6 = () => {
                   Day 6
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  Asynchronous Programming & Networking
+                  Material Design, Forms & Data Display
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Master asynchronous programming in Dart and learn to fetch
-                  live data from the internet. Compare http and Dio packages
-                  while building real-world networking applications.
+                  Theme your app with Material Design, collect input with
+                  validated forms, and display data using ListView and GridView.
                 </p>
 
                 <motion.button
                   onClick={scrollToContent}
-                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#0056b3] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#024A87] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Async Programming & Networking
+                  Explore Forms & Data Display
                 </motion.button>
               </motion.div>
             </div>
@@ -635,7 +551,6 @@ const Day6 = () => {
             </motion.div>
           </section>
 
-          {/* Main Content */}
           <section
             id='content'
             ref={contentRef}
@@ -651,8 +566,8 @@ const Day6 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours to master asynchronous programming and networking in
-                  Flutter.
+                  4 hours: theming, buttons, forms, lists, and a product grid
+                  lab.
                 </p>
               </motion.div>
 
@@ -782,29 +697,22 @@ const Day6 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Master asynchronous programming with Futures,
-                          async/await, and proper error handling.
+                          ThemeData keeps Material colors, text, and components
+                          consistent across the app.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Use http package for simple networking needs and basic
-                          API calls.
+                          Choose button emphasis wisely; use TextFormField + Form
+                          for validated input.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Leverage Dio for advanced networking with interceptors
-                          and automatic JSON parsing.
-                        </span>
-                      </li>
-                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-                        <span>
-                          Handle JSON data with proper
-                          serialization/deserialization and model classes.
+                          ListView.builder is ideal for dynamic lists;
+                          GridView.builder for uniform product cards.
                         </span>
                       </li>
                     </ul>
@@ -814,13 +722,11 @@ const Day6 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      You've mastered networking and async programming! Next
-                      steps include state management (Provider, Bloc), local
-                      storage, working with databases, and advanced Flutter
-                      patterns.
+                      In Day 7, we'll connect screens with Navigator and Named
+                      Routes, and give users feedback with Dialogs and SnackBars.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
-                      Continue Learning
+                      Next: Day 7
                       <ArrowRight className='w-5 h-5' />
                     </button>
                   </div>
@@ -834,17 +740,16 @@ const Day6 = () => {
                 viewport={{ once: true }}
                 className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
                 <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  📝 Hands-on Exercise
+                  Hands-on Exercise
                 </h3>
 
-                {/* Login & Product Catalog Task */}
                 <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      🛍️
+                      📝
                     </div>
                     <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Login & Product Catalog with API Integration
+                      Task: Themed Product Catalog with Form + Grid
                     </h5>
                   </div>
 
@@ -853,136 +758,22 @@ const Day6 = () => {
                       Objective
                     </h6>
                     <p className='text-gray-700 dark:text-gray-300'>
-                      Build a Flutter app with API integration for login and
-                      products, where the Home Page displays products with a
-                      scrollable category tab bar at the top.
+                      Apply ThemeData, build a validated form to add products,
+                      and display them in a GridView product catalog.
                     </p>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-                      API References
-                    </h6>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-2'>
-                        <li>
-                          <strong>Login API:</strong>{' '}
-                          https://dummyjson.com/auth/login
-                        </li>
-                        <li className='ml-4'>• Requires: username, password</li>
-                        <li className='ml-4'>
-                          • Example: kminchelle / 0lelplR
-                        </li>
-                        <li className='ml-4'>• Returns: user data + token</li>
-                        <li className='mt-3'>
-                          <strong>Get All Products:</strong>{' '}
-                          https://dummyjson.com/products
-                        </li>
-                        <li>
-                          <strong>Get Categories:</strong>{' '}
-                          https://dummyjson.com/products/categories
-                        </li>
-                        <li>
-                          <strong>Get Products by Category:</strong>{' '}
-                          https://dummyjson.com/products/category/{'{category}'}
-                        </li>
-                      </ul>
-                    </div>
                   </div>
 
                   <div className='mb-6'>
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
                       Requirements
                     </h6>
-
-                    <div className='space-y-4'>
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          1. Splash Screen
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Show a simple splash (logo/text)</li>
-                          <li>• After 2–3 seconds → navigate to Login Page</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          2. Login Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • Form with: Username (TextField), Password
-                            (TextField, obscured)
-                          </li>
-                          <li>
-                            • On pressing Login button: Call the Login API
-                          </li>
-                          <li>
-                            • If success → navigate to Home Page and store token
-                          </li>
-                          <li>• If fail → show error message</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          3. Home Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Layout: AppBar with title = "Products"</li>
-                          <li>
-                            • Scrollable TabBar at the top: First Tab → "All
-                            Products", Other Tabs → dynamically loaded
-                            categories
-                          </li>
-                          <li>
-                            • TabBarView below: For "All Products" → fetch from
-                            products API, For each category → fetch from
-                            category API
-                          </li>
-                          <li>
-                            • Product Card should show: Product Image, Title,
-                            Price
-                          </li>
-                          <li>
-                            • Add a Drawer with dummy menu items (Profile,
-                            Settings, Logout)
-                          </li>
-                          <li>
-                            • Add Logout button inside Drawer to go back to
-                            Login Page
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Example Flow
-                    </h6>
                     <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>
-                          • Open App → Splash Screen → navigates to Login Page
-                        </li>
-                        <li>
-                          • User logs in with (kminchelle / 0lelplR) → success →
-                          goes to Home Page
-                        </li>
-                        <li>
-                          • On Home Page: Categories load into scrollable TabBar
-                        </li>
-                        <li>• First tab → All Products (default)</li>
-                        <li>
-                          • User taps "smartphones" → Products reload with only
-                          smartphones
-                        </li>
-                        <li>
-                          • User taps Logout in Drawer → navigates back to Login
-                          Page
-                        </li>
+                        <li>• Configure ThemeData (colorScheme + inputDecorationTheme)</li>
+                        <li>• Form fields: name, price, image URL with validators</li>
+                        <li>• On submit, add product to a list in state</li>
+                        <li>• Show products in GridView.builder with Card UI</li>
+                        <li>• Toggle between ListView and GridView (bonus)</li>
                       </ul>
                     </div>
                   </div>
@@ -991,16 +782,11 @@ const Day6 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
                       👉 Bonus Challenge
                     </h6>
-                    <div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
+                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Add a loading spinner when fetching products</li>
-                        <li>
-                          • Add a Pull-to-Refresh feature in the product list
-                        </li>
-                        <li>• Show product details when a product is tapped</li>
-                        <li>
-                          • Use Dio interceptors to attach token automatically
-                        </li>
+                        <li>• Delete product with a confirmation flow (prep for Day 7)</li>
+                        <li>• Empty-state message when no products exist</li>
+                        <li>• Placeholder image when URL fails</li>
                       </ul>
                     </div>
                   </div>

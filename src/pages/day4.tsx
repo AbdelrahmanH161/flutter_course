@@ -4,9 +4,10 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  RefreshCw,
-  Edit3,
-  List,
+  Layers,
+  Building2,
+  Layout,
+  User,
   ArrowRight,
 } from 'lucide-react';
 
@@ -19,254 +20,207 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Stateful vs. Stateless Widgets',
+    title: 'What is Flutter?',
     duration: '1 Hour',
-    icon: <RefreshCw className='w-6 h-6' />,
+    icon: <Layers className='w-6 h-6' />,
     content: {
       description:
-        'Learn the fundamental difference between widgets that can change state and those that remain static. Understanding when to use each type is crucial for building interactive Flutter apps.',
+        'Discover Flutter as Google\'s cross-platform UI toolkit. Learn how Dart and Flutter work together, why everything is a widget, and the difference between Hot Reload and Hot Restart.',
       topics: [
-        'StatelessWidget: Static, immutable widgets',
-        'StatefulWidget: Dynamic, mutable widgets',
-        'Understanding setState() method',
-        'When to use each widget type',
-        'State lifecycle and management',
+        'Cross-platform development with one codebase',
+        'Dart + Flutter relationship',
+        'Widget concept and immutability',
+        'Basic Flutter widgets overview',
+        'Hot Reload vs Hot Restart',
       ],
       detailedTopics: {
-        statelessVsStateful: {
-          title: 'Stateless vs Stateful Widgets',
-          code: `// StatelessWidget - Cannot change after creation
-class MyStatelessWidget extends StatelessWidget {
-  final String title;
-  
-  const MyStatelessWidget({Key? key, required this.title}) : super(key: key);
-  
-  @override
-  Widget build(BuildContext context) {
-    return Text(title); // Always displays the same title
-  }
+        whatIsFlutter: {
+          title: 'What is Flutter?',
+          code: `/*
+Flutter is Google's UI toolkit for building
+natively compiled applications for:
+  • Android
+  • iOS
+  • Web
+  • Desktop (Windows, macOS, Linux)
+
+Key ideas:
+  - Single codebase → multiple platforms
+  - Written in Dart
+  - Rich set of pre-built Material & Cupertino widgets
+  - Custom rendering engine (Skia / Impeller)
+  - Fast development with Hot Reload
+*/
+
+void main() {
+  // Entry point of every Flutter app
+  runApp(MyApp());
 }
 
-// StatefulWidget - Can change during runtime
-class MyStatefulWidget extends StatefulWidget {
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int counter = 0; // Mutable state
-  
-  void incrementCounter() {
-    setState(() {
-      counter++; // Triggers rebuild with new state
-    });
-  }
-  
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Count: $counter'),
-        ElevatedButton(
-          onPressed: incrementCounter,
-          child: Text('Increment'),
+    return MaterialApp(
+      title: 'Hello Flutter',
+      home: Scaffold(
+        appBar: AppBar(title: Text('Hello Flutter')),
+        body: Center(
+          child: Text('Welcome to Flutter!'),
         ),
-      ],
+      ),
     );
   }
 }`,
         },
-        setStateExample: {
-          title: 'Understanding setState()',
-          code: `class CounterExample extends StatefulWidget {
-  @override
-  _CounterExampleState createState() => _CounterExampleState();
-}
+        widgetConcept: {
+          title: 'Everything is a Widget',
+          code: `/*
+In Flutter, the entire UI is built from widgets.
+Widgets are immutable descriptions of UI.
 
-class _CounterExampleState extends State<CounterExample> {
-  int count = 0;
-  bool isVisible = true;
-  
-  void toggleVisibility() {
-    setState(() {
-      isVisible = !isVisible; // Toggle boolean state
-    });
-  }
-  
-  void incrementCount() {
-    setState(() {
-      count++; // Increment counter
-    });
-  }
-  
+Common basic widgets:
+  MaterialApp  → root of a Material Design app
+  Scaffold     → page structure (AppBar, body, FAB...)
+  AppBar       → top navigation bar
+  Text         → display text
+  Container    → box with padding, color, decoration
+  Row / Column → horizontal / vertical layouts
+  Icon         → Material icons
+  Image        → display images (asset or network)
+*/
+
+// Simple StatelessWidget example
+class MyText extends StatelessWidget {
+  final String message;
+
+  const MyText({Key? key, required this.message}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (isVisible) Text('Count: $count'),
-        Row(
-          children: [
-            ElevatedButton(
-              onPressed: incrementCount,
-              child: Text('Increment'),
-            ),
-            ElevatedButton(
-              onPressed: toggleVisibility,
-              child: Text(isVisible ? 'Hide' : 'Show'),
-            ),
-          ],
-        ),
-      ],
+    // build() returns the widget tree for this component
+    return Text(
+      message,
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 }`,
+        },
+        hotReload: {
+          title: 'Hot Reload vs Hot Restart',
+          code: `/*
+Hot Reload:
+  - Injects updated code into the running Dart VM
+  - Preserves app state (counters, form values, scroll...)
+  - Best for UI tweaks and small logic changes
+  - Shortcut: usually "r" in terminal / lightning bolt in IDE
+
+Hot Restart:
+  - Re-runs main() from scratch
+  - Resets all in-memory state
+  - Use when Hot Reload is not enough
+    (e.g., changing initState, enums, main())
+  - Shortcut: usually "R" in terminal
+
+Tip: Prefer Hot Reload during UI building.
+Use Hot Restart after structural / init changes.
+*/`,
         },
       },
     },
   },
   {
     id: 2,
-    title: 'Building a Form',
+    title: 'Flutter Architecture',
     duration: '1 Hour',
-    icon: <Edit3 className='w-6 h-6' />,
+    icon: <Building2 className='w-6 h-6' />,
     content: {
       description:
-        'Create interactive forms that can collect user input, validate data, and respond to user actions. Learn to use form widgets and controllers to build user-friendly input interfaces.',
+        'Understand Flutter\'s layered architecture — from your Dart app down to the platform embedder — and how the widget tree drives rendering.',
       topics: [
-        'Form widget and form validation',
-        'TextFormField with validation',
-        'TextEditingController for input handling',
-        'ElevatedButton and onPressed callbacks',
-        'Building a complete user input form',
+        'Four layers: Application → Framework → Engine → Embedder',
+        'Custom rendering engine overview',
+        'Widget tree structure',
+        'How UI updates flow through layers',
+        'Why architecture matters for performance',
       ],
       detailedTopics: {
-        formBasics: {
-          title: 'Form Widgets and Validation',
-          code: `class UserForm extends StatefulWidget {
-  @override
-  _UserFormState createState() => _UserFormState();
-}
+        fourLayers: {
+          title: 'Flutter Architecture Layers',
+          code: `/*
+┌─────────────────────────────────────┐
+│  1. Application Layer               │
+│     Your Dart code (widgets, logic) │
+├─────────────────────────────────────┤
+│  2. Framework Layer (Dart)          │
+│     Material / Cupertino / Widgets  │
+│     Rendering, Animation, Gestures  │
+├─────────────────────────────────────┤
+│  3. Engine Layer (C++)              │
+│     Skia / Impeller rendering       │
+│     Dart runtime, text layout       │
+├─────────────────────────────────────┤
+│  4. Embedder Layer                  │
+│     Platform-specific (Android/iOS) │
+│     Window, input, thread setup     │
+└─────────────────────────────────────┘
 
-class _UserFormState extends State<UserForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              labelText: 'Name',
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your name';
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 16),
-          TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              if (!value.contains('@')) {
-                return 'Please enter a valid email';
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // Form is valid, process the data
-                print('Name: \${_nameController.text}');
-                print('Email: \${_emailController.text}');
-              }
-            },
-            child: Text('Submit'),
-          ),
-        ],
+Your code talks to the Framework.
+The Framework talks to the Engine.
+The Embedder hosts everything on the OS.
+*/
+
+void main() {
+  runApp(
+    // Application Layer
+    MaterialApp(
+      // Framework → Material widgets
+      home: Scaffold(
+        body: Center(child: Text('Architecture demo')),
       ),
-    );
-  }
+    ),
+  );
 }`,
         },
-        formWithState: {
-          title: 'Form with State Management',
-          code: `class DynamicForm extends StatefulWidget {
-  @override
-  _DynamicFormState createState() => _DynamicFormState();
-}
+        widgetTree: {
+          title: 'Widget Tree Structure',
+          code: `/*
+Typical widget tree:
 
-class _DynamicFormState extends State<DynamicForm> {
-  final _taskController = TextEditingController();
-  List<String> tasks = [];
-  
-  void addTask() {
-    if (_taskController.text.isNotEmpty) {
-      setState(() {
-        tasks.add(_taskController.text);
-        _taskController.clear();
-      });
-    }
-  }
-  
-  void removeTask(int index) {
-    setState(() {
-      tasks.removeAt(index);
-    });
-  }
-  
+MaterialApp
+ └─ Scaffold
+     ├─ AppBar
+     │   └─ Text ("Home")
+     └─ body: Center
+         └─ Column
+             ├─ Text ("Hello")
+             ├─ Icon (Icons.star)
+             └─ ElevatedButton
+                 └─ Text ("Click me")
+
+Rules of thumb:
+  - Parent widgets control layout of children
+  - Prefer shallow, readable trees
+  - Extract repeated UI into small widgets
+*/
+
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return Scaffold(
+      appBar: AppBar(title: Text('Home')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: TextField(
-                controller: _taskController,
-                decoration: InputDecoration(
-                  labelText: 'Enter a new task',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            SizedBox(width: 16),
+            Text('Hello'),
+            Icon(Icons.star, color: Colors.amber),
             ElevatedButton(
-              onPressed: addTask,
-              child: Icon(Plus),
+              onPressed: () {},
+              child: Text('Click me'),
             ),
           ],
         ),
-        SizedBox(height: 16),
-        ...tasks.asMap().entries.map((entry) {
-          int index = entry.key;
-          String task = entry.value;
-          return ListTile(
-            leading: Icon(Icons.task),
-            title: Text(task),
-            trailing: IconButton(
-              icon: Icon(Trash2),
-              onPressed: () => removeTask(index),
-            ),
-          );
-        }).toList(),
-      ],
+      ),
     );
   }
 }`,
@@ -276,224 +230,233 @@ class _DynamicFormState extends State<DynamicForm> {
   },
   {
     id: 3,
-    title: 'Displaying Data with Lists & Grids',
+    title: 'UI Planning & First App',
     duration: '1 Hour',
-    icon: <List className='w-6 h-6' />,
+    icon: <Layout className='w-6 h-6' />,
     content: {
       description:
-        'Learn to display dynamic data in organized layouts using ListView and GridView. These widgets are essential for showing collections of items in a user-friendly way.',
+        'Learn a practical 5-step process to plan any screen, decompose designs into widgets, and build your first Flutter page with Scaffold, AppBar, Column, and Text.',
       topics: [
-        'ListView for vertical scrolling lists',
-        'GridView for grid layouts',
-        'Dynamic data binding with setState',
-        'Custom item builders and separators',
-        'Combining forms with data display',
+        '5-step UI planning process',
+        'Decomposing a screen into components',
+        'Mapping components to Flutter widgets',
+        'Scaffold, AppBar, Column, Text walkthrough',
+        'Building a complete StatelessWidget page',
       ],
       detailedTopics: {
-        listViewBasics: {
-          title: 'ListView Basics',
-          code: `class ListViewExample extends StatefulWidget {
-  @override
-  _ListViewExampleState createState() => _ListViewExampleState();
+        planningSteps: {
+          title: '5-Step UI Planning Process',
+          code: `/*
+Step 1 — Requirements
+  What does the screen show? What can the user do?
+
+Step 2 — Components
+  Break the design into boxes:
+  header, avatar, title, body, actions...
+
+Step 3 — Widgets
+  Map each box to a Flutter widget:
+  AppBar, CircleAvatar, Text, Row, Column...
+
+Step 4 — Widget Tree
+  Sketch parent → child relationships on paper.
+
+Step 5 — Interactions
+  Buttons, taps, navigation, loading states.
+
+Example: Profile Screen decomposition
+  • Cover image        → Image / Container
+  • Avatar             → CircleAvatar (in Stack)
+  • Name + bio         → Column of Text
+  • Stats row          → Row of Column(s)
+  • Action buttons     → ElevatedButton / IconButton
+*/`,
+        },
+        firstApp: {
+          title: 'First Flutter App Walkthrough',
+          code: `import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
 }
 
-class _ListViewExampleState extends State<ListViewExample> {
-  List<String> items = ['Apple', 'Banana', 'Orange', 'Mango'];
-  
-  void addItem(String item) {
-    setState(() {
-      items.add(item);
-    });
-  }
-  
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () => addItem('New Item'),
-          child: Text('Add Item'),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(Icons.favorite, color: Colors.red),
-                title: Text(items[index]),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    setState(() {
-                      items.removeAt(index);
-                    });
-                  },
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'My First App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const HomePage(),
     );
   }
-}`,
-        },
-        gridViewExample: {
-          title: 'GridView with Dynamic Content',
-          code: `class GridViewExample extends StatefulWidget {
-  @override
-  _GridViewExampleState createState() => _GridViewExampleState();
 }
 
-class _GridViewExampleState extends State<GridViewExample> {
-  List<Color> colors = [
-    Colors.red, Colors.blue, Colors.green, Colors.yellow,
-    Colors.purple, Colors.orange, Colors.pink, Colors.teal
-  ];
-  
-  void addColor() {
-    setState(() {
-      colors.add(Colors.primaries[colors.length % Colors.primaries.length]);
-    });
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: addColor,
-          child: Text('Add Color'),
-        ),
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemCount: colors.length,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: colors[index],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                    'Color \${index + 1}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}`,
-        },
-        combinedExample: {
-          title: 'Complete App: Form + List + Grid',
-          code: `class CompleteApp extends StatefulWidget {
-  @override
-  _CompleteAppState createState() => _CompleteAppState();
-}
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-class _CompleteAppState extends State<CompleteApp> {
-  final _nameController = TextEditingController();
-  final _hobbyController = TextEditingController();
-  List<Map<String, String>> people = [];
-  
-  void addPerson() {
-    if (_nameController.text.isNotEmpty && _hobbyController.text.isNotEmpty) {
-      setState(() {
-        people.add({
-          'name': _nameController.text,
-          'hobby': _hobbyController.text,
-        });
-        _nameController.clear();
-        _hobbyController.clear();
-      });
-    }
-  }
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('People & Hobbies')),
-      body: Padding(
-        padding: EdgeInsets.all(16),
+      appBar: AppBar(
+        title: Text('My First App'),
+        centerTitle: true,
+      ),
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Form Section
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Text('Add New Person', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 16),
-                    TextField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      controller: _hobbyController,
-                      decoration: InputDecoration(
-                        labelText: 'Hobby',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: addPerson,
-                      child: Text('Add Person'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            Icon(Icons.flutter_dash, size: 80, color: Colors.blue),
             SizedBox(height: 16),
-            
-            // List View
-            if (people.isNotEmpty) ...[
-              Text('People List', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: people.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(people[index]['name']![0]),
-                      ),
-                      title: Text(people[index]['name']!),
-                      subtitle: Text(people[index]['hobby']!),
-                      trailing: IconButton(
-                        icon: Icon(Trash2),
-                        onPressed: () {
-                          setState(() {
-                            people.removeAt(index);
-                          });
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+            Text(
+              'Hello, Flutter!',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'One codebase, many platforms',
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            ),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}`,
+        },
+      },
+    },
+  },
+  {
+    id: 4,
+    title: 'Practical Lab — Profile Card',
+    duration: '1 Hour',
+    icon: <User className='w-6 h-6' />,
+    content: {
+      description:
+        'Apply widget-tree thinking by building a static Profile Card: avatar, name, bio, stats row, and social icon buttons — no state management required yet.',
+      topics: [
+        'CircleAvatar for profile pictures',
+        'Column + Row composition',
+        'Stats row (posts / followers / following)',
+        'IconButton for social actions',
+        'Card + Padding for polished layout',
+      ],
+      detailedTopics: {
+        profileCard: {
+          title: 'Complete Profile Card Example',
+          code: `import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(home: ProfileCardPage()));
+
+class ProfileCardPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(title: Text('Profile Card'), centerTitle: true),
+      body: Center(
+        child: Card(
+          margin: EdgeInsets.all(24),
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Avatar
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(
+                    'https://i.pravatar.cc/150?img=12',
+                  ),
+                ),
+                SizedBox(height: 16),
+
+                // Name
+                Text(
+                  'Ahmed Hassan',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4),
+
+                // Bio
+                Text(
+                  'Flutter Developer | ITI Graduate',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+
+                // Stats row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _StatColumn(label: 'Posts', value: '24'),
+                    _StatColumn(label: 'Followers', value: '1.2K'),
+                    _StatColumn(label: 'Following', value: '180'),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 8),
+
+                // Social icons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.email, color: Colors.blue),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.link, color: Colors.teal),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.share, color: Colors.orange),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StatColumn extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _StatColumn({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 4),
+        Text(label, style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+      ],
     );
   }
 }`,
@@ -532,12 +495,12 @@ const Day4 = () => {
                   Day 4
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  State & User Interaction
+                  Flutter Foundations
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Today's focus is on making the app dynamic. We'll learn how to
-                  manage state and respond to user input by adding buttons,
-                  forms, and displaying data using lists and grids.
+                  Start your Flutter journey: understand what Flutter is, explore
+                  its architecture layers, plan UIs like a pro, and build your
+                  first Profile Card hands-on.
                 </p>
 
                 <motion.button
@@ -546,7 +509,7 @@ const Day4 = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore State & User Interaction
+                  Explore Flutter Foundations
                 </motion.button>
               </motion.div>
             </div>
@@ -575,8 +538,8 @@ const Day4 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  3 hours to master state management and user interaction in
-                  Flutter.
+                  4 hours from Flutter intro and architecture to your first
+                  practical Profile Card lab.
                 </p>
               </motion.div>
 
@@ -706,29 +669,29 @@ const Day4 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Understanding the difference between StatelessWidget
-                          and StatefulWidget.
+                          Flutter builds natively compiled apps from one Dart
+                          codebase using immutable widgets.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Mastering setState() for dynamic UI updates and state
-                          management.
+                          Architecture layers: Application → Framework → Engine
+                          → Embedder.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Building interactive forms with validation and user
-                          input handling.
+                          Plan UIs in five steps before writing code: requirements,
+                          components, widgets, tree, interactions.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Displaying dynamic data using ListView and GridView
-                          widgets.
+                          Compose layouts with Scaffold, Column, Row, and Card
+                          — as in the Profile Card lab.
                         </span>
                       </li>
                     </ul>
@@ -738,9 +701,9 @@ const Day4 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 5, we'll explore navigation between screens,
-                      passing data between routes, and building multi-screen
-                      applications with proper navigation patterns.
+                      In Day 5, we'll dive into layout widgets, core Material
+                      widgets, and learn Stateful vs Stateless widgets with
+                      toggle controls.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 5
@@ -760,14 +723,13 @@ const Day4 = () => {
                   Hands-on Exercise
                 </h3>
 
-                {/* Product Page Task */}
                 <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
                       📝
                     </div>
                     <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Product Page with Form and Switchable Layout
+                      Task: Build a Static Profile Card
                     </h5>
                   </div>
 
@@ -776,10 +738,9 @@ const Day4 = () => {
                       Objective
                     </h6>
                     <p className='text-gray-700 dark:text-gray-300'>
-                      Build a Product Page that allows users to add new products
-                      through a form, display products under the form, and
-                      switch between List View and Grid View for displaying
-                      products.
+                      Create a polished Profile Card screen using only
+                      StatelessWidgets. Practice widget-tree thinking: avatar,
+                      name, bio, stats, and social actions.
                     </p>
                   </div>
 
@@ -791,78 +752,36 @@ const Day4 = () => {
                     <div className='space-y-4'>
                       <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                         <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          Form Section (Top of the Page)
+                          Profile Header
                         </h6>
                         <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • Create a form with fields: Product Name (Text),
-                            Product Price (Number), Product Image URL (Text)
-                          </li>
-                          <li>• Add a Submit button</li>
-                          <li>
-                            • When the form is submitted, the product should be
-                            added to a products list
-                          </li>
+                          <li>• CircleAvatar with a network or asset image</li>
+                          <li>• Name as a bold Text widget</li>
+                          <li>• Short bio / job title under the name</li>
                         </ul>
                       </div>
 
                       <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                         <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          Products Display Section (Below the Form)
+                          Stats Row
                         </h6>
                         <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Show all added products</li>
-                          <li>
-                            • Each product card should display: Product Image
-                            (loaded from the given URL), Product Name, Product
-                            Price
-                          </li>
+                          <li>• Row with three columns: Posts, Followers, Following</li>
+                          <li>• Each column shows a number + label</li>
+                          <li>• Extract a small reusable StatColumn widget</li>
                         </ul>
                       </div>
 
                       <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                         <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          View Switcher
+                          Social Actions
                         </h6>
                         <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • Add a button or toggle to switch between List View
-                            and Grid View
-                          </li>
-                          <li>
-                            • List View: Products shown vertically in a column
-                            (like a list)
-                          </li>
-                          <li>
-                            • Grid View: Products shown in a grid layout with
-                            multiple items per row
-                          </li>
+                          <li>• Row of IconButtons (email, link, share...)</li>
+                          <li>• Wrap everything in a Card with padding</li>
+                          <li>• Center the card on the screen</li>
                         </ul>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Example Flow
-                    </h6>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>
-                          • User fills in product name = "Laptop", price = 1200,
-                          image = "https://example.com/laptop.png", then clicks
-                          Add
-                        </li>
-                        <li>
-                          • The product appears in the products display section
-                          with its image, name, and price
-                        </li>
-                        <li>• User adds more products</li>
-                        <li>
-                          • User switches between List View and Grid View to see
-                          products displayed differently
-                        </li>
-                      </ul>
                     </div>
                   </div>
 
@@ -872,12 +791,9 @@ const Day4 = () => {
                     </h6>
                     <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Add a delete button for each product</li>
-                        <li>
-                          • Validate the form (e.g., product name not empty,
-                          price &gt; 0, image URL must not be empty)
-                        </li>
-                        <li>• Add placeholder image if the URL is invalid</li>
+                        <li>• Add a cover image above the avatar using Stack</li>
+                        <li>• Style with BoxDecoration and border radius</li>
+                        <li>• Add a "Follow" ElevatedButton below the stats</li>
                       </ul>
                     </div>
                   </div>

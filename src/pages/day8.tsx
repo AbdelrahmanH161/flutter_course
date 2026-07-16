@@ -4,10 +4,10 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Settings,
-  Database,
-  Smartphone,
-  Package,
+  Timer,
+  Globe,
+  HardDrive,
+  Boxes,
   ArrowRight,
 } from 'lucide-react';
 
@@ -20,193 +20,235 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Introduction to BLoC Pattern',
+    title: 'Async Programming & Futures',
     duration: '1 Hour',
-    icon: <Settings className='w-6 h-6' />,
+    icon: <Timer className='w-6 h-6' />,
     content: {
       description:
-        'Learn the fundamentals of the BLoC (Business Logic Component) pattern. Understand how it separates business logic from UI, making your Flutter apps more testable, maintainable, and scalable.',
+        'Keep the UI responsive while work happens in the background. Master Futures, async/await, Future.delayed, and a splash screen that navigates after a delay.',
       topics: [
-        'What is BLoC and why use it?',
-        'Understanding Events, States, and Business Logic',
-        'BLoC vs setState() and Provider',
-        'Advantages and disadvantages of BLoC',
-        'When to use BLoC vs other state management solutions',
+        'What is a Future?',
+        'async / await vs then / catchError',
+        'Future.delayed for timers',
+        'Future.any race pattern',
+        'Splash screen with delayed navigation',
       ],
       detailedTopics: {
-        blocBasics: {
-          title: 'What is BLoC?',
-          code: `// BLoC = Business Logic Component
-// It's a design pattern that separates business logic from UI
-
-// Key Concepts:
-// 1. Events: Inputs to the BLoC (user actions, system events)
-// 2. States: Outputs from the BLoC (current app state)
-// 3. Business Logic: Processing that happens between events and states
-
-// Flow: UI → Event → BLoC → State → UI
-
-// Example: Counter BLoC
-abstract class CounterEvent {}
-class CounterIncremented extends CounterEvent {}
-class CounterDecremented extends CounterEvent {}
-
-abstract class CounterState {}
-class CounterInitial extends CounterState {}
-class CounterLoaded extends CounterState {
-  final int count;
-  CounterLoaded(this.count);
+        futuresBasics: {
+          title: 'Futures, async & await',
+          code: `// Synchronous — blocks the thread
+String syncFetch() {
+  // Imagine a long calculation...
+  return 'Done sync';
 }
 
-class CounterBloc extends Bloc<CounterEvent, CounterState> {
-  CounterBloc() : super(CounterInitial()) {
-    on<CounterIncremented>((event, emit) {
-      // Business logic here
-      if (state is CounterLoaded) {
-        emit(CounterLoaded((state as CounterLoaded).count + 1));
-      } else {
-        emit(CounterLoaded(1));
-      }
-    });
-    
-    on<CounterDecremented>((event, emit) {
-      if (state is CounterLoaded) {
-        final currentCount = (state as CounterLoaded).count;
-        if (currentCount > 0) {
-          emit(CounterLoaded(currentCount - 1));
-        }
-      }
-    });
+// Asynchronous — returns a Future
+Future<String> asyncFetch() async {
+  await Future.delayed(Duration(seconds: 2));
+  return 'Done async';
+}
+
+void demo() {
+  // Style 1: then / catchError
+  asyncFetch()
+      .then((value) => print(value))
+      .catchError((e) => print('Error: \$e'));
+
+  // Style 2: async / await (preferred)
+  loadData();
+}
+
+Future<void> loadData() async {
+  try {
+    print('Loading...');
+    final result = await asyncFetch();
+    print(result);
+  } catch (e) {
+    print('Failed: \$e');
   }
-}`,
+}
+
+/*
+Common pitfall:
+  final x = asyncFetch(); // x is Future<String>, not String!
+  final x = await asyncFetch(); // correct
+*/`,
         },
-        advantagesDisadvantages: {
-          title: 'Advantages & Disadvantages',
-          code: `// ADVANTAGES ✅
+        splash: {
+          title: 'Splash Screen with Future.delayed',
+          code: `class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
 
-// 1. Separation of Concerns
-// - Business logic is separate from UI
-// - Easier to test business logic independently
-// - UI becomes a pure function of state
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _goNext();
+  }
 
-// 2. Predictable State Management
-// - Unidirectional data flow
-// - State changes are traceable
-// - Easy to debug and reason about
+  Future<void> _goNext() async {
+    await Future.delayed(Duration(seconds: 2));
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, '/home');
+  }
 
-// 3. Testability
-// - Business logic can be unit tested
-// - No need for widget testing for logic
-// - Mock states and events easily
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlutterLogo(size: 96),
+            SizedBox(height: 24),
+            CircularProgressIndicator(),
+            SizedBox(height: 12),
+            Text('Loading...'),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-// 4. Reusability
-// - Same BLoC can be used across multiple screens
-// - Business logic is platform agnostic
-// - Easy to share between Flutter and Dart web
-
-// 5. Performance
-// - Only rebuilds widgets that depend on specific states
-// - Efficient state management
-// - Built-in debouncing and throttling
-
-// DISADVANTAGES ❌
-
-// 1. Boilerplate Code
-// - Requires creating separate files for events, states, and BLoC
-// - More files to manage
-// - Steeper learning curve initially
-
-// 2. Complexity for Simple Use Cases
-// - Overkill for simple state management
-// - setState() might be sufficient for basic apps
-// - Provider might be simpler for moderate complexity
-
-// 3. Learning Curve
-// - New concepts to understand
-// - Different mental model from setState()
-// - Requires understanding streams and reactive programming
-
-// 4. File Organization
-// - Need to organize many files
-// - Requires good project structure
-// - Can become messy without proper organization
-
-// WHEN TO USE BLoC 🤔
-
-// Use BLoC when:
-// - Complex business logic
-// - Multiple screens sharing state
-// - Need for testability
-// - Building large, scalable apps
-// - Team development (clear separation)
-
-// Don't use BLoC when:
-// - Simple counter or toggle
-// - Single screen app
-// - Prototype or MVP
-// - Team unfamiliar with reactive programming`,
+// Race: take whoever finishes first
+Future<String> fastestSource() {
+  return Future.any([
+    Future.delayed(Duration(seconds: 3), () => 'From API'),
+    Future.delayed(Duration(seconds: 1), () => 'From Cache'),
+  ]);
+}`,
         },
       },
     },
   },
   {
     id: 2,
-    title: 'Cubit: The Simpler BLoC',
+    title: 'HTTP & API Integration',
     duration: '1 Hour',
-    icon: <Database className='w-6 h-6' />,
+    icon: <Globe className='w-6 h-6' />,
     content: {
       description:
-        'Explore Cubit, a simpler alternative to BLoC that eliminates the need for events. Learn when to use Cubit over BLoC and how to implement state management with less boilerplate.',
+        'Talk to REST APIs with the http package. Perform GET, POST, PUT, DELETE, parse JSON, handle status codes, and build a simple Posts CRUD screen.',
       topics: [
-        'What is Cubit and how it differs from BLoC',
-        'Cubit vs BLoC: When to use which',
-        'Setting up flutter_bloc package',
-        'Creating and using Cubits',
-        'Best practices for Cubit implementation',
+        'Adding and importing the http package',
+        'GET / POST / PUT / DELETE requests',
+        'JSON decoding and model mapping',
+        'Status codes and error SnackBars',
+        'JSONPlaceholder Posts CRUD pattern',
       ],
       detailedTopics: {
-        cubitBasics: {
-          title: 'What is Cubit?',
-          code: `// Cubit is a simpler version of BLoC
-// Instead of Events, it uses direct function calls
-// Less boilerplate, easier to understand
+        httpBasics: {
+          title: 'HTTP CRUD with http package',
+          code: `// pubspec.yaml:
+//   dependencies:
+//     http: ^1.2.0
 
-// Key Differences:
-// BLoC: UI → Event → BLoC → State → UI
-// Cubit: UI → Function → Cubit → State → UI
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-// Example: Counter Cubit
-class CounterCubit extends Cubit<int> {
-  // Initial state is 0
-  CounterCubit() : super(0);
+const baseUrl = 'https://jsonplaceholder.typicode.com';
 
-  // Direct function calls (no events needed)
-  void increment() => emit(state + 1);
-  void decrement() => emit(state - 1);
-  void reset() => emit(0);
-  
-  // Can have more complex logic
-  void incrementBy(int value) {
-    if (value > 0) {
-      emit(state + value);
-    }
+Future<List<dynamic>> fetchPosts() async {
+  final response = await http.get(Uri.parse('\$baseUrl/posts'));
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body) as List;
+  }
+  throw Exception('Failed to load posts (\${response.statusCode})');
+}
+
+Future<Map<String, dynamic>> createPost(String title, String body) async {
+  final response = await http.post(
+    Uri.parse('\$baseUrl/posts'),
+    headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    body: jsonEncode({
+      'title': title,
+      'body': body,
+      'userId': 1,
+    }),
+  );
+  if (response.statusCode == 201) {
+    return jsonDecode(response.body);
+  }
+  throw Exception('Failed to create post');
+}
+
+Future<void> updatePost(int id, String title) async {
+  final response = await http.put(
+    Uri.parse('\$baseUrl/posts/\$id'),
+    headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    body: jsonEncode({'id': id, 'title': title, 'userId': 1}),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update');
   }
 }
 
-// Usage in UI
-class CounterPage extends StatelessWidget {
+Future<void> deletePost(int id) async {
+  final response = await http.delete(Uri.parse('\$baseUrl/posts/\$id'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to delete');
+  }
+}`,
+        },
+        postsUi: {
+          title: 'Posts Screen Pattern',
+          code: `class PostsPage extends StatefulWidget {
+  @override
+  _PostsPageState createState() => _PostsPageState();
+}
+
+class _PostsPageState extends State<PostsPage> {
+  late Future<List<dynamic>> postsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    postsFuture = fetchPosts();
+  }
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: Colors.red),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<CounterCubit, int>(
-        builder: (context, count) {
-          return Text('Count: $count');
+      appBar: AppBar(title: Text('Posts')),
+      body: FutureBuilder<List<dynamic>>(
+        future: postsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: \${snapshot.error}'));
+          }
+          final posts = snapshot.data!;
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final post = posts[index];
+              return ListTile(
+                title: Text(post['title']),
+                subtitle: Text(post['body'], maxLines: 2),
+              );
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Direct function call - no events!
-          context.read<CounterCubit>().increment();
+        onPressed: () async {
+          try {
+            await createPost('New Post', 'Hello API');
+            setState(() => postsFuture = fetchPosts());
+          } catch (e) {
+            _showError(e.toString());
+          }
         },
         child: Icon(Icons.add),
       ),
@@ -214,276 +256,149 @@ class CounterPage extends StatelessWidget {
   }
 }`,
         },
-        cubitVsBloc: {
-          title: 'Cubit vs BLoC Comparison',
-          code: `// CUBIT - Simpler Approach
-class CounterCubit extends Cubit<int> {
-  CounterCubit() : super(0);
-  
-  void increment() => emit(state + 1);
-  void decrement() => emit(state - 1);
-}
-
-// Usage
-context.read<CounterCubit>().increment();
-
-// BLOC - More Structured Approach
-abstract class CounterEvent {}
-class CounterIncremented extends CounterEvent {}
-class CounterDecremented extends CounterEvent {}
-
-class CounterBloc extends Bloc<CounterEvent, int> {
-  CounterBloc() : super(0) {
-    on<CounterIncremented>((event, emit) => emit(state + 1));
-    on<CounterDecremented>((event, emit) => emit(state - 1));
-  }
-}
-
-// Usage
-context.read<CounterBloc>().add(CounterIncremented());
-
-// WHEN TO USE CUBIT ✅
-// - Simple to moderate state management
-// - Direct function calls are sufficient
-// - Less boilerplate preferred
-// - Team new to BLoC pattern
-// - Prototyping or MVP
-
-// WHEN TO USE BLOC ✅
-// - Complex state machines
-// - Need to track why state changed
-// - Multiple events can lead to same state
-// - Advanced debugging and logging
-// - Large, complex applications
-
-// PERFORMANCE
-// Both have similar performance
-// Cubit is slightly faster (no event processing)
-// BLoC has better traceability
-// Choose based on complexity, not performance`,
-        },
       },
     },
   },
   {
     id: 3,
-    title: 'Complete Counter Example with Cubit',
+    title: 'SharedPreferences',
     duration: '1 Hour',
-    icon: <Smartphone className='w-6 h-6' />,
+    icon: <HardDrive className='w-6 h-6' />,
     content: {
       description:
-        'Build a complete counter application using Cubit. Learn the full implementation from setup to UI integration, including proper state management and error handling.',
+        'Persist small key-value data locally: login flags, usernames, settings. Build a Splash → Login → Home flow that remembers the user across restarts.',
       topics: [
-        'Setting up flutter_bloc package',
-        'Creating CounterCubit with proper state management',
-        'Implementing UI with BlocBuilder and BlocListener',
-        'Adding loading states and error handling',
-        'Testing the counter functionality',
+        'What SharedPreferences is (and is not)',
+        'setBool / setString / setInt / setStringList',
+        'Reading with defaults (??)',
+        'PrefsKeys constants class',
+        'Splash → Login → Home with logout clear()',
       ],
       detailedTopics: {
-        counterSetup: {
-          title: 'Project Setup',
-          code: `# pubspec.yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  flutter_bloc: ^8.1.3
-  equatable: ^2.0.5  # For value equality
+        prefsBasics: {
+          title: 'SharedPreferences Basics',
+          code: `// pubspec.yaml:
+//   shared_preferences: ^2.2.2
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  bloc_test: ^9.1.5  # For testing BLoCs/Cubits
+import 'package:shared_preferences/shared_preferences.dart';
 
-# Run: flutter pub get`,
+class PrefsKeys {
+  static const loggedIn = 'loggedIn';
+  static const username = 'username';
+  static const themeMode = 'themeMode';
+}
+
+Future<void> saveLogin(String username) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool(PrefsKeys.loggedIn, true);
+  await prefs.setString(PrefsKeys.username, username);
+}
+
+Future<bool> isLoggedIn() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getBool(PrefsKeys.loggedIn) ?? false;
+}
+
+Future<String> getUsername() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString(PrefsKeys.username) ?? 'Guest';
+}
+
+Future<void> logout() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear(); // or remove specific keys
+}
+
+/*
+Do NOT store passwords or tokens insecurely.
+Use flutter_secure_storage for secrets.
+Use SQLite / Hive for larger structured data.
+*/`,
         },
-        counterCubit: {
-          title: 'Counter Cubit Implementation',
-          code: `import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
+        authFlow: {
+          title: 'Splash → Login → Home Flow',
+          code: `// main.dart routes: '/', '/login', '/home'
 
-// State class for better type safety
-class CounterState extends Equatable {
-  final int count;
-  final bool isLoading;
-  final String? error;
+class SplashPage extends StatefulWidget {
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
 
-  const CounterState({
-    this.count = 0,
-    this.isLoading = false,
-    this.error,
-  });
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
 
-  // Copy with method for immutable updates
-  CounterState copyWith({
-    int? count,
-    bool? isLoading,
-    String? error,
-  }) {
-    return CounterState(
-      count: count ?? this.count,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
+  Future<void> _checkAuth() async {
+    await Future.delayed(Duration(seconds: 2));
+    final loggedIn = await isLoggedIn();
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(
+      context,
+      loggedIn ? '/home' : '/login',
     );
   }
 
-  @override
-  List<Object?> get props => [count, isLoading, error];
-}
-
-// The Cubit
-class CounterCubit extends Cubit<CounterState> {
-  CounterCubit() : super(const CounterState());
-
-  // Increment counter
-  void increment() {
-    emit(state.copyWith(isLoading: true, error: null));
-    
-    // Simulate some processing
-    Future.delayed(Duration(milliseconds: 500), () {
-      emit(state.copyWith(
-        count: state.count + 1,
-        isLoading: false,
-      ));
-    });
-  }
-
-  // Decrement counter
-  void decrement() {
-    if (state.count > 0) {
-      emit(state.copyWith(isLoading: true, error: null));
-      
-      Future.delayed(Duration(milliseconds: 500), () {
-        emit(state.copyWith(
-          count: state.count - 1,
-          isLoading: false,
-        ));
-      });
-    }
-  }
-
-  // Reset counter
-  void reset() {
-    emit(state.copyWith(
-      count: 0,
-      isLoading: false,
-      error: null,
-    ));
-  }
-
-  // Increment by specific amount
-  void incrementBy(int amount) {
-    if (amount > 0) {
-      emit(state.copyWith(isLoading: true, error: null));
-      
-      Future.delayed(Duration(milliseconds: 500), () {
-        emit(state.copyWith(
-          count: state.count + amount,
-          isLoading: false,
-        ));
-      });
-    } else {
-      emit(state.copyWith(error: 'Amount must be positive'));
-    }
-  }
-}`,
-        },
-        counterUI: {
-          title: 'Counter UI Implementation',
-          code: `import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Counter with Cubit',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: BlocProvider(
-        create: (context) => CounterCubit(),
-        child: CounterPage(),
-      ),
-    );
+    return Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
 
-class CounterPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
+  final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Counter with Cubit'),
-        centerTitle: true,
-      ),
-      body: Center(
+      appBar: AppBar(title: Text('Login')),
+      body: Padding(
+        padding: EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Display current count
-            BlocBuilder<CounterCubit, CounterState>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    Text(
-                      'Count',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      '$ {state.count}',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    // Loading indicator
-                    if (state.isLoading)
-                      CircularProgressIndicator()
-                    else if (state.error != null)
-                      Text(
-                        state.error!,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                  ],
-                );
-              },
-            ),
-            SizedBox(height: 32),
-            // Action buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
-                  onPressed: () => context.read<CounterCubit>().decrement(),
-                  child: Icon(Icons.remove),
-                  heroTag: "decrement",
-                ),
-                FloatingActionButton(
-                  onPressed: () => context.read<CounterCubit>().reset(),
-                  child: Icon(Icons.refresh),
-                  heroTag: "reset",
-                ),
-                FloatingActionButton(
-                  onPressed: () => context.read<CounterCubit>().increment(),
-                  child: Icon(Icons.add),
-                  heroTag: "increment",
-                ),
-              ],
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(labelText: 'Username'),
             ),
             SizedBox(height: 16),
-            // Increment by 5 button
             ElevatedButton(
-              onPressed: () => context.read<CounterCubit>().incrementBy(5),
-              child: Text('Increment by 5'),
+              onPressed: () async {
+                await saveLogin(controller.text);
+                Navigator.pushReplacementNamed(context, '/home');
+              },
+              child: Text('Login'),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: getUsername(),
+      builder: (context, snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Hello, \${snapshot.data ?? '...'}'),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () async {
+                  await logout();
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+              ),
+            ],
+          ),
+          body: Center(child: Text('Home')),
+        );
+      },
     );
   }
 }`,
@@ -493,469 +408,151 @@ class CounterPage extends StatelessWidget {
   },
   {
     id: 4,
-    title: 'Todo List with Cubit',
+    title: 'Practical Lab — Provider State Management',
     duration: '1 Hour',
-    icon: <Package className='w-6 h-6' />,
+    icon: <Boxes className='w-6 h-6' />,
     content: {
       description:
-        'Build a complete todo list application using Cubit. Learn to manage complex state with lists, implement CRUD operations, and handle different UI states effectively.',
+        'Share state across screens with Provider only (no BLoC). Build ChangeNotifier-based AuthProvider and ProductProvider that survive navigation.',
       topics: [
-        'Creating Todo model and state classes',
-        'Implementing TodoCubit with CRUD operations',
-        'Building responsive todo list UI',
-        'Adding filtering and search functionality',
-        'Implementing proper error handling and loading states',
+        'Why setState is not enough for app-wide state',
+        'ChangeNotifier + notifyListeners()',
+        'ChangeNotifierProvider setup',
+        'Consumer and Provider.of',
+        'Auth + Product providers lab',
       ],
       detailedTopics: {
-        todoModel: {
-          title: 'Todo Model and State',
-          code: `import 'package:equatable/equatable.dart';
+        providerSetup: {
+          title: 'Provider Setup & AuthProvider',
+          code: `// pubspec.yaml:
+//   provider: ^6.1.0
 
-// Todo model
-class Todo extends Equatable {
-  final String id;
-  final String title;
-  final String description;
-  final bool isCompleted;
-  final DateTime createdAt;
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-  const Todo({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.isCompleted,
-    required this.createdAt,
-  });
+class AuthProvider extends ChangeNotifier {
+  bool _isLoggedIn = false;
+  String _username = '';
 
-  Todo copyWith({
-    String? id,
-    String? title,
-    String? description,
-    bool? isCompleted,
-    DateTime? createdAt,
-  }) {
-    return Todo(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      isCompleted: isCompleted ?? this.isCompleted,
-      createdAt: createdAt ?? this.createdAt,
-    );
+  bool get isLoggedIn => _isLoggedIn;
+  String get username => _username;
+
+  Future<void> loadFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isLoggedIn = prefs.getBool('loggedIn') ?? false;
+    _username = prefs.getString('username') ?? '';
+    notifyListeners();
   }
 
-  @override
-  List<Object?> get props => [id, title, description, isCompleted, createdAt];
+  Future<void> login(String username) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('loggedIn', true);
+    await prefs.setString('username', username);
+    _isLoggedIn = true;
+    _username = username;
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    _isLoggedIn = false;
+    _username = '';
+    notifyListeners();
+  }
 }
 
-// Filter enum
-enum TodoFilter { all, completed, pending }
-
-// Todo state
-class TodoState extends Equatable {
-  final List<Todo> todos;
-  final TodoFilter filter;
-  final bool isLoading;
-  final String? error;
-
-  const TodoState({
-    this.todos = const [],
-    this.filter = TodoFilter.all,
-    this.isLoading = false,
-    this.error,
-  });
-
-  TodoState copyWith({
-    List<Todo>? todos,
-    TodoFilter? filter,
-    bool? isLoading,
-    String? error,
-  }) {
-    return TodoState(
-      todos: todos ?? this.todos,
-      filter: filter ?? this.filter,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-    );
-  }
-
-  // Computed properties
-  List<Todo> get filteredTodos {
-    switch (filter) {
-      case TodoFilter.completed:
-        return todos.where((todo) => todo.isCompleted).toList();
-      case TodoFilter.pending:
-        return todos.where((todo) => !todo.isCompleted).toList();
-      case TodoFilter.all:
-      default:
-        return todos;
-    }
-  }
-
-  int get completedCount => todos.where((todo) => todo.isCompleted).length;
-  int get pendingCount => todos.where((todo) => !todo.isCompleted).length;
-
-  @override
-  List<Object?> get props => [todos, filter, isLoading, error];
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()..loadFromPrefs()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }`,
         },
-        todoCubit: {
-          title: 'Todo Cubit Implementation',
-          code: `import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
-
-class TodoCubit extends Cubit<TodoState> {
-  TodoCubit() : super(const TodoState());
-
-  // Add new todo
-  void addTodo(String title, String description) {
-    if (title.trim().isEmpty) {
-      emit(state.copyWith(error: 'Title cannot be empty'));
-      return;
-    }
-
-    final todo = Todo(
-      id: const Uuid().v4(),
-      title: title.trim(),
-      description: description.trim(),
-      isCompleted: false,
-      createdAt: DateTime.now(),
-    );
-
-    emit(state.copyWith(
-      todos: [...state.todos, todo],
-      error: null,
-    ));
-  }
-
-  // Update todo
-  void updateTodo(String id, String title, String description) {
-    if (title.trim().isEmpty) {
-      emit(state.copyWith(error: 'Title cannot be empty'));
-      return;
-    }
-
-    final updatedTodos = state.todos.map((todo) {
-      if (todo.id == id) {
-        return todo.copyWith(
-          title: title.trim(),
-          description: description.trim(),
-        );
-      }
-      return todo;
-    }).toList();
-
-    emit(state.copyWith(
-      todos: updatedTodos,
-      error: null,
-    ));
-  }
-
-  // Toggle todo completion
-  void toggleTodo(String id) {
-    final updatedTodos = state.todos.map((todo) {
-      if (todo.id == id) {
-        return todo.copyWith(isCompleted: !todo.isCompleted);
-      }
-      return todo;
-    }).toList();
-
-    emit(state.copyWith(todos: updatedTodos));
-  }
-
-  // Delete todo
-  void deleteTodo(String id) {
-    final updatedTodos = state.todos.where((todo) => todo.id != id).toList();
-    emit(state.copyWith(todos: updatedTodos));
-  }
-
-  // Set filter
-  void setFilter(TodoFilter filter) {
-    emit(state.copyWith(filter: filter));
-  }
-
-  // Clear completed todos
-  void clearCompleted() {
-    final updatedTodos = state.todos.where((todo) => !todo.isCompleted).toList();
-    emit(state.copyWith(todos: updatedTodos));
-  }
-
-  // Mark all as completed
-  void markAllCompleted() {
-    final updatedTodos = state.todos.map((todo) {
-      return todo.copyWith(isCompleted: true);
-    }).toList();
-
-    emit(state.copyWith(todos: updatedTodos));
-  }
-
-  // Clear error
-  void clearError() {
-    emit(state.copyWith(error: null));
-  }
-}`,
-        },
-        todoUI: {
-          title: 'Todo List UI Implementation',
-          code: `import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-class TodoPage extends StatefulWidget {
-  @override
-  _TodoPageState createState() => _TodoPageState();
+        productProvider: {
+          title: 'ProductProvider + Consumer UI',
+          code: `class Product {
+  final String name;
+  final double price;
+  Product(this.name, this.price);
 }
 
-class _TodoPageState extends State<TodoPage> {
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+class ProductProvider extends ChangeNotifier {
+  final List<Product> _products = [];
+  List<Product> get products => List.unmodifiable(_products);
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
+  void add(String name, double price) {
+    _products.add(Product(name, price));
+    notifyListeners();
   }
 
+  void removeAt(int index) {
+    _products.removeAt(index);
+    notifyListeners();
+  }
+}
+
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo List with Cubit'),
-        centerTitle: true,
+        title: Text('Hi, \${auth.username}'),
         actions: [
-          PopupMenuButton<TodoFilter>(
-            onSelected: (filter) {
-              context.read<TodoCubit>().setFilter(filter);
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await auth.logout();
+              Navigator.pushReplacementNamed(context, '/login');
             },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: TodoFilter.all,
-                child: Text('All'),
-              ),
-              PopupMenuItem(
-                value: TodoFilter.completed,
-                child: Text('Completed'),
-              ),
-              PopupMenuItem(
-                value: TodoFilter.pending,
-                child: Text('Pending'),
-              ),
-            ],
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Add todo form
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _titleController,
-                  decoration: InputDecoration(
-                    labelText: 'Todo Title',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextField(
-                  controller: _descriptionController,
-                  decoration: InputDecoration(
-                    labelText: 'Description (optional)',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: _addTodo,
-                        child: Text('Add Todo'),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<TodoCubit>().markAllCompleted();
-                      },
-                      child: Text('Mark All Done'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          // Todo list
-          Expanded(
-            child: BlocBuilder<TodoCubit, TodoState>(
-              builder: (context, state) {
-                if (state.isLoading) {
-                  return Center(child: CircularProgressIndicator());
-                }
-
-                if (state.error != null) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          state.error!,
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.read<TodoCubit>().clearError();
-                          },
-                          child: Text('Dismiss'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (state.filteredTodos.isEmpty) {
-                  return Center(
-                    child: Text(
-                      state.todos.isEmpty
-                          ? 'No todos yet. Add one above!'
-                          : 'No $ {state.filter.name} todos found.',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  itemCount: state.filteredTodos.length,
-                  itemBuilder: (context, index) {
-                    final todo = state.filteredTodos[index];
-                    return TodoItem(todo: todo);
-                  },
-                );
-              },
-            ),
-          ),
-          // Stats
-          BlocBuilder<TodoCubit, TodoState>(
-            builder: (context, state) {
-              return Container(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('Total: $ {state.todos.length}'),
-                    Text('Completed: $ {state.completedCount}'),
-                    Text('Pending: $ {state.pendingCount}'),
-                    if (state.completedCount > 0)
-                      TextButton(
-                        onPressed: () {
-                          context.read<TodoCubit>().clearCompleted();
-                        },
-                        child: Text('Clear Completed'),
-                      ),
-                  ],
+      body: Consumer<ProductProvider>(
+        builder: (context, products, child) {
+          if (products.products.isEmpty) {
+            return Center(child: Text('No products yet'));
+          }
+          return ListView.builder(
+            itemCount: products.products.length,
+            itemBuilder: (context, index) {
+              final p = products.products[index];
+              return ListTile(
+                title: Text(p.name),
+                subtitle: Text('\\$\${p.price}'),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => products.removeAt(index),
                 ),
               );
             },
-          ),
-        ],
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.read<ProductProvider>().add('New Item', 9.99);
+        },
+        child: Icon(Icons.add),
       ),
     );
-  }
-
-  void _addTodo() {
-    final title = _titleController.text;
-    final description = _descriptionController.text;
-    
-    context.read<TodoCubit>().addTodo(title, description);
-    
-    _titleController.clear();
-    _descriptionController.clear();
   }
 }
 
-class TodoItem extends StatelessWidget {
-  final Todo todo;
-
-  const TodoItem({Key? key, required this.todo}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: ListTile(
-        leading: Checkbox(
-          value: todo.isCompleted,
-          onChanged: (_) {
-            context.read<TodoCubit>().toggleTodo(todo.id);
-          },
-        ),
-        title: Text(
-          todo.title,
-          style: TextStyle(
-            decoration: todo.isCompleted
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-          ),
-        ),
-        subtitle: todo.description.isNotEmpty
-            ? Text(todo.description)
-            : null,
-        trailing: IconButton(
-          icon: Icon(Icons.delete, color: Colors.red),
-          onPressed: () {
-            context.read<TodoCubit>().deleteTodo(todo.id);
-          },
-        ),
-        onTap: () {
-          _showEditDialog(context);
-        },
-      ),
-    );
-  }
-
-  void _showEditDialog(BuildContext context) {
-    final titleController = TextEditingController(text: todo.title);
-    final descriptionController = TextEditingController(text: todo.description);
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Edit Todo'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
-            ),
-            TextField(
-              controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              context.read<TodoCubit>().updateTodo(
-                todo.id,
-                titleController.text,
-                descriptionController.text,
-              );
-              Navigator.pop(context);
-            },
-            child: Text('Save'),
-          ),
-        ],
-      ),
-    );
-  }
-}`,
+/*
+Provider.of(context)        → rebuilds when notifyListeners runs
+context.watch<T>()          → same as Provider.of (listen: true)
+context.read<T>()           → no rebuild (use in callbacks)
+Consumer<T>                 → rebuilds only its subtree
+*/`,
         },
       },
     },
@@ -974,7 +571,6 @@ const Day8 = () => {
     <div className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
       <main>
         <Suspense fallback={<Loading />}>
-          {/* Hero Section */}
           <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
             <div className='absolute inset-0 opacity-10'>
               <div className='absolute top-20 left-20 w-72 h-72 bg-[#02569B] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
@@ -991,20 +587,21 @@ const Day8 = () => {
                   Day 8
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  BLoC & Flutter BLoC
+                  Data, APIs & State Management
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Master the BLoC pattern and Cubit for scalable state management in Flutter. 
-                  Learn to build maintainable, testable applications with clean architecture.
+                  Work with Futures and HTTP APIs, persist login with
+                  SharedPreferences, and manage app-wide state with Provider —
+                  no BLoC.
                 </p>
 
                 <motion.button
                   onClick={scrollToContent}
-                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#0175C2] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#024A87] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore BLoC & State Management
+                  Explore Data & Provider
                 </motion.button>
               </motion.div>
             </div>
@@ -1017,7 +614,6 @@ const Day8 = () => {
             </motion.div>
           </section>
 
-          {/* Main Content */}
           <section
             id='content'
             ref={contentRef}
@@ -1033,7 +629,7 @@ const Day8 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours to master BLoC pattern, Cubit, and advanced state management in Flutter.
+                  4 hours: async, HTTP, SharedPreferences, and a Provider lab.
                 </p>
               </motion.div>
 
@@ -1163,39 +759,44 @@ const Day8 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Master the BLoC pattern for clean separation of business logic and UI.
+                          Futures + async/await keep the UI responsive during
+                          network and timer work.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Use Cubit for simpler state management with less boilerplate code.
+                          The http package covers REST CRUD; always check status
+                          codes and show errors.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Build scalable, testable Flutter applications with proper state management.
+                          SharedPreferences persists small settings and login
+                          state across app restarts.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Implement complex state management with lists, filtering, and error handling.
+                          Provider (ChangeNotifier) is the course state
+                          management approach — no BLoC required.
                         </span>
                       </li>
                     </ul>
                   </div>
                   <div>
                     <h4 className='text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4'>
-                      What's Next
+                      Course Complete
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      You've mastered BLoC and state management! Next steps include advanced Flutter topics like 
-                      custom animations, platform-specific features, Firebase integration, and building production-ready apps.
+                      You can now build cross-platform Flutter apps with
+                      layouts, Material Design, navigation, APIs, persistence,
+                      and Provider state management.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
-                      Continue Learning
+                      Back to Home
                       <ArrowRight className='w-5 h-5' />
                     </button>
                   </div>
@@ -1209,17 +810,16 @@ const Day8 = () => {
                 viewport={{ once: true }}
                 className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
                 <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  📝 Hands-on Exercise
+                  Hands-on Exercise
                 </h3>
 
-                {/* BLoC Shopping Cart Task */}
                 <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      🛒
+                      📝
                     </div>
                     <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Shopping Cart with BLoC/Cubit
+                      Task: Auth + Products with Provider (No BLoC)
                     </h5>
                   </div>
 
@@ -1228,8 +828,9 @@ const Day8 = () => {
                       Objective
                     </h6>
                     <p className='text-gray-700 dark:text-gray-300'>
-                      Build a shopping cart application using BLoC/Cubit for state management. 
-                      Implement product listing, cart management, and order processing with proper state handling.
+                      Combine SharedPreferences and Provider to build Splash →
+                      Login → Home. Auth and product lists should survive
+                      navigation using ChangeNotifier — do not use BLoC or Cubit.
                     </p>
                   </div>
 
@@ -1237,57 +838,14 @@ const Day8 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
                       Requirements
                     </h6>
-
-                    <div className='space-y-4'>
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          1. Product Management
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Create Product model (id, name, price, image, description)</li>
-                          <li>• Implement ProductCubit to manage product list</li>
-                          <li>• Add loading states and error handling</li>
-                          <li>• Fetch products from API or use mock data</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          2. Cart Management
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Create CartItem model (product, quantity)</li>
-                          <li>• Implement CartCubit with add/remove/update operations</li>
-                          <li>• Calculate total price and item count</li>
-                          <li>• Persist cart state with SharedPreferences</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          3. UI Implementation
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Product list screen with search and filtering</li>
-                          <li>• Cart screen with quantity controls</li>
-                          <li>• Checkout screen with order summary</li>
-                          <li>• Use BlocBuilder and BlocListener appropriately</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Example Flow
-                    </h6>
                     <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• User opens app → ProductCubit loads products</li>
-                        <li>• User taps "Add to Cart" → CartCubit adds item</li>
-                        <li>• User views cart → See all items with quantities</li>
-                        <li>• User proceeds to checkout → Order processing</li>
-                        <li>• Cart persists between app sessions</li>
+                        <li>• AuthProvider: login, logout, loadFromPrefs</li>
+                        <li>• ProductProvider: add / remove products with notifyListeners</li>
+                        <li>• MultiProvider at app root</li>
+                        <li>• Splash checks loggedIn and routes accordingly</li>
+                        <li>• Home uses Consumer for products + Provider.of for auth</li>
+                        <li>• Optional: fetch initial products from an API (http)</li>
                       </ul>
                     </div>
                   </div>
@@ -1296,13 +854,11 @@ const Day8 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
                       👉 Bonus Challenge
                     </h6>
-                    <div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
+                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Add product categories with filtering</li>
-                        <li>• Implement wishlist functionality</li>
-                        <li>• Add order history with BLoC</li>
-                        <li>• Create admin panel for product management</li>
-                        <li>• Add push notifications for order updates</li>
+                        <li>• rememberMe checkbox persisted in SharedPreferences</li>
+                        <li>• Dark mode toggle via a ThemeProvider</li>
+                        <li>• Pull-to-refresh that reloads API data into ProductProvider</li>
                       </ul>
                     </div>
                   </div>

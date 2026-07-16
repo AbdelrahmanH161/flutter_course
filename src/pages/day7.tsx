@@ -4,10 +4,10 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Database,
-  Settings,
-  Smartphone,
-  Package,
+  Navigation,
+  Route,
+  MessageSquare,
+  Layers,
   ArrowRight,
 } from 'lucide-react';
 
@@ -20,172 +20,131 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Persisting Data with SharedPreferences',
+    title: 'Screen Navigation',
     duration: '1 Hour',
-    icon: <Database className='w-6 h-6' />,
+    icon: <Navigation className='w-6 h-6' />,
     content: {
       description:
-        'Learn to save and retrieve data locally using SharedPreferences. Perfect for storing user preferences, login tokens, and app settings that persist between app sessions.',
+        'Understand the Navigator stack and move between screens with MaterialPageRoute — push, pop, pass data via constructors, and return results with await.',
       topics: [
-        'Understanding local data storage concepts',
-        'Adding SharedPreferences dependency',
-        'Saving data: strings, booleans, integers, lists',
-        'Reading and retrieving stored data',
-        'Removing data and clearing preferences',
+        'Navigator stack concept',
+        'Navigator.push and Navigator.pop',
+        'MaterialPageRoute',
+        'Passing data via constructor',
+        'Returning data with await Navigator.push',
       ],
       detailedTopics: {
-        sharedPreferencesSetup: {
-          title: 'Setting up SharedPreferences',
-          code: `# pubspec.yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  shared_preferences: ^2.2.2
-
-# After adding, run: flutter pub get
-
-# Import in your Dart file
-import 'package:shared_preferences/shared_preferences.dart';`,
-        },
-        basicOperations: {
-          title: 'Basic Save and Read Operations',
-          code: `import 'package:shared_preferences/shared_preferences.dart';
-
-class SharedPreferencesExample {
-  // Save data
-  Future<void> saveData() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    // Save different types of data
-    await prefs.setString('username', 'Abdelrahman');
-    await prefs.setInt('age', 25);
-    await prefs.setBool('isLoggedIn', true);
-    await prefs.setDouble('score', 95.5);
-    await prefs.setStringList('hobbies', ['coding', 'reading', 'gaming']);
-    
-    print('Data saved successfully!');
-  }
-  
-  // Read data
-  Future<void> loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    
-    // Read with default values
-    final username = prefs.getString('username') ?? 'Guest';
-    final age = prefs.getInt('age') ?? 0;
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    final score = prefs.getDouble('score') ?? 0.0;
-    final hobbies = prefs.getStringList('hobbies') ?? [];
-    
-    print('Username: $username');
-    print('Age: $age');
-    print('Is Logged In: $isLoggedIn');
-    print('Score: $score');
-    print('Hobbies: $hobbies');
-  }
-  
-  // Remove specific data
-  Future<void> removeData() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('username');
-    print('Username removed');
-  }
-  
-  // Clear all data
-  Future<void> clearAllData() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-    print('All data cleared');
-  }
-}`,
-        },
-        loginStateExample: {
-          title: 'Login State Management Example',
-          code: `class AuthService {
-  static const String _isLoggedInKey = 'isLoggedIn';
-  static const String _userTokenKey = 'userToken';
-  static const String _userEmailKey = 'userEmail';
-  
-  // Save login state
-  Future<void> saveLoginState(String token, String email) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_isLoggedInKey, true);
-    await prefs.setString(_userTokenKey, token);
-    await prefs.setString(_userEmailKey, email);
-  }
-  
-  // Check if user is logged in
-  Future<bool> isLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_isLoggedInKey) ?? false;
-  }
-  
-  // Get stored user token
-  Future<String?> getUserToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_userTokenKey);
-  }
-  
-  // Get stored user email
-  Future<String?> getUserEmail() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_userEmailKey);
-  }
-  
-  // Logout - clear all auth data
-  Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_isLoggedInKey);
-    await prefs.remove(_userTokenKey);
-    await prefs.remove(_userEmailKey);
-  }
-}
-
-// Usage in a widget
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _authService = AuthService();
-  
-  Future<void> _login() async {
-    // Simulate API call
-    await Future.delayed(Duration(seconds: 1));
-    
-    // Save login state
-    await _authService.saveLoginState('abc123token', _emailController.text);
-    
-    // Navigate to home screen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-  }
-  
+        pushPop: {
+          title: 'push, pop & MaterialPageRoute',
+          code: `class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: Text('Home')),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Open Details'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailsPage(title: 'Flutter Course'),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class DetailsPage extends StatelessWidget {
+  final String title;
+
+  const DetailsPage({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Go Back'),
+          onPressed: () {
+            Navigator.pop(context); // remove this route from the stack
+          },
+        ),
+      ),
+    );
+  }
+}`,
+        },
+        returnData: {
+          title: 'Passing & Returning Data',
+          code: `// Home → Edit → return updated name
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String name = 'Guest';
+
+  Future<void> _editName() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EditNamePage(currentName: name),
+      ),
+    );
+
+    if (result != null) {
+      setState(() => name = result);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome, \$name')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _editName,
+        child: Icon(Icons.edit),
+      ),
+    );
+  }
+}
+
+class EditNamePage extends StatefulWidget {
+  final String currentName;
+  const EditNamePage({required this.currentName});
+
+  @override
+  _EditNamePageState createState() => _EditNamePageState();
+}
+
+class _EditNamePageState extends State<EditNamePage> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.currentName);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Edit Name')),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
+            TextField(controller: controller),
+            SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _login,
-              child: Text('Login'),
+              onPressed: () => Navigator.pop(context, controller.text),
+              child: Text('Save'),
             ),
           ],
         ),
@@ -199,554 +158,340 @@ class _LoginScreenState extends State<LoginScreen> {
   },
   {
     id: 2,
-    title: 'Introduction to State Management',
+    title: 'Named Routes',
     duration: '1 Hour',
-    icon: <Settings className='w-6 h-6' />,
+    icon: <Route className='w-6 h-6' />,
     content: {
       description:
-        'Learn why setState() becomes insufficient for larger apps and how Provider offers a clean solution for managing app-wide state. Understand the fundamentals of state management patterns.',
+        'Centralize navigation with a route table in MaterialApp. Use pushNamed, arguments, pushReplacement, and know when Named Routes beat MaterialPageRoute.',
       topics: [
-        'Why setState() has limitations in complex apps',
-        'Understanding Provider pattern and ChangeNotifier',
-        'Creating state classes with ChangeNotifier',
-        'Wrapping app with ChangeNotifierProvider',
-        'Accessing and updating state from anywhere',
+        'Defining routes in MaterialApp',
+        'Navigator.pushNamed and pushReplacementNamed',
+        'Passing arguments via route settings',
+        'Reading arguments with ModalRoute',
+        'MaterialPageRoute vs Named Routes comparison',
       ],
       detailedTopics: {
-        providerSetup: {
-          title: 'Setting up Provider',
-          code: `# pubspec.yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  provider: ^6.0.5
-
-# Import in your Dart file
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';`,
-        },
-        userProviderExample: {
-          title: 'Creating a User Provider',
-          code: `class UserProvider with ChangeNotifier {
-  String _name = 'Guest';
-  String _email = '';
-  bool _isLoggedIn = false;
-  
-  // Getters
-  String get name => _name;
-  String get email => _email;
-  bool get isLoggedIn => _isLoggedIn;
-  
-  // Update name
-  void updateName(String newName) {
-    _name = newName;
-    notifyListeners(); // Notify all listeners
-  }
-  
-  // Update email
-  void updateEmail(String newEmail) {
-    _email = newEmail;
-    notifyListeners();
-  }
-  
-  // Login
-  void login(String name, String email) {
-    _name = name;
-    _email = email;
-    _isLoggedIn = true;
-    notifyListeners();
-  }
-  
-  // Logout
-  void logout() {
-    _name = 'Guest';
-    _email = '';
-    _isLoggedIn = false;
-    notifyListeners();
-  }
-  
-  // Reset all data
-  void reset() {
-    _name = 'Guest';
-    _email = '';
-    _isLoggedIn = false;
-    notifyListeners();
-  }
-}`,
-        },
-        providerUsage: {
-          title: 'Using Provider in Widgets',
-          code: `// Wrap your app with ChangeNotifierProvider
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => UserProvider(),
-      child: MyApp(),
-    ),
-  );
+        namedRoutes: {
+          title: 'Named Routes Setup',
+          code: `void main() {
+  runApp(MaterialApp(
+    initialRoute: '/',
+    routes: {
+      '/': (context) => HomePage(),
+      '/details': (context) => DetailsPage(),
+      '/about': (context) => AboutPage(),
+    },
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Provider Example',
-      home: HomeScreen(),
-    );
-  }
-}
-
-// Using Provider in a widget
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Get the provider instance
-    final userProvider = Provider.of<UserProvider>(context);
-    
     return Scaffold(
-      appBar: AppBar(title: Text("Profile")),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text(
-              "Hello, \${userProvider.name}",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Text("Email: \${userProvider.email}"),
-            SizedBox(height: 16),
-            Text("Status: \${userProvider.isLoggedIn ? 'Logged In' : 'Guest'}"),
-            SizedBox(height: 32),
-            TextField(
-              onChanged: (value) {
-                userProvider.updateName(value);
-              },
-              decoration: InputDecoration(
-                labelText: "Update Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                userProvider.login('New User', 'newuser@example.com');
-              },
-              child: Text("Login"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                userProvider.logout();
-              },
-              child: Text("Logout"),
-            ),
-          ],
-        ),
+      appBar: AppBar(title: Text('Home')),
+      body: Column(
+        children: [
+          ElevatedButton(
+            child: Text('Open Details'),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/details',
+                arguments: {'id': 42, 'title': 'Flutter'},
+              );
+            },
+          ),
+          ElevatedButton(
+            child: Text('Replace with About'),
+            onPressed: () {
+              // Removes current route, then pushes /about
+              Navigator.pushReplacementNamed(context, '/about');
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
-// Alternative way to access provider (Consumer)
-class AnotherScreen extends StatelessWidget {
+class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
-      appBar: AppBar(title: Text("Another Screen")),
-      body: Consumer<UserProvider>(
-        builder: (context, userProvider, child) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Current user: \${userProvider.name}"),
-                Text("Email: \${userProvider.email}"),
-                ElevatedButton(
-                  onPressed: () {
-                    userProvider.updateName('Updated Name');
-                  },
-                  child: Text("Update Name"),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+      appBar: AppBar(title: Text(args['title'])),
+      body: Center(child: Text('Item ID: \${args['id']}')),
     );
   }
 }`,
+        },
+        comparison: {
+          title: 'MaterialPageRoute vs Named Routes',
+          code: `/*
+MaterialPageRoute
+  ✅ Simple, type-safe constructor params
+  ✅ Great for prototypes / small apps
+  ❌ Hard to see all routes in one place
+  ❌ Deep linking needs extra work
+
+Named Routes
+  ✅ Central route table in MaterialApp
+  ✅ Easy to navigate from anywhere by string
+  ✅ Better for medium apps & splash→login flows
+  ❌ Arguments need casting
+  ❌ Less compile-time safety
+
+Tip: You can mix both in the same app.
+For large apps later, consider go_router.
+*/`,
         },
       },
     },
   },
   {
     id: 3,
-    title: 'Accessing Device Resources',
+    title: 'Dialogs & SnackBars',
     duration: '1 Hour',
-    icon: <Smartphone className='w-6 h-6' />,
+    icon: <MessageSquare className='w-6 h-6' />,
     content: {
       description:
-        'Learn to access device resources like camera, gallery, and other hardware features. Understand permission handling and how to integrate device capabilities into your Flutter apps.',
+        'Give users clear feedback: blocking confirmations with AlertDialog, and lightweight messages with SnackBar via ScaffoldMessenger.',
       topics: [
-        'Image picker for camera and gallery access',
-        'Permission handling for device resources',
-        'Working with device files and storage',
-        'Location services and GPS access',
-        'Other device capabilities and sensors',
+        'showDialog + AlertDialog',
+        'Confirm delete pattern',
+        'Custom Dialog widgets',
+        'SnackBar via ScaffoldMessenger',
+        'SnackBar with action button',
       ],
       detailedTopics: {
-        imagePickerSetup: {
-          title: 'Setting up Image Picker',
-          code: `# pubspec.yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  image_picker: ^1.0.7
+        dialogs: {
+          title: 'AlertDialog Confirm Delete',
+          code: `Future<void> confirmDelete(BuildContext context, VoidCallback onConfirm) async {
+  final result = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Delete item?'),
+      content: Text('This action cannot be undone.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.pop(context, true),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          child: Text('Delete'),
+        ),
+      ],
+    ),
+  );
 
-# For Android, add permissions in android/app/src/main/AndroidManifest.xml
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-# Import in your Dart file
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';`,
-        },
-        imagePickerExample: {
-          title: 'Image Picker Implementation',
-          code: `class ImagePickerExample extends StatefulWidget {
-  @override
-  _ImagePickerExampleState createState() => _ImagePickerExampleState();
+  if (result == true) {
+    onConfirm();
+  }
 }
 
-class _ImagePickerExampleState extends State<ImagePickerExample> {
-  File? _image;
-  final ImagePicker _picker = ImagePicker();
-  
-  // Pick image from camera
-  Future<void> _pickImageFromCamera() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 1800,
-        maxHeight: 1800,
-        imageQuality: 85,
-      );
-      
-      if (image != null) {
-        setState(() {
-          _image = File(image.path);
-        });
-        print('Image path: \${_image!.path}');
-      }
-    } catch (e) {
-      print('Error picking image from camera: $e');
-    }
-  }
-  
-  // Pick image from gallery
-  Future<void> _pickImageFromGallery() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 1800,
-        maxHeight: 1800,
-        imageQuality: 85,
-      );
-      
-      if (image != null) {
-        setState(() {
-          _image = File(image.path);
-        });
-        print('Image path: \${_image!.path}');
-      }
-    } catch (e) {
-      print('Error picking image from gallery: $e');
-    }
-  }
-  
-  // Pick multiple images
-  Future<void> _pickMultipleImages() async {
-    try {
-      final List<XFile> images = await _picker.pickMultiImage(
-        maxWidth: 1800,
-        maxHeight: 1800,
-        imageQuality: 85,
-      );
-      
-      if (images.isNotEmpty) {
-        print('Selected \${images.length} images');
-        for (var image in images) {
-          print('Image: \${image.path}');
-        }
-      }
-    } catch (e) {
-      print('Error picking multiple images: $e');
-    }
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Image Picker Example')),
-      body: Padding(
-        padding: EdgeInsets.all(16),
+// Custom simple dialog
+void showInfoDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => Dialog(
+      child: Padding(
+        padding: EdgeInsets.all(24),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Display selected image
-            Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: _image == null
-                  ? Center(child: Text('No image selected'))
-                  : Image.file(_image!, fit: BoxFit.cover),
-            ),
-            SizedBox(height: 20),
-            
-            // Action buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: _pickImageFromCamera,
-                  icon: Icon(Icons.camera_alt),
-                  label: Text('Camera'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: _pickImageFromGallery,
-                  icon: Icon(Icons.photo_library),
-                  label: Text('Gallery'),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            ElevatedButton.icon(
-              onPressed: _pickMultipleImages,
-              icon: Icon(Icons.photo_library_outlined),
-              label: Text('Multiple Images'),
+            Icon(Icons.info, size: 48, color: Colors.blue),
+            SizedBox(height: 12),
+            Text('Custom Dialog Content'),
+            SizedBox(height: 16),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Close'),
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }`,
         },
-        permissionHandler: {
-          title: 'Permission Handling',
-          code: `# pubspec.yaml
-dependencies:
-  permission_handler: ^11.0.1
-
-# Import
-import 'package:permission_handler/permission_handler.dart';
-
-class PermissionExample extends StatefulWidget {
-  @override
-  _PermissionExampleState createState() => _PermissionExampleState();
+        snackbars: {
+          title: 'SnackBar Feedback',
+          code: `void showSimpleSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 2),
+    ),
+  );
 }
 
-class _PermissionExampleState extends State<PermissionExample> {
-  String _permissionStatus = 'Unknown';
-  
-  // Check camera permission
-  Future<void> _checkCameraPermission() async {
-    final status = await Permission.camera.status;
-    setState(() {
-      _permissionStatus = status.toString();
-    });
-  }
-  
-  // Request camera permission
-  Future<void> _requestCameraPermission() async {
-    final status = await Permission.camera.request();
-    setState(() {
-      _permissionStatus = status.toString();
-    });
-    
-    if (status.isGranted) {
-      print('Camera permission granted');
-    } else if (status.isDenied) {
-      print('Camera permission denied');
-    } else if (status.isPermanentlyDenied) {
-      print('Camera permission permanently denied');
-      // Open app settings
-      openAppSettings();
-    }
-  }
-  
-  // Check multiple permissions
-  Future<void> _checkMultiplePermissions() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.camera,
-      Permission.storage,
-      Permission.location,
-    ].request();
-    
-    print('Camera: \${statuses[Permission.camera]}');
-    print('Storage: \${statuses[Permission.storage]}');
-    print('Location: \${statuses[Permission.location]}');
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Permission Example')),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text('Permission Status: $_permissionStatus'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _checkCameraPermission,
-              child: Text('Check Camera Permission'),
-            ),
-            ElevatedButton(
-              onPressed: _requestCameraPermission,
-              child: Text('Request Camera Permission'),
-            ),
-            ElevatedButton(
-              onPressed: _checkMultiplePermissions,
-              child: Text('Check Multiple Permissions'),
-            ),
-          ],
-        ),
+void showSnackBarWithAction(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Item deleted'),
+      backgroundColor: Colors.black87,
+      action: SnackBarAction(
+        label: 'UNDO',
+        textColor: Colors.amber,
+        onPressed: () {
+          // Restore the item
+        },
       ),
-    );
-  }
-}`,
+    ),
+  );
+}
+
+/*
+Use Dialog when the user MUST decide (delete, logout...).
+Use SnackBar for brief status (saved, error, offline...).
+*/`,
         },
       },
     },
   },
   {
     id: 4,
-    title: 'Building & Releasing APK',
+    title: 'Practical Lab — Master-Detail App',
     duration: '1 Hour',
-    icon: <Package className='w-6 h-6' />,
+    icon: <Layers className='w-6 h-6' />,
     content: {
       description:
-        'Learn the complete process of building and releasing your Flutter app. From checking your environment to creating signed APKs and App Bundles for the Play Store.',
+        'Build a list-to-details flow: tap an item to open DetailsPage (constructor or Named Route), navigate back, and delete with a confirmation dialog.',
       topics: [
-        'Checking Flutter environment with flutter doctor',
-        'Building release APK for testing',
-        'Creating App Bundle for Play Store',
-        'Setting up app signing with keystore',
-        'Testing and publishing your app',
+        'Item model + ListView of cards',
+        'Navigate to DetailsPage with data',
+        'Back navigation',
+        'Delete with confirmation dialog',
+        'Hybrid Named Route + MaterialPageRoute',
       ],
       detailedTopics: {
-        flutterDoctor: {
-          title: 'Checking Flutter Environment',
-          code: `# Check Flutter installation and dependencies
-flutter doctor
+        masterDetail: {
+          title: 'Master-Detail Lab',
+          code: `class Item {
+  final int id;
+  final String title;
+  final String description;
 
-# Expected output should show:
-# ✓ Flutter (Channel stable, version)
-# ✓ Android toolchain - develop for Android devices
-# ✓ Android Studio (version)
-# ✓ VS Code (version)
-# ✓ Connected device (if device connected)
-
-# If any issues, follow the suggested fixes
-# For example, if Android toolchain is missing:
-flutter doctor --android-licenses
-
-# Update Flutter to latest version
-flutter upgrade
-
-# Clean and get dependencies
-flutter clean
-flutter pub get`,
-        },
-        buildApk: {
-          title: 'Building Release APK',
-          code: `# Build APK for release
-flutter build apk --release
-
-# The APK will be created at:
-# build/app/outputs/flutter-apk/app-release.apk
-
-# Build APK for specific architecture (smaller size)
-flutter build apk --release --target-platform android-arm64
-
-# Build APK with specific flavor (if you have flavors)
-flutter build apk --release --flavor production
-
-# Build APK with specific build number
-flutter build apk --release --build-number=2
-
-# Build APK with specific version name
-flutter build apk --release --build-name=1.0.1
-
-# Install APK directly to connected device
-flutter install --release
-
-# Check APK size
-flutter build apk --analyze-size`,
-        },
-        appSigning: {
-          title: 'Setting up App Signing',
-          code: `# 1. Create a keystore (run in terminal)
-keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
-
-# 2. Create android/key.properties file
-storePassword=your_store_password
-keyPassword=your_key_password
-keyAlias=upload
-storeFile=../upload-keystore.jks
-
-# 3. Update android/app/build.gradle
-android {
-    ...
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
+  const Item(this.id, this.title, this.description);
 }
 
-# 4. Load keystore properties
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}`,
+final items = [
+  Item(1, 'Flutter', 'Cross-platform UI toolkit'),
+  Item(2, 'Dart', 'Programming language for Flutter'),
+  Item(3, 'Provider', 'Simple state management'),
+];
+
+void main() {
+  runApp(MaterialApp(
+    initialRoute: '/',
+    routes: {
+      '/': (context) => ItemsListPage(),
+      '/details': (context) => DetailsPage(),
+    },
+  ));
+}
+
+class ItemsListPage extends StatefulWidget {
+  @override
+  _ItemsListPageState createState() => _ItemsListPageState();
+}
+
+class _ItemsListPageState extends State<ItemsListPage> {
+  late List<Item> data;
+
+  @override
+  void initState() {
+    super.initState();
+    data = List.from(items);
+  }
+
+  Future<void> _deleteItem(Item item) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Delete \${item.title}?'),
+        content: Text('This cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (ok == true) {
+      setState(() => data.removeWhere((e) => e.id == item.id));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('\${item.title} deleted')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Items')),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          final item = data[index];
+          return ListTile(
+            title: Text(item.title),
+            subtitle: Text(item.description),
+            trailing: IconButton(
+              icon: Icon(Icons.delete, color: Colors.red),
+              onPressed: () => _deleteItem(item),
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/details',
+                arguments: item,
+              );
+            },
+          );
         },
-        appBundle: {
-          title: 'Building App Bundle for Play Store',
-          code: `# Build App Bundle (recommended for Play Store)
-flutter build appbundle --release
+      ),
+    );
+  }
+}
 
-# The AAB will be created at:
-# build/app/outputs/bundle/release/app-release.aab
+class DetailsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final item = ModalRoute.of(context)!.settings.arguments as Item;
 
-# Build App Bundle with specific configuration
-flutter build appbundle --release --build-number=2 --build-name=1.0.1
-
-# Build App Bundle for specific flavor
-flutter build appbundle --release --flavor production
-
-# Upload to Play Store using command line (optional)
-# First, install Google Play Console API
-# Then use:
-# fastlane supply --aab app-release.aab --track production
-
-# Test the App Bundle locally
-# Convert AAB to APK for testing:
-# bundletool build-apks --bundle=app-release.aab --output=app-release.apks
-# bundletool install-apks --apks=app-release.apks`,
+    return Scaffold(
+      appBar: AppBar(title: Text(item.title)),
+      body: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('ID: \${item.id}', style: TextStyle(color: Colors.grey)),
+            SizedBox(height: 12),
+            Text(item.description, style: TextStyle(fontSize: 18)),
+            Spacer(),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Back'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}`,
         },
       },
     },
@@ -765,7 +510,6 @@ const Day7 = () => {
     <div className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
       <main>
         <Suspense fallback={<Loading />}>
-          {/* Hero Section */}
           <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
             <div className='absolute inset-0 opacity-10'>
               <div className='absolute top-20 left-20 w-72 h-72 bg-[#02569B] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
@@ -782,21 +526,21 @@ const Day7 = () => {
                   Day 7
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  Persistence, State Management & Device Access
+                  Navigation & User Feedback
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Master data persistence, state management, and device resource
-                  access. Learn to build and release your Flutter app to the
-                  world!
+                  Connect screens with Navigator and Named Routes, confirm
+                  actions with Dialogs, show SnackBars, and build a master-detail
+                  lab.
                 </p>
 
                 <motion.button
                   onClick={scrollToContent}
-                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#0175C2] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#024A87] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Persistence & State Management
+                  Explore Navigation & Feedback
                 </motion.button>
               </motion.div>
             </div>
@@ -809,7 +553,6 @@ const Day7 = () => {
             </motion.div>
           </section>
 
-          {/* Main Content */}
           <section
             id='content'
             ref={contentRef}
@@ -825,8 +568,8 @@ const Day7 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours to master data persistence, state management, and app
-                  deployment.
+                  4 hours: navigation patterns, user feedback, and a
+                  master-detail app lab.
                 </p>
               </motion.div>
 
@@ -945,7 +688,7 @@ const Day7 = () => {
                 viewport={{ once: true }}
                 className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-12'>
                 <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  Day 8 Summary
+                  Day 7 Summary
                 </h3>
                 <div className='grid md:grid-cols-2 gap-8'>
                   <div>
@@ -956,29 +699,29 @@ const Day7 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Master data persistence with SharedPreferences for
-                          storing user preferences and app state.
+                          Navigator.push/pop and MaterialPageRoute handle most
+                          simple screen flows.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Implement Provider pattern for clean, scalable state
-                          management across your app.
+                          Named Routes centralize navigation and work well for
+                          splash → login → home.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Access device resources like camera, gallery, and
-                          permissions for rich user experiences.
+                          Dialogs for critical decisions; SnackBars for brief
+                          feedback.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Build and release your app with proper signing and
-                          deployment to app stores.
+                          Master-detail + confirm-delete is a core mobile
+                          pattern.
                         </span>
                       </li>
                     </ul>
@@ -988,14 +731,12 @@ const Day7 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 8, we'll explore navigation between screens,
-                      now have the skills to build, deploy, and maintain Flutter
-                      applications. Continue exploring advanced topics like
-                      Firebase integration, custom animations, and
-                      platform-specific features.
+                      In Day 8, we'll work with Futures, HTTP APIs,
+                      SharedPreferences, and Provider for app-wide state — no
+                      BLoC.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
-                      Continue Learning
+                      Next: Day 8
                       <ArrowRight className='w-5 h-5' />
                     </button>
                   </div>
@@ -1009,17 +750,16 @@ const Day7 = () => {
                 viewport={{ once: true }}
                 className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
                 <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  📝 Hands-on Exercise
+                  Hands-on Exercise
                 </h3>
 
-                {/* Persisting Data & Global State with Provider Task */}
                 <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
                   <div className='flex items-center gap-3 mb-4'>
                     <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      🔄
+                      📝
                     </div>
                     <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Persisting Data & Global State with Provider
+                      Task: Master-Detail App with Confirm Delete
                     </h5>
                   </div>
 
@@ -1028,9 +768,9 @@ const Day7 = () => {
                       Objective
                     </h6>
                     <p className='text-gray-700 dark:text-gray-300'>
-                      Enhance the previous login & product catalog app by
-                      introducing persistent login with SharedPreferences and
-                      global state management with Provider + ChangeNotifier.
+                      Build a list → details navigation app. Pass item data to
+                      the details screen, support back navigation, and delete
+                      items only after an AlertDialog confirmation.
                     </p>
                   </div>
 
@@ -1038,113 +778,13 @@ const Day7 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
                       Requirements
                     </h6>
-
-                    <div className='space-y-4'>
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          1. Splash Screen
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • On app start, check if a valid token exists in
-                            SharedPreferences
-                          </li>
-                          <li>
-                            • If token exists → navigate directly to Home Page
-                          </li>
-                          <li>• If no token → navigate to Login Page</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          2. State Management Setup
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • Wrap the app with MultiProvider (or
-                            ChangeNotifierProvider) at the root
-                          </li>
-                          <li>
-                            • Create a AuthProvider (extends ChangeNotifier) to:
-                          </li>
-                          <li className='ml-4'>
-                            • Manage authentication state (token, user data,
-                            isLoggedIn)
-                          </li>
-                          <li className='ml-4'>
-                            • Provide methods: login(), logout(), autoLogin()
-                          </li>
-                          <li>
-                            • Create a ProductProvider (extends ChangeNotifier)
-                            to:
-                          </li>
-                          <li className='ml-4'>
-                            • Fetch and hold categories and products
-                          </li>
-                          <li className='ml-4'>
-                            • Handle selected category state
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          3. Login Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• On successful login:</li>
-                          <li className='ml-4'>
-                            • Store the token using SharedPreferences
-                          </li>
-                          <li className='ml-4'>• Update AuthProvider state</li>
-                          <li className='ml-4'>• Navigate to Home Page</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          4. Home Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • Fetch categories and products using
-                            ProductProvider
-                          </li>
-                          <li>
-                            • Use Consumer or Selector to listen for state
-                            updates
-                          </li>
-                          <li>• Add Logout in Drawer:</li>
-                          <li className='ml-4'>• Clear SharedPreferences</li>
-                          <li className='ml-4'>• Reset AuthProvider state</li>
-                          <li className='ml-4'>• Navigate to Login Page</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Example Flow
-                    </h6>
                     <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>
-                          • User opens app → Splash checks SharedPreferences
-                        </li>
-                        <li>
-                          • If token found → auto login via AuthProvider → Home
-                          Page
-                        </li>
-                        <li>• Else → Login Page</li>
-                        <li>
-                          • User logs in → token saved in SharedPreferences →
-                          navigates Home
-                        </li>
-                        <li>
-                          • User logs out → token removed → back to Login Page
-                        </li>
+                        <li>• ListView of items (title + subtitle)</li>
+                        <li>• Tap opens DetailsPage (Named Route or MaterialPageRoute)</li>
+                        <li>• Delete icon shows confirm AlertDialog</li>
+                        <li>• On confirm: remove item + show SnackBar</li>
+                        <li>• Optional Undo action on the SnackBar</li>
                       </ul>
                     </div>
                   </div>
@@ -1153,21 +793,11 @@ const Day7 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
                       👉 Bonus Challenge
                     </h6>
-                    <div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
+                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>
-                          • Add a rememberMe checkbox on login (store
-                          credentials in SharedPreferences if checked)
-                        </li>
-                        <li>
-                          • Persist selected category in SharedPreferences and
-                          auto-select it on next app start
-                        </li>
-                        <li>
-                          • Add a "Dark Mode" toggle in Settings (save
-                          preference in SharedPreferences + apply with
-                          ChangeNotifier)
-                        </li>
+                        <li>• Add an About page with pushReplacementNamed</li>
+                        <li>• Edit screen that returns updated title via pop</li>
+                        <li>• Empty state when the list is empty</li>
                       </ul>
                     </div>
                   </div>

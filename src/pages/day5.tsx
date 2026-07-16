@@ -4,14 +4,15 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Navigation,
-  Layout,
-  Palette,
+  Columns3,
+  Boxes,
+  RefreshCw,
+  ToggleLeft,
   ArrowRight,
 } from 'lucide-react';
 
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import Exercise1 from '/images/maxresdefault.jpg';
+
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 const Loading = () => <div>Loading...</div>;
@@ -19,59 +20,52 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'App Navigation Basics',
+    title: 'Core Layout Widgets',
     duration: '1 Hour',
-    icon: <Navigation className='w-6 h-6' />,
+    icon: <Columns3 className='w-6 h-6' />,
     content: {
       description:
-        "Learn to create multi-screen navigation experiences using Flutter's built-in navigation widgets. We'll explore BottomNavigationBar for main sections, TabBar for sub-sections, and Drawer for additional options.",
+        'Master the building blocks of every Flutter screen: Column, Row, Container, SizedBox, Center, Padding, and Expanded — including alignment and flex sizing.',
       topics: [
-        'BottomNavigationBar: Main app sections (3-5 screens)',
-        'TabBar & TabBarView: Sub-navigation within screens',
-        'Drawer: Side menu for additional options',
-        'Understanding navigation patterns and UX',
-        'Managing navigation state with setState',
+        'Column and Row with mainAxisAlignment / crossAxisAlignment',
+        'Container for decoration, padding, and constraints',
+        'SizedBox for fixed gaps and sizes',
+        'Center and Padding helpers',
+        'Expanded and Flexible for flex layouts',
       ],
       detailedTopics: {
-        bottomNavigation: {
-          title: 'BottomNavigationBar',
-          code: `class MainApp extends StatefulWidget {
-  @override
-  _MainAppState createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  int _currentIndex = 0;
-  
-  final List<Widget> _screens = [
-    HomeScreen(),
-    ProfileScreen(), 
-    SettingsScreen(),
-  ];
-  
+        columnRow: {
+          title: 'Column, Row & Alignment',
+          code: `class LayoutBasics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+      appBar: AppBar(title: Text('Layouts')),
+      body: Column(
+        // Vertical arrangement
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            color: Colors.blue,
+            height: 60,
+            child: Center(child: Text('Top', style: TextStyle(color: Colors.white))),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
+          SizedBox(height: 12),
+          Row(
+            // Horizontal arrangement
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(Icons.star, color: Colors.amber, size: 40),
+              Icon(Icons.favorite, color: Colors.red, size: 40),
+              Icon(Icons.thumb_up, color: Colors.blue, size: 40),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
+          SizedBox(height: 12),
+          Container(
+            color: Colors.teal,
+            height: 60,
+            child: Center(child: Text('Bottom', style: TextStyle(color: Colors.white))),
           ),
         ],
       ),
@@ -79,144 +73,118 @@ class _MainAppState extends State<MainApp> {
   }
 }`,
         },
-        tabBarNavigation: {
-          title: 'TabBar & TabBarView',
-          code: `class ProfileScreen extends StatelessWidget {
+        expanded: {
+          title: 'Expanded & Flex Sizing',
+          code: `class FlexExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Profile"),
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.info), text: "Info"),
-              Tab(icon: Icon(Icons.post_add), text: "Posts"),
-              Tab(icon: Icon(Icons.settings), text: "Settings"),
-            ],
+    return Row(
+      children: [
+        // Takes 1 part of remaining space
+        Expanded(
+          flex: 1,
+          child: Container(
+            height: 80,
+            color: Colors.red,
+            child: Center(child: Text('1')),
           ),
         ),
-        body: const TabBarView(
-          children: [
-            InfoTab(),
-            PostsTab(),
-            SettingsTab(),
-          ],
+        // Takes 2 parts of remaining space
+        Expanded(
+          flex: 2,
+          child: Container(
+            height: 80,
+            color: Colors.green,
+            child: Center(child: Text('2')),
+          ),
         ),
-      ),
+        // Fixed width — does not expand
+        Container(
+          width: 60,
+          height: 80,
+          color: Colors.blue,
+          child: Center(child: Text('Fixed')),
+        ),
+      ],
     );
   }
-}`,
-        },
-        drawerNavigation: {
-          title: 'Drawer Navigation',
-          code: `class MainScreenWithDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Main Screen"),
-        backgroundColor: Colors.teal,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.teal, Colors.tealAccent],
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    child: Icon(Icons.person, size: 30),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    "Welcome User!",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text("Profile"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Center(
-        child: Text("Main Content Area"),
-      ),
-    );
-  }
-}`,
+}
+
+/*
+Tips:
+  - Expanded must be a child of Row / Column / Flex
+  - Use SizedBox(width/height) for fixed gaps
+  - Padding wraps a child; Container can combine
+    color + padding + margin + decoration
+*/`,
         },
       },
     },
   },
   {
     id: 2,
-    title: 'Multi-Screen Navigation',
+    title: 'Advanced Layouts & Core Widgets',
     duration: '1 Hour',
-    icon: <Layout className='w-6 h-6' />,
+    icon: <Boxes className='w-6 h-6' />,
     content: {
       description:
-        "Master screen-to-screen navigation using Flutter's Navigator. Learn to pass data between screens, handle return values, and create smooth navigation flows for better user experience.",
+        'Go beyond basics with Stack, Wrap, and SingleChildScrollView, then master Scaffold, AppBar, Text, Image, Icon, Card, and ListTile — including a Settings page pattern.',
       topics: [
-        'Navigator.push(): Moving to new screens',
-        'Navigator.pop(): Going back with data',
-        'MaterialPageRoute: Screen transitions',
-        'Passing data between screens',
-        'Handling async navigation and return values',
+        'Stack and overlapping widgets',
+        'Wrap for flowing chips / tags',
+        'SingleChildScrollView for overflow',
+        'AppBar, Scaffold, Text, Image, Icon',
+        'Card + ListTile Settings page pattern',
       ],
       detailedTopics: {
-        basicNavigation: {
-          title: 'Basic Screen Navigation',
-          code: `class HomeScreen extends StatelessWidget {
+        stackAndScroll: {
+          title: 'Stack, Wrap & ScrollView',
+          code: `class AdvancedLayouts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home")),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Welcome to Home Screen",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
+            // Stack — overlay widgets
+            SizedBox(
+              height: 200,
+              child: Stack(
+                children: [
+                  Image.network(
+                    'https://picsum.photos/400/200',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
-                );
-              },
-              child: Text("Go to Profile"),
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    child: CircleAvatar(
+                      radius: 36,
+                      backgroundImage: NetworkImage(
+                        'https://i.pravatar.cc/150',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Wrap — auto-flow children
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  Chip(label: Text('Flutter')),
+                  Chip(label: Text('Dart')),
+                  Chip(label: Text('Material')),
+                  Chip(label: Text('Provider')),
+                  Chip(label: Text('HTTP')),
+                ],
+              ),
             ),
           ],
         ),
@@ -225,106 +193,65 @@ class _MainAppState extends State<MainApp> {
   }
 }`,
         },
-        dataPassingNavigation: {
-          title: 'Navigation with Data Passing',
-          code: `class UserListScreen extends StatelessWidget {
-  final List<Map<String, String>> users = [
-    {"name": "Alice", "email": "alice@example.com", "role": "Developer"},
-    {"name": "Bob", "email": "bob@example.com", "role": "Designer"},
-    {"name": "Charlie", "email": "charlie@example.com", "role": "Manager"},
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Users")),
-      body: ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          final user = users[index];
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text(user['name']![0]),
-            ),
-            title: Text(user['name']!),
-            subtitle: Text(user['email']!),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserDetailScreen(user: user),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}`,
-        },
-        editScreenWithReturn: {
-          title: 'Edit Screen with Return Data',
-          code: `class EditUserScreen extends StatefulWidget {
-  final Map<String, String> user;
-  
-  const EditUserScreen({Key? key, required this.user}) : super(key: key);
-
-  @override
-  _EditUserScreenState createState() => _EditUserScreenState();
-}
-
-class _EditUserScreenState extends State<EditUserScreen> {
-  late TextEditingController nameController;
-  late TextEditingController emailController;
-
-  @override
-  void initState() {
-    super.initState();
-    nameController = TextEditingController(text: widget.user['name']);
-    emailController = TextEditingController(text: widget.user['email']);
-  }
-
+        settingsPage: {
+          title: 'Settings Page with Card & ListTile',
+          code: `class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit User"),
+        title: Text('Settings'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {},
+        ),
         actions: [
-          TextButton(
-            onPressed: () {
-              final updatedUser = {
-                'name': nameController.text,
-                'email': emailController.text,
-              };
-              Navigator.pop(context, updatedUser);
-            },
-            child: Text("Save", style: TextStyle(color: Colors.white)),
-          ),
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
         ],
       ),
-      body: Padding(
+      body: ListView(
         padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: "Name",
-                border: OutlineInputBorder(),
-              ),
+        children: [
+          // Profile header
+          Card(
+            child: ListTile(
+              leading: CircleAvatar(child: Icon(Icons.person)),
+              title: Text('Sara Ali'),
+              subtitle: Text('sara@example.com'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {},
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
+          ),
+          SizedBox(height: 12),
+
+          Card(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.notifications),
+                  title: Text('Notifications'),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {},
+                ),
+                Divider(height: 1),
+                ListTile(
+                  leading: Icon(Icons.lock),
+                  title: Text('Privacy'),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {},
+                ),
+                Divider(height: 1),
+                ListTile(
+                  leading: Icon(Icons.language),
+                  title: Text('Language'),
+                  subtitle: Text('English'),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {},
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -335,165 +262,189 @@ class _EditUserScreenState extends State<EditUserScreen> {
   },
   {
     id: 3,
-    title: 'App Theming',
+    title: 'Stateful vs Stateless Widgets',
     duration: '1 Hour',
-    icon: <Palette className='w-6 h-6' />,
+    icon: <RefreshCw className='w-6 h-6' />,
     content: {
       description:
-        "Create a consistent and professional look for your app using Flutter's powerful theming system. Learn to define colors, typography, and component styles that apply across your entire application.",
+        'Learn when UI can stay static versus when it must react to user input. Understand StatefulWidget anatomy, createState, setState(), and the widget lifecycle.',
       topics: [
-        'ThemeData: Central app styling configuration',
-        'ColorScheme: Consistent color palette',
-        'TextTheme: Typography and font styles',
-        'Component themes: Button, Card, AppBar styling',
-        'Light and Dark theme support',
+        'StatelessWidget: immutable UI',
+        'StatefulWidget + State class anatomy',
+        'createState() and setState()',
+        'Lifecycle overview (initState, build, dispose)',
+        'Counter example with comparison table',
       ],
       detailedTopics: {
-        basicTheming: {
-          title: 'Basic App Theming',
-          code: `class MyApp extends StatelessWidget {
+        comparison: {
+          title: 'Stateless vs Stateful',
+          code: `// Stateless — data never changes after build
+class Greeting extends StatelessWidget {
+  final String name;
+
+  const Greeting({Key? key, required this.name}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Themed Flutter App',
-      theme: ThemeData(
-        // Primary color scheme
-        primarySwatch: Colors.teal,
-        primaryColor: Colors.teal,
-        
-        // Background colors
-        scaffoldBackgroundColor: Colors.grey[50],
-        
-        // AppBar theme
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-          elevation: 4,
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        
-        // Elevated button theme
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.teal,
-            foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      ),
-      home: ThemedHomePage(),
-    );
+    return Text('Hello, \$name!');
   }
-}`,
-        },
-        advancedTheming: {
-          title: 'Advanced Theming with Custom Colors',
-          code: `class MyApp extends StatelessWidget {
+}
+
+// Stateful — UI can change over time
+class CounterPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Advanced Themed App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFF2E7D32), // Custom green
-          brightness: Brightness.light,
-        ),
-        
-        // Custom text theme
-        textTheme: TextTheme(
-          headlineLarge: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF1B5E20),
-          ),
-          headlineMedium: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF2E7D32),
-          ),
-          bodyLarge: TextStyle(
-            fontSize: 16,
-            color: Color(0xFF424242),
-            height: 1.5,
-          ),
-        ),
-        
-        // Input decoration theme
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF2E7D32), width: 2),
-          ),
-        ),
-      ),
-      
-      // Dark theme
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFF4CAF50),
-          brightness: Brightness.dark,
-        ),
-      ),
-      
-      themeMode: ThemeMode.system,
-      home: AdvancedThemedHomePage(),
-    );
+  _CounterPageState createState() => _CounterPageState();
+}
+
+class _CounterPageState extends State<CounterPage> {
+  int count = 0; // mutable state lives in State
+
+  @override
+  void initState() {
+    super.initState();
+    // Called once when the State is created
   }
-}`,
-        },
-        themingInAction: {
-          title: 'Using Theme in Widgets',
-          code: `class ThemedHomePage extends StatelessWidget {
+
+  void increment() {
+    setState(() {
+      count++; // notifies Flutter to rebuild
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Themed App'),
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
+      appBar: AppBar(title: Text('Counter')),
+      body: Center(
+        child: Text('Count: \$count', style: TextStyle(fontSize: 32)),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Text(
-                      'Welcome to Themed App',
-                      style: theme.textTheme.headlineMedium,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'This app uses consistent theming.',
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-              ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: increment,
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // Clean up controllers / listeners here
+    super.dispose();
+  }
+}
+
+/*
+When to use which?
+  Stateless → labels, icons, static layouts
+  Stateful  → forms, toggles, counters, animations
+*/`,
+        },
+      },
+    },
+  },
+  {
+    id: 4,
+    title: 'Practical Lab — Toggle Controls',
+    duration: '1 Hour',
+    icon: <ToggleLeft className='w-6 h-6' />,
+    content: {
+      description:
+        'Build a Preferences Screen combining Switch, Radio, and Checkbox controls — applying StatefulWidget and setState in a real lab.',
+      topics: [
+        'Switch and SwitchListTile',
+        'Radio and RadioListTile with enums',
+        'Checkbox and CheckboxListTile',
+        'Combining all controls in one screen',
+        'Persisting selections in local state',
+      ],
+      detailedTopics: {
+        preferenceScreen: {
+          title: 'Preferences Screen Lab',
+          code: `enum Gender { male, female, other }
+
+class PreferencesScreen extends StatefulWidget {
+  @override
+  _PreferencesScreenState createState() => _PreferencesScreenState();
+}
+
+class _PreferencesScreenState extends State<PreferencesScreen> {
+  bool darkMode = false;
+  bool notifications = true;
+  Gender gender = Gender.male;
+  bool acceptTerms = false;
+  bool newsletter = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Preferences')),
+      body: ListView(
+        children: [
+          // Switches
+          SwitchListTile(
+            title: Text('Dark Mode'),
+            subtitle: Text('Use dark theme'),
+            secondary: Icon(Icons.dark_mode),
+            value: darkMode,
+            onChanged: (v) => setState(() => darkMode = v),
+          ),
+          SwitchListTile(
+            title: Text('Notifications'),
+            secondary: Icon(Icons.notifications),
+            value: notifications,
+            onChanged: (v) => setState(() => notifications = v),
+          ),
+          Divider(),
+
+          // Radio group
+          Padding(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 4),
+            child: Text('Gender', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          RadioListTile<Gender>(
+            title: Text('Male'),
+            value: Gender.male,
+            groupValue: gender,
+            onChanged: (v) => setState(() => gender = v!),
+          ),
+          RadioListTile<Gender>(
+            title: Text('Female'),
+            value: Gender.female,
+            groupValue: gender,
+            onChanged: (v) => setState(() => gender = v!),
+          ),
+          RadioListTile<Gender>(
+            title: Text('Other'),
+            value: Gender.other,
+            groupValue: gender,
+            onChanged: (v) => setState(() => gender = v!),
+          ),
+          Divider(),
+
+          // Checkboxes
+          CheckboxListTile(
+            title: Text('Accept Terms & Conditions'),
+            value: acceptTerms,
+            onChanged: (v) => setState(() => acceptTerms = v!),
+          ),
+          CheckboxListTile(
+            title: Text('Subscribe to newsletter'),
+            value: newsletter,
+            onChanged: (v) => setState(() => newsletter = v!),
+          ),
+          SizedBox(height: 24),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: acceptTerms
+                  ? () {
+                      // Save preferences...
+                    }
+                  : null, // disabled until terms accepted
+              child: Text('Save Preferences'),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Themed Button'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -516,12 +467,11 @@ const Day5 = () => {
     <div className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
       <main>
         <Suspense fallback={<Loading />}>
-          {/* Hero Section */}
           <section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
             <div className='absolute inset-0 opacity-10'>
-              <div className='absolute top-20 left-20 w-72 h-72 bg-[#007BFF] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
-              <div className='absolute top-40 right-20 w-72 h-72 bg-[#00B4AB] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000'></div>
-              <div className='absolute -bottom-8 left-40 w-72 h-72 bg-[#00D2FF] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000'></div>
+              <div className='absolute top-20 left-20 w-72 h-72 bg-[#02569B] rounded-full mix-blend-multiply filter blur-xl animate-pulse'></div>
+              <div className='absolute top-40 right-20 w-72 h-72 bg-[#13B9FD] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000'></div>
+              <div className='absolute -bottom-8 left-40 w-72 h-72 bg-[#0175C2] rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000'></div>
             </div>
 
             <div className='relative z-10 text-center px-4 max-w-4xl mx-auto'>
@@ -532,23 +482,22 @@ const Day5 = () => {
                 <h1 className='text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6'>
                   Day 5
                 </h1>
-                <h2 className='text-3xl md:text-5xl font-bold text-[#007BFF] mb-8'>
-                  App Navigation & Theming
+                <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
+                  Layouts, Widgets & State
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Transform your single-screen app into a multi-screen
-                  experience! Learn navigation patterns, screen transitions, and
-                  how to create a consistent, professional theme across your
-                  entire application.
+                  Build real UIs with layout and Material widgets, then learn
+                  Stateful vs Stateless and finish with a Preferences Screen of
+                  switches, radios, and checkboxes.
                 </p>
 
                 <motion.button
                   onClick={scrollToContent}
-                  className='inline-flex items-center gap-2 bg-[#007BFF] hover:bg-[#1B5E20] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+                  className='inline-flex items-center gap-2 bg-[#02569B] hover:bg-[#024A87] text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Navigation & Theming
+                  Explore Layouts & State
                 </motion.button>
               </motion.div>
             </div>
@@ -561,7 +510,6 @@ const Day5 = () => {
             </motion.div>
           </section>
 
-          {/* Main Content */}
           <section
             id='content'
             ref={contentRef}
@@ -577,8 +525,8 @@ const Day5 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  3 hours to master navigation patterns and create beautiful,
-                  consistent app themes.
+                  4 hours covering layouts, core widgets, state, and a toggle
+                  controls lab.
                 </p>
               </motion.div>
 
@@ -600,7 +548,7 @@ const Day5 = () => {
                       }>
                       <div className='flex items-center justify-between'>
                         <div className='flex items-center gap-4'>
-                          <div className='p-3 bg-[#007BFF]/20 rounded-xl text-[#007BFF]'>
+                          <div className='p-3 bg-[#02569B]/20 rounded-xl text-[#02569B]'>
                             {session.icon}
                           </div>
                           <div>
@@ -650,7 +598,7 @@ const Day5 = () => {
                               <li
                                 key={topicIndex}
                                 className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                                <CheckCircle className='w-5 h-5 text-[#007BFF] mt-0.5 flex-shrink-0' />
+                                <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                                 <span>{topic}</span>
                               </li>
                             ))}
@@ -701,36 +649,36 @@ const Day5 = () => {
                 </h3>
                 <div className='grid md:grid-cols-2 gap-8'>
                   <div>
-                    <h4 className='text-xl font-semibold text-[#007BFF] mb-4'>
+                    <h4 className='text-xl font-semibold text-[#02569B] mb-4'>
                       Key Takeaways
                     </h4>
                     <ul className='space-y-3'>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#007BFF] mt-0.5 flex-shrink-0' />
+                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Master navigation patterns: BottomNavigationBar,
-                          TabBar, and Drawer for organized app structure.
+                          Column, Row, Expanded, and Container drive most layout
+                          decisions.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#007BFF] mt-0.5 flex-shrink-0' />
+                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Navigate between screens using Navigator.push() and
-                          Navigator.pop() with data passing.
+                          Stack, Wrap, Card, and ListTile unlock richer screens
+                          like Settings pages.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#007BFF] mt-0.5 flex-shrink-0' />
+                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Create professional, consistent app theming with
-                          ThemeData and ColorScheme.
+                          Use StatefulWidget + setState when UI must change;
+                          Stateless for static UI.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#007BFF] mt-0.5 flex-shrink-0' />
+                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Support both light and dark themes for better user
-                          experience.
+                          Switch, Radio, and Checkbox are the core Material
+                          toggle controls.
                         </span>
                       </li>
                     </ul>
@@ -740,10 +688,9 @@ const Day5 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 6, we'll explore navigation between screens,
-                      steps involve exploring advanced topics like state
-                      management (Provider, Bloc), working with APIs, local
-                      storage, and publishing your app to app stores.
+                      In Day 6, we'll apply Material theming, buttons, text
+                      input and form validation, then display data with ListView
+                      and GridView.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 6
@@ -760,23 +707,16 @@ const Day5 = () => {
                 viewport={{ once: true }}
                 className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
                 <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  📝 Hands-on Exercise
+                  Hands-on Exercise
                 </h3>
 
-                <img
-                  src={Exercise1}
-                  alt='Exercise1'
-                  className='w-full h-auto rounded-lg mb-6'
-                />
-
-                {/* Multi-Screen Navigation with Login Flow Task */}
-                <div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border-l-4 border-green-500'>
+                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
                   <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      🔐
+                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
+                      📝
                     </div>
-                    <h5 className='text-xl font-semibold text-green-700 dark:text-green-300'>
-                      Task: Multi-Screen Navigation with Login Flow
+                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
+                      Task: Preferences Screen with Toggle Controls
                     </h5>
                   </div>
 
@@ -785,10 +725,9 @@ const Day5 = () => {
                       Objective
                     </h6>
                     <p className='text-gray-700 dark:text-gray-300'>
-                      Build a Flutter app with multiple screens to practice
-                      navigation basics. The app should start with a Splash
-                      Screen, then move to Login/Signup, and finally navigate to
-                      a Home Page with a Drawer and BottomNavigationBar.
+                      Build a Preferences Screen using StatefulWidget that
+                      combines Switch, Radio, and Checkbox controls, and enables
+                      Save only when terms are accepted.
                     </p>
                   </div>
 
@@ -796,107 +735,16 @@ const Day5 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
                       Requirements
                     </h6>
-
                     <div className='space-y-4'>
                       <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          1. Splash Screen
-                        </h6>
                         <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Show a simple splash (app logo or text)</li>
-                          <li>
-                            • After 2–3 seconds, automatically navigate to the
-                            Login Page
-                          </li>
+                          <li>• Dark Mode + Notifications SwitchListTiles</li>
+                          <li>• Gender RadioListTiles using an enum</li>
+                          <li>• Accept Terms + Newsletter CheckboxListTiles</li>
+                          <li>• Save button disabled until terms are accepted</li>
+                          <li>• Use ListView so the page scrolls on small screens</li>
                         </ul>
                       </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          2. Login Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Email (TextField)</li>
-                          <li>• Password (TextField, obscured)</li>
-                          <li>• Add a Login button</li>
-                          <li>
-                            • Add a "Don't have an account? Sign up" button to
-                            navigate to the Signup Page
-                          </li>
-                          <li>
-                            • Validate form: Email should not be empty and must
-                            contain @
-                          </li>
-                          <li>• Password should be at least 6 characters</li>
-                          <li>
-                            • If validation passes, navigate to the Home Page
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          3. Signup Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Name (TextField)</li>
-                          <li>• Email (TextField)</li>
-                          <li>• Password (TextField, obscured)</li>
-                          <li>• Add a Sign Up button</li>
-                          <li>
-                            • Add a "Already have an account? Login" button to
-                            go back to Login Page
-                          </li>
-                          <li>
-                            • No need to store real data—just validate inputs
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          4. Home Page
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>
-                            • Add a Drawer with some dummy menu items (e.g.,
-                            Profile, Settings, Logout)
-                          </li>
-                          <li>
-                            • Add a BottomNavigationBar with at least 3 tabs
-                            (e.g., Home, Search, Profile)
-                          </li>
-                          <li>
-                            • Tapping items should switch between dummy screens
-                            inside the Home Page
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Example Flow
-                    </h6>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>
-                          • App starts → Splash Screen (2s) → navigates to Login
-                          Page
-                        </li>
-                        <li>
-                          • User enters correct login → navigates to Home Page
-                        </li>
-                        <li>
-                          • If user doesn't have an account → goes to Signup
-                          Page, fills the form, then can log in
-                        </li>
-                        <li>
-                          • On Home Page → user can open Drawer or switch
-                          between tabs with BottomNavigationBar
-                        </li>
-                      </ul>
                     </div>
                   </div>
 
@@ -904,17 +752,11 @@ const Day5 = () => {
                     <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
                       👉 Bonus Challenge
                     </h6>
-                    <div className='bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
+                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
                       <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>
-                          • Add a Logout button in the Drawer that takes the
-                          user back to the Login Page
-                        </li>
-                        <li>
-                          • Keep track of which tab is active in the
-                          BottomNavigationBar
-                        </li>
-                        <li>• Show SnackBar on invalid login attempt</li>
+                        <li>• Add a PaymentMethod radio group (Cash / Card / Wallet)</li>
+                        <li>• Show a SnackBar when Save succeeds</li>
+                        <li>• Split sections into reusable widgets</li>
                       </ul>
                     </div>
                   </div>
