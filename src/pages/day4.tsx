@@ -5,9 +5,8 @@ import {
   CheckCircle,
   Clock,
   Layers,
-  Building2,
   Layout,
-  User,
+  Columns3,
   ArrowRight,
 } from 'lucide-react';
 
@@ -130,106 +129,6 @@ Use Hot Restart after structural / init changes.
   },
   {
     id: 2,
-    title: 'Flutter Architecture',
-    duration: '1 Hour',
-    icon: <Building2 className='w-6 h-6' />,
-    content: {
-      description:
-        'Understand Flutter\'s layered architecture — from your Dart app down to the platform embedder — and how the widget tree drives rendering.',
-      topics: [
-        'Four layers: Application → Framework → Engine → Embedder',
-        'Custom rendering engine overview',
-        'Widget tree structure',
-        'How UI updates flow through layers',
-        'Why architecture matters for performance',
-      ],
-      detailedTopics: {
-        fourLayers: {
-          title: 'Flutter Architecture Layers',
-          code: `/*
-┌─────────────────────────────────────┐
-│  1. Application Layer               │
-│     Your Dart code (widgets, logic) │
-├─────────────────────────────────────┤
-│  2. Framework Layer (Dart)          │
-│     Material / Cupertino / Widgets  │
-│     Rendering, Animation, Gestures  │
-├─────────────────────────────────────┤
-│  3. Engine Layer (C++)              │
-│     Skia / Impeller rendering       │
-│     Dart runtime, text layout       │
-├─────────────────────────────────────┤
-│  4. Embedder Layer                  │
-│     Platform-specific (Android/iOS) │
-│     Window, input, thread setup     │
-└─────────────────────────────────────┘
-
-Your code talks to the Framework.
-The Framework talks to the Engine.
-The Embedder hosts everything on the OS.
-*/
-
-void main() {
-  runApp(
-    // Application Layer
-    MaterialApp(
-      // Framework → Material widgets
-      home: Scaffold(
-        body: Center(child: Text('Architecture demo')),
-      ),
-    ),
-  );
-}`,
-        },
-        widgetTree: {
-          title: 'Widget Tree Structure',
-          code: `/*
-Typical widget tree:
-
-MaterialApp
- └─ Scaffold
-     ├─ AppBar
-     │   └─ Text ("Home")
-     └─ body: Center
-         └─ Column
-             ├─ Text ("Hello")
-             ├─ Icon (Icons.star)
-             └─ ElevatedButton
-                 └─ Text ("Click me")
-
-Rules of thumb:
-  - Parent widgets control layout of children
-  - Prefer shallow, readable trees
-  - Extract repeated UI into small widgets
-*/
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Hello'),
-            Icon(Icons.star, color: Colors.amber),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Click me'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}`,
-        },
-      },
-    },
-  },
-  {
-    id: 3,
     title: 'UI Planning & First App',
     duration: '1 Hour',
     icon: <Layout className='w-6 h-6' />,
@@ -334,132 +233,104 @@ class HomePage extends StatelessWidget {
     },
   },
   {
-    id: 4,
-    title: 'Practical Lab — Profile Card',
+    id: 3,
+    title: 'Core Layout Widgets',
     duration: '1 Hour',
-    icon: <User className='w-6 h-6' />,
+    icon: <Columns3 className='w-6 h-6' />,
     content: {
       description:
-        'Apply widget-tree thinking by building a static Profile Card: avatar, name, bio, stats row, and social icon buttons — no state management required yet.',
+        'Master the building blocks of every Flutter screen: Column, Row, Container, SizedBox, Center, Padding, and Expanded — including alignment and flex sizing.',
       topics: [
-        'CircleAvatar for profile pictures',
-        'Column + Row composition',
-        'Stats row (posts / followers / following)',
-        'IconButton for social actions',
-        'Card + Padding for polished layout',
+        'Column and Row with mainAxisAlignment / crossAxisAlignment',
+        'Container for decoration, padding, and constraints',
+        'SizedBox for fixed gaps and sizes',
+        'Center and Padding helpers',
+        'Expanded and Flexible for flex layouts',
       ],
       detailedTopics: {
-        profileCard: {
-          title: 'Complete Profile Card Example',
-          code: `import 'package:flutter/material.dart';
-
-void main() => runApp(MaterialApp(home: ProfileCardPage()));
-
-class ProfileCardPage extends StatelessWidget {
+        columnRow: {
+          title: 'Column, Row & Alignment',
+          code: `class LayoutBasics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(title: Text('Profile Card'), centerTitle: true),
-      body: Center(
-        child: Card(
-          margin: EdgeInsets.all(24),
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+      appBar: AppBar(title: Text('Layouts')),
+      body: Column(
+        // Vertical arrangement
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            color: Colors.blue,
+            height: 60,
+            child: Center(child: Text('Top', style: TextStyle(color: Colors.white))),
           ),
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Avatar
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(
-                    'https://i.pravatar.cc/150?img=12',
-                  ),
-                ),
-                SizedBox(height: 16),
-
-                // Name
-                Text(
-                  'Ahmed Hassan',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 4),
-
-                // Bio
-                Text(
-                  'Flutter Developer | ITI Graduate',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20),
-
-                // Stats row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _StatColumn(label: 'Posts', value: '24'),
-                    _StatColumn(label: 'Followers', value: '1.2K'),
-                    _StatColumn(label: 'Following', value: '180'),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Divider(),
-                SizedBox(height: 8),
-
-                // Social icons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.email, color: Colors.blue),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.link, color: Colors.teal),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.share, color: Colors.orange),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          SizedBox(height: 12),
+          Row(
+            // Horizontal arrangement
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(Icons.star, color: Colors.amber, size: 40),
+              Icon(Icons.favorite, color: Colors.red, size: 40),
+              Icon(Icons.thumb_up, color: Colors.blue, size: 40),
+            ],
+          ),
+          SizedBox(height: 12),
+          Container(
+            color: Colors.teal,
+            height: 60,
+            child: Center(child: Text('Bottom', style: TextStyle(color: Colors.white))),
+          ),
+        ],
+      ),
+    );
+  }
+}`,
+        },
+        expanded: {
+          title: 'Expanded & Flex Sizing',
+          code: `class FlexExample extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // Takes 1 part of remaining space
+        Expanded(
+          flex: 1,
+          child: Container(
+            height: 80,
+            color: Colors.red,
+            child: Center(child: Text('1')),
           ),
         ),
-      ),
+        // Takes 2 parts of remaining space
+        Expanded(
+          flex: 2,
+          child: Container(
+            height: 80,
+            color: Colors.green,
+            child: Center(child: Text('2')),
+          ),
+        ),
+        // Fixed width — does not expand
+        Container(
+          width: 60,
+          height: 80,
+          color: Colors.blue,
+          child: Center(child: Text('Fixed')),
+        ),
+      ],
     );
   }
 }
 
-class _StatColumn extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _StatColumn({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(color: Colors.grey[600], fontSize: 12)),
-      ],
-    );
-  }
-}`,
+/*
+Tips:
+  - Expanded must be a child of Row / Column / Flex
+  - Use SizedBox(width/height) for fixed gaps
+  - Padding wraps a child; Container can combine
+    color + padding + margin + decoration
+*/`,
         },
       },
     },
@@ -498,9 +369,9 @@ const Day4 = () => {
                   Flutter Foundations
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Start your Flutter journey: understand what Flutter is, explore
-                  its architecture layers, plan UIs like a pro, and build your
-                  first Profile Card hands-on.
+                  Start your Flutter journey: understand what Flutter is, plan
+                  UIs like a pro, and master the core layout widgets that power
+                  every screen.
                 </p>
 
                 <motion.button
@@ -538,8 +409,8 @@ const Day4 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours from Flutter intro and architecture to your first
-                  practical Profile Card lab.
+                  3 hours from Flutter intro and UI planning to core layout
+                  widgets.
                 </p>
               </motion.div>
 
@@ -676,13 +547,6 @@ const Day4 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Architecture layers: Application → Framework → Engine
-                          → Embedder.
-                        </span>
-                      </li>
-                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-                        <span>
                           Plan UIs in five steps before writing code: requirements,
                           components, widgets, tree, interactions.
                         </span>
@@ -690,8 +554,8 @@ const Day4 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Compose layouts with Scaffold, Column, Row, and Card
-                          — as in the Profile Card lab.
+                          Column, Row, Expanded, and Container drive most layout
+                          decisions.
                         </span>
                       </li>
                     </ul>
@@ -701,101 +565,14 @@ const Day4 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 5, we'll dive into layout widgets, core Material
-                      widgets, and learn Stateful vs Stateless widgets with
-                      toggle controls.
+                      In Day 5, we'll dive into advanced layouts, Stateful vs
+                      Stateless widgets, buttons, text input, ListView, and
+                      GridView.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 5
                       <ArrowRight className='w-5 h-5' />
                     </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
-                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  Hands-on Exercise
-                </h3>
-
-                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      📝
-                    </div>
-                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Build a Static Profile Card
-                    </h5>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Objective
-                    </h6>
-                    <p className='text-gray-700 dark:text-gray-300'>
-                      Create a polished Profile Card screen using only
-                      StatelessWidgets. Practice widget-tree thinking: avatar,
-                      name, bio, stats, and social actions.
-                    </p>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-                      Requirements
-                    </h6>
-
-                    <div className='space-y-4'>
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          Profile Header
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• CircleAvatar with a network or asset image</li>
-                          <li>• Name as a bold Text widget</li>
-                          <li>• Short bio / job title under the name</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          Stats Row
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Row with three columns: Posts, Followers, Following</li>
-                          <li>• Each column shows a number + label</li>
-                          <li>• Extract a small reusable StatColumn widget</li>
-                        </ul>
-                      </div>
-
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 block'>
-                          Social Actions
-                        </h6>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Row of IconButtons (email, link, share...)</li>
-                          <li>• Wrap everything in a Card with padding</li>
-                          <li>• Center the card on the screen</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      👉 Bonus Challenge
-                    </h6>
-                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Add a cover image above the avatar using Stack</li>
-                        <li>• Style with BoxDecoration and border radius</li>
-                        <li>• Add a "Follow" ElevatedButton below the stats</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </motion.div>

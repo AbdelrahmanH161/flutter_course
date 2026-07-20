@@ -4,10 +4,9 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Navigation,
-  Route,
-  MessageSquare,
-  Layers,
+  Timer,
+  Globe,
+  Zap,
   ArrowRight,
 } from 'lucide-react';
 
@@ -20,137 +19,105 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Screen Navigation',
+    title: 'Async Programming & Futures',
     duration: '1 Hour',
-    icon: <Navigation className='w-6 h-6' />,
+    icon: <Timer className='w-6 h-6' />,
     content: {
       description:
-        'Understand the Navigator stack and move between screens with MaterialPageRoute — push, pop, pass data via constructors, and return results with await.',
+        'Keep the UI responsive while work happens in the background. Master Futures, async/await, Future.delayed, and a splash screen that navigates after a delay.',
       topics: [
-        'Navigator stack concept',
-        'Navigator.push and Navigator.pop',
-        'MaterialPageRoute',
-        'Passing data via constructor',
-        'Returning data with await Navigator.push',
+        'What is a Future?',
+        'async / await vs then / catchError',
+        'Future.delayed for timers',
+        'Future.any race pattern',
+        'Splash screen with delayed navigation',
       ],
       detailedTopics: {
-        pushPop: {
-          title: 'push, pop & MaterialPageRoute',
-          code: `class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Open Details'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailsPage(title: 'Flutter Course'),
-              ),
-            );
-          },
-        ),
-      ),
-    );
+        futuresBasics: {
+          title: 'Futures, async & await',
+          code: `// Synchronous — blocks the thread
+String syncFetch() {
+  // Imagine a long calculation...
+  return 'Done sync';
+}
+
+// Asynchronous — returns a Future
+Future<String> asyncFetch() async {
+  await Future.delayed(Duration(seconds: 2));
+  return 'Done async';
+}
+
+void demo() {
+  // Style 1: then / catchError
+  asyncFetch()
+      .then((value) => print(value))
+      .catchError((e) => print('Error: \$e'));
+
+  // Style 2: async / await (preferred)
+  loadData();
+}
+
+Future<void> loadData() async {
+  try {
+    print('Loading...');
+    final result = await asyncFetch();
+    print(result);
+  } catch (e) {
+    print('Failed: \$e');
   }
 }
 
-class DetailsPage extends StatelessWidget {
-  final String title;
-
-  const DetailsPage({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Go Back'),
-          onPressed: () {
-            Navigator.pop(context); // remove this route from the stack
-          },
-        ),
-      ),
-    );
-  }
-}`,
+/*
+Common pitfall:
+  final x = asyncFetch(); // x is Future<String>, not String!
+  final x = await asyncFetch(); // correct
+*/`,
         },
-        returnData: {
-          title: 'Passing & Returning Data',
-          code: `// Home → Edit → return updated name
-class HomePage extends StatefulWidget {
+        splash: {
+          title: 'Splash Screen with Future.delayed',
+          code: `class SplashScreen extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-  String name = 'Guest';
-
-  Future<void> _editName() async {
-    final result = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => EditNamePage(currentName: name),
-      ),
-    );
-
-    if (result != null) {
-      setState(() => name = result);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Welcome, \$name')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _editName,
-        child: Icon(Icons.edit),
-      ),
-    );
-  }
-}
-
-class EditNamePage extends StatefulWidget {
-  final String currentName;
-  const EditNamePage({required this.currentName});
-
-  @override
-  _EditNamePageState createState() => _EditNamePageState();
-}
-
-class _EditNamePageState extends State<EditNamePage> {
-  late TextEditingController controller;
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.currentName);
+    _goNext();
+  }
+
+  Future<void> _goNext() async {
+    await Future.delayed(Duration(seconds: 2));
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Name')),
-      body: Padding(
-        padding: EdgeInsets.all(16),
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(controller: controller),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, controller.text),
-              child: Text('Save'),
-            ),
+            FlutterLogo(size: 96),
+            SizedBox(height: 24),
+            CircularProgressIndicator(),
+            SizedBox(height: 12),
+            Text('Loading...'),
           ],
         ),
       ),
     );
   }
+}
+
+// Race: take whoever finishes first
+Future<String> fastestSource() {
+  return Future.any([
+    Future.delayed(Duration(seconds: 3), () => 'From API'),
+    Future.delayed(Duration(seconds: 1), () => 'From Cache'),
+  ]);
 }`,
         },
       },
@@ -158,340 +125,246 @@ class _EditNamePageState extends State<EditNamePage> {
   },
   {
     id: 2,
-    title: 'Named Routes',
+    title: 'HTTP & API Integration',
     duration: '1 Hour',
-    icon: <Route className='w-6 h-6' />,
+    icon: <Globe className='w-6 h-6' />,
     content: {
       description:
-        'Centralize navigation with a route table in MaterialApp. Use pushNamed, arguments, pushReplacement, and know when Named Routes beat MaterialPageRoute.',
+        'Talk to REST APIs with the http package. Perform GET, POST, PUT, DELETE, parse JSON, handle status codes, and build a simple Posts CRUD screen.',
       topics: [
-        'Defining routes in MaterialApp',
-        'Navigator.pushNamed and pushReplacementNamed',
-        'Passing arguments via route settings',
-        'Reading arguments with ModalRoute',
-        'MaterialPageRoute vs Named Routes comparison',
+        'Adding and importing the http package',
+        'GET / POST / PUT / DELETE requests',
+        'JSON decoding and model mapping',
+        'Status codes and error SnackBars',
+        'JSONPlaceholder Posts CRUD pattern',
       ],
       detailedTopics: {
-        namedRoutes: {
-          title: 'Named Routes Setup',
-          code: `void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/': (context) => HomePage(),
-      '/details': (context) => DetailsPage(),
-      '/about': (context) => AboutPage(),
-    },
-  ));
+        httpBasics: {
+          title: 'HTTP CRUD with http package',
+          code: `// pubspec.yaml:
+//   dependencies:
+//     http: ^1.2.0
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+const baseUrl = 'https://jsonplaceholder.typicode.com';
+
+Future<List<dynamic>> fetchPosts() async {
+  final response = await http.get(Uri.parse('\$baseUrl/posts'));
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body) as List;
+  }
+  throw Exception('Failed to load posts (\${response.statusCode})');
 }
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Column(
-        children: [
-          ElevatedButton(
-            child: Text('Open Details'),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/details',
-                arguments: {'id': 42, 'title': 'Flutter'},
-              );
-            },
-          ),
-          ElevatedButton(
-            child: Text('Replace with About'),
-            onPressed: () {
-              // Removes current route, then pushes /about
-              Navigator.pushReplacementNamed(context, '/about');
-            },
-          ),
-        ],
-      ),
-    );
+Future<Map<String, dynamic>> createPost(String title, String body) async {
+  final response = await http.post(
+    Uri.parse('\$baseUrl/posts'),
+    headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    body: jsonEncode({
+      'title': title,
+      'body': body,
+      'userId': 1,
+    }),
+  );
+  if (response.statusCode == 201) {
+    return jsonDecode(response.body);
+  }
+  throw Exception('Failed to create post');
+}
+
+Future<void> updatePost(int id, String title) async {
+  final response = await http.put(
+    Uri.parse('\$baseUrl/posts/\$id'),
+    headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    body: jsonEncode({'id': id, 'title': title, 'userId': 1}),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update');
   }
 }
 
-class DetailsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    return Scaffold(
-      appBar: AppBar(title: Text(args['title'])),
-      body: Center(child: Text('Item ID: \${args['id']}')),
-    );
+Future<void> deletePost(int id) async {
+  final response = await http.delete(Uri.parse('\$baseUrl/posts/\$id'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to delete');
   }
 }`,
         },
-        comparison: {
-          title: 'MaterialPageRoute vs Named Routes',
-          code: `/*
-MaterialPageRoute
-  ✅ Simple, type-safe constructor params
-  ✅ Great for prototypes / small apps
-  ❌ Hard to see all routes in one place
-  ❌ Deep linking needs extra work
+        postsUi: {
+          title: 'Posts Screen Pattern',
+          code: `class PostsPage extends StatefulWidget {
+  @override
+  _PostsPageState createState() => _PostsPageState();
+}
 
-Named Routes
-  ✅ Central route table in MaterialApp
-  ✅ Easy to navigate from anywhere by string
-  ✅ Better for medium apps & splash→login flows
-  ❌ Arguments need casting
-  ❌ Less compile-time safety
+class _PostsPageState extends State<PostsPage> {
+  late Future<List<dynamic>> postsFuture;
 
-Tip: You can mix both in the same app.
-For large apps later, consider go_router.
-*/`,
+  @override
+  void initState() {
+    super.initState();
+    postsFuture = fetchPosts();
+  }
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: Colors.red),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Posts')),
+      body: FutureBuilder<List<dynamic>>(
+        future: postsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: \${snapshot.error}'));
+          }
+          final posts = snapshot.data!;
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final post = posts[index];
+              return ListTile(
+                title: Text(post['title']),
+                subtitle: Text(post['body'], maxLines: 2),
+              );
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          try {
+            await createPost('New Post', 'Hello API');
+            setState(() => postsFuture = fetchPosts());
+          } catch (e) {
+            _showError(e.toString());
+          }
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}`,
         },
       },
     },
   },
   {
     id: 3,
-    title: 'Dialogs & SnackBars',
+    title: 'Dio Package',
     duration: '1 Hour',
-    icon: <MessageSquare className='w-6 h-6' />,
+    icon: <Zap className='w-6 h-6' />,
     content: {
       description:
-        'Give users clear feedback: blocking confirmations with AlertDialog, and lightweight messages with SnackBar via ScaffoldMessenger.',
+        'Level up networking with Dio: BaseOptions, interceptors, typed responses, and cleaner error handling compared to the http package.',
       topics: [
-        'showDialog + AlertDialog',
-        'Confirm delete pattern',
-        'Custom Dialog widgets',
-        'SnackBar via ScaffoldMessenger',
-        'SnackBar with action button',
+        'Adding dio to pubspec.yaml',
+        'BaseOptions (baseUrl, timeouts, headers)',
+        'GET / POST with Dio',
+        'Interceptors for logging and auth tokens',
+        'DioException error handling',
       ],
       detailedTopics: {
-        dialogs: {
-          title: 'AlertDialog Confirm Delete',
-          code: `Future<void> confirmDelete(BuildContext context, VoidCallback onConfirm) async {
-  final result = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Delete item?'),
-      content: Text('This action cannot be undone.'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pop(context, true),
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-          child: Text('Delete'),
-        ),
-      ],
-    ),
-  );
+        dioSetup: {
+          title: 'Dio Setup & BaseOptions',
+          code: `// pubspec.yaml:
+//   dependencies:
+//     dio: ^5.4.0
 
-  if (result == true) {
-    onConfirm();
-  }
+import 'package:dio/dio.dart';
+
+final dio = Dio(
+  BaseOptions(
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    connectTimeout: Duration(seconds: 10),
+    receiveTimeout: Duration(seconds: 10),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+  ),
+);
+
+Future<List<dynamic>> fetchPostsWithDio() async {
+  final response = await dio.get('/posts');
+  // Dio auto-decodes JSON — response.data is already a List/Map
+  return response.data as List;
 }
 
-// Custom simple dialog
-void showInfoDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (_) => Dialog(
-      child: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.info, size: 48, color: Colors.blue),
-            SizedBox(height: 12),
-            Text('Custom Dialog Content'),
-            SizedBox(height: 16),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Close'),
-            ),
-          ],
-        ),
-      ),
-    ),
+Future<Map<String, dynamic>> createPostWithDio(
+  String title,
+  String body,
+) async {
+  final response = await dio.post(
+    '/posts',
+    data: {
+      'title': title,
+      'body': body,
+      'userId': 1,
+    },
   );
+  return response.data as Map<String, dynamic>;
 }`,
         },
-        snackbars: {
-          title: 'SnackBar Feedback',
-          code: `void showSimpleSnackBar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(message),
-      duration: Duration(seconds: 2),
+        interceptors: {
+          title: 'Interceptors & Error Handling',
+          code: `void setupDio() {
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) {
+        // Attach token before every request
+        // options.headers['Authorization'] = 'Bearer \$token';
+        print('→ \${options.method} \${options.path}');
+        return handler.next(options);
+      },
+      onResponse: (response, handler) {
+        print('← \${response.statusCode} \${response.requestOptions.path}');
+        return handler.next(response);
+      },
+      onError: (DioException e, handler) {
+        print('✗ \${e.type}: \${e.message}');
+        return handler.next(e);
+      },
     ),
   );
 }
 
-void showSnackBarWithAction(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Item deleted'),
-      backgroundColor: Colors.black87,
-      action: SnackBarAction(
-        label: 'UNDO',
-        textColor: Colors.amber,
-        onPressed: () {
-          // Restore the item
-        },
-      ),
-    ),
-  );
+Future<void> safeFetch() async {
+  try {
+    final response = await dio.get('/posts/1');
+    print(response.data);
+  } on DioException catch (e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+        print('Request timed out');
+        break;
+      case DioExceptionType.badResponse:
+        print('Server error: \${e.response?.statusCode}');
+        break;
+      case DioExceptionType.connectionError:
+        print('No internet connection');
+        break;
+      default:
+        print('Unexpected error: \${e.message}');
+    }
+  }
 }
 
 /*
-Use Dialog when the user MUST decide (delete, logout...).
-Use SnackBar for brief status (saved, error, offline...).
+http package  → simple, lightweight, manual JSON
+Dio           → BaseOptions, interceptors, auto JSON,
+                richer timeouts & error types
 */`,
-        },
-      },
-    },
-  },
-  {
-    id: 4,
-    title: 'Practical Lab — Master-Detail App',
-    duration: '1 Hour',
-    icon: <Layers className='w-6 h-6' />,
-    content: {
-      description:
-        'Build a list-to-details flow: tap an item to open DetailsPage (constructor or Named Route), navigate back, and delete with a confirmation dialog.',
-      topics: [
-        'Item model + ListView of cards',
-        'Navigate to DetailsPage with data',
-        'Back navigation',
-        'Delete with confirmation dialog',
-        'Hybrid Named Route + MaterialPageRoute',
-      ],
-      detailedTopics: {
-        masterDetail: {
-          title: 'Master-Detail Lab',
-          code: `class Item {
-  final int id;
-  final String title;
-  final String description;
-
-  const Item(this.id, this.title, this.description);
-}
-
-final items = [
-  Item(1, 'Flutter', 'Cross-platform UI toolkit'),
-  Item(2, 'Dart', 'Programming language for Flutter'),
-  Item(3, 'Provider', 'Simple state management'),
-];
-
-void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/': (context) => ItemsListPage(),
-      '/details': (context) => DetailsPage(),
-    },
-  ));
-}
-
-class ItemsListPage extends StatefulWidget {
-  @override
-  _ItemsListPageState createState() => _ItemsListPageState();
-}
-
-class _ItemsListPageState extends State<ItemsListPage> {
-  late List<Item> data;
-
-  @override
-  void initState() {
-    super.initState();
-    data = List.from(items);
-  }
-
-  Future<void> _deleteItem(Item item) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Delete \${item.title}?'),
-        content: Text('This cannot be undone.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('Delete'),
-          ),
-        ],
-      ),
-    );
-
-    if (ok == true) {
-      setState(() => data.removeWhere((e) => e.id == item.id));
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('\${item.title} deleted')),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Items')),
-      body: ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          final item = data[index];
-          return ListTile(
-            title: Text(item.title),
-            subtitle: Text(item.description),
-            trailing: IconButton(
-              icon: Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _deleteItem(item),
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                '/details',
-                arguments: item,
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
-
-class DetailsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final item = ModalRoute.of(context)!.settings.arguments as Item;
-
-    return Scaffold(
-      appBar: AppBar(title: Text(item.title)),
-      body: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('ID: \${item.id}', style: TextStyle(color: Colors.grey)),
-            SizedBox(height: 12),
-            Text(item.description, style: TextStyle(fontSize: 18)),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Back'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}`,
         },
       },
     },
@@ -526,12 +399,12 @@ const Day7 = () => {
                   Day 7
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  Navigation & User Feedback
+                  APIs & Networking
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Connect screens with Navigator and Named Routes, confirm
-                  actions with Dialogs, show SnackBars, and build a master-detail
-                  lab.
+                  Master Futures and async/await, call REST APIs with the http
+                  package, then level up with Dio — BaseOptions, interceptors,
+                  and robust error handling.
                 </p>
 
                 <motion.button
@@ -540,7 +413,7 @@ const Day7 = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Navigation & Feedback
+                  Explore APIs & Networking
                 </motion.button>
               </motion.div>
             </div>
@@ -568,8 +441,8 @@ const Day7 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours: navigation patterns, user feedback, and a
-                  master-detail app lab.
+                  3 hours: async programming, HTTP CRUD, and Dio for production
+                  networking.
                 </p>
               </motion.div>
 
@@ -699,29 +572,22 @@ const Day7 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Navigator.push/pop and MaterialPageRoute handle most
-                          simple screen flows.
+                          Futures + async/await keep the UI responsive during
+                          network and timer work.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Named Routes centralize navigation and work well for
-                          splash → login → home.
+                          The http package covers REST CRUD; always check status
+                          codes and show errors.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Dialogs for critical decisions; SnackBars for brief
-                          feedback.
-                        </span>
-                      </li>
-                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-                        <span>
-                          Master-detail + confirm-delete is a core mobile
-                          pattern.
+                          Dio adds BaseOptions, interceptors, auto JSON, and
+                          richer DioException handling.
                         </span>
                       </li>
                     </ul>
@@ -731,75 +597,14 @@ const Day7 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 8, we'll work with Futures, HTTP APIs,
-                      SharedPreferences, and Provider for app-wide state — no
-                      BLoC.
+                      In Day 8, we'll persist data with SharedPreferences,
+                      manage app-wide state with Provider, and prepare an app
+                      for production.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 8
                       <ArrowRight className='w-5 h-5' />
                     </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
-                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  Hands-on Exercise
-                </h3>
-
-                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      📝
-                    </div>
-                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Master-Detail App with Confirm Delete
-                    </h5>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Objective
-                    </h6>
-                    <p className='text-gray-700 dark:text-gray-300'>
-                      Build a list → details navigation app. Pass item data to
-                      the details screen, support back navigation, and delete
-                      items only after an AlertDialog confirmation.
-                    </p>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-                      Requirements
-                    </h6>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• ListView of items (title + subtitle)</li>
-                        <li>• Tap opens DetailsPage (Named Route or MaterialPageRoute)</li>
-                        <li>• Delete icon shows confirm AlertDialog</li>
-                        <li>• On confirm: remove item + show SnackBar</li>
-                        <li>• Optional Undo action on the SnackBar</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      👉 Bonus Challenge
-                    </h6>
-                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Add an About page with pushReplacementNamed</li>
-                        <li>• Edit screen that returns updated title via pop</li>
-                        <li>• Empty state when the list is empty</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </motion.div>

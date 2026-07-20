@@ -77,22 +77,22 @@ const Navigation = ({ isDarkMode, toggleTheme }: NavigationProps) => {
 									<a
 										href='/day5'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 5 — Layouts, Widgets & State
+										Day 5 — Layouts, State & UI Controls
 									</a>
 									<a
 										href='/day6'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 6 — Material, Forms & Lists
+										Day 6 — Material, Forms & Navigation
 									</a>
 									<a
 										href='/day7'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 7 — Navigation & Feedback
+										Day 7 — APIs & Networking
 									</a>
 									<a
 										href='/day8'
 										className='block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#01B5F2] transition-colors duration-200'>
-										Day 8 — Data, APIs & Provider
+										Day 8 — Provider & Production
 									</a>
 								</div>
 							)}

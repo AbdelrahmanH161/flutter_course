@@ -5,9 +5,10 @@ import {
   CheckCircle,
   Clock,
   Palette,
-  MousePointerClick,
   List,
-  LayoutGrid,
+  Navigation,
+  Route,
+  MessageSquare,
   ArrowRight,
 } from 'lucide-react';
 
@@ -124,167 +125,18 @@ class MyApp extends StatelessWidget {
   },
   {
     id: 2,
-    title: 'Buttons & Text Input',
-    duration: '1 Hour',
-    icon: <MousePointerClick className='w-6 h-6' />,
-    content: {
-      description:
-        'Use the right button for each action priority, then collect user input with TextField and TextFormField — controllers, decoration, keyboard types, and validators.',
-      topics: [
-        'ElevatedButton, TextButton, OutlinedButton',
-        'IconButton, FAB, DropdownButton',
-        'TextField with controller and decoration',
-        'TextFormField with validator',
-        'keyboardType and onChanged',
-      ],
-      detailedTopics: {
-        buttons: {
-          title: 'Flutter Button Types',
-          code: `class ButtonsDemo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Buttons')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Primary action
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('ElevatedButton — primary'),
-            ),
-            SizedBox(height: 12),
-
-            // Secondary action
-            OutlinedButton(
-              onPressed: () {},
-              child: Text('OutlinedButton — secondary'),
-            ),
-            SizedBox(height: 12),
-
-            // Lowest emphasis
-            TextButton(
-              onPressed: () {},
-              child: Text('TextButton — tertiary'),
-            ),
-            SizedBox(height: 12),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.favorite),
-                  onPressed: () {},
-                ),
-                DropdownButton<String>(
-                  value: 'EGP',
-                  items: ['EGP', 'USD', 'EUR']
-                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                      .toList(),
-                  onChanged: (v) {},
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/*
-Priority guide:
-  Elevated > Outlined > Text
-  FAB for the single main page action
-*/`,
-        },
-        textInput: {
-          title: 'TextField & TextFormField',
-          code: `class LoginFields extends StatefulWidget {
-  @override
-  _LoginFieldsState createState() => _LoginFieldsState();
-}
-
-class _LoginFieldsState extends State<LoginFields> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Plain TextField
-          TextField(
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              hintText: 'you@example.com',
-              prefixIcon: Icon(Icons.email),
-            ),
-            onChanged: (value) {
-              print('Email: \$value');
-            },
-          ),
-          SizedBox(height: 16),
-
-          // TextFormField with validator
-          TextFormField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              prefixIcon: Icon(Icons.lock),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Password is required';
-              }
-              if (value.length < 6) {
-                return 'At least 6 characters';
-              }
-              return null;
-            },
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-          ),
-        ],
-      ),
-    );
-  }
-}`,
-        },
-      },
-    },
-  },
-  {
-    id: 3,
-    title: 'Form Validation & ListView',
+    title: 'Form Validation',
     duration: '1 Hour',
     icon: <List className='w-6 h-6' />,
     content: {
       description:
-        'Wrap inputs in a Form with GlobalKey for validation, then display dynamic collections efficiently with ListView.builder and ListView.separated.',
+        'Wrap inputs in a Form with GlobalKey for validation — login / register patterns, password confirmation matching, and submitting only when valid.',
       topics: [
         'Form + GlobalKey<FormState>',
         'Login / register validation patterns',
         'Password confirmation matching',
-        'ListView, ListView.builder, ListView.separated',
-        'scrollDirection, physics, shrinkWrap',
+        'autovalidateMode options',
+        'Showing success feedback with SnackBar',
       ],
       detailedTopics: {
         formValidation: {
@@ -362,134 +214,340 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 }`,
         },
-        listView: {
-          title: 'ListView.builder & separated',
-          code: `final products = [
-  {'name': 'Laptop', 'price': 1200},
-  {'name': 'Phone', 'price': 800},
-  {'name': 'Headphones', 'price': 150},
-  {'name': 'Keyboard', 'price': 90},
-];
-
-class ProductList extends StatelessWidget {
+      },
+    },
+  },
+  {
+    id: 3,
+    title: 'Screen Navigation',
+    duration: '1 Hour',
+    icon: <Navigation className='w-6 h-6' />,
+    content: {
+      description:
+        'Understand the Navigator stack and move between screens with MaterialPageRoute — push, pop, pass data via constructors, and return results with await.',
+      topics: [
+        'Navigator stack concept',
+        'Navigator.push and Navigator.pop',
+        'MaterialPageRoute',
+        'Passing data via constructor',
+        'Returning data with await Navigator.push',
+      ],
+      detailedTopics: {
+        pushPop: {
+          title: 'push, pop & MaterialPageRoute',
+          code: `class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      // physics: AlwaysScrollableScrollPhysics(),
-      // shrinkWrap: true, // when nested inside Column
-      itemCount: products.length,
-      separatorBuilder: (_, __) => Divider(height: 1),
-      itemBuilder: (context, index) {
-        final p = products[index];
-        return ListTile(
-          leading: CircleAvatar(child: Text('\${index + 1}')),
-          title: Text(p['name'] as String),
-          subtitle: Text('\\$\${p['price']}'),
-          trailing: Icon(Icons.chevron_right),
-          onTap: () {},
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(title: Text('Home')),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Open Details'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailsPage(title: 'Flutter Course'),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
 
-/*
-ListView          → small fixed children list
-ListView.builder  → large / dynamic lists (lazy)
-ListView.separated → builder + divider between items
-*/`,
+class DetailsPage extends StatelessWidget {
+  final String title;
+
+  const DetailsPage({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Go Back'),
+          onPressed: () {
+            Navigator.pop(context); // remove this route from the stack
+          },
+        ),
+      ),
+    );
+  }
+}`,
+        },
+        returnData: {
+          title: 'Passing & Returning Data',
+          code: `// Home → Edit → return updated name
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String name = 'Guest';
+
+  Future<void> _editName() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EditNamePage(currentName: name),
+      ),
+    );
+
+    if (result != null) {
+      setState(() => name = result);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Welcome, \$name')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _editName,
+        child: Icon(Icons.edit),
+      ),
+    );
+  }
+}
+
+class EditNamePage extends StatefulWidget {
+  final String currentName;
+  const EditNamePage({required this.currentName});
+
+  @override
+  _EditNamePageState createState() => _EditNamePageState();
+}
+
+class _EditNamePageState extends State<EditNamePage> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.currentName);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Edit Name')),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(controller: controller),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, controller.text),
+              child: Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}`,
         },
       },
     },
   },
   {
     id: 4,
-    title: 'Practical Lab — GridView & Product Display',
+    title: 'Named Routes',
     duration: '1 Hour',
-    icon: <LayoutGrid className='w-6 h-6' />,
+    icon: <Route className='w-6 h-6' />,
     content: {
       description:
-        'Build a product catalog grid with images, titles, and prices. Compare GridView.count vs GridView.builder and know when to prefer ListView.',
+        'Centralize navigation with a route table in MaterialApp. Use pushNamed, arguments, pushReplacement, and know when Named Routes beat MaterialPageRoute.',
       topics: [
-        'GridView.count and GridView.builder',
-        'SliverGridDelegateWithFixedCrossAxisCount',
-        'childAspectRatio, spacing, crossAxisCount',
-        'Product card UI (image + title + price)',
-        'ListView vs GridView — when to use each',
+        'Defining routes in MaterialApp',
+        'Navigator.pushNamed and pushReplacementNamed',
+        'Passing arguments via route settings',
+        'Reading arguments with ModalRoute',
+        'MaterialPageRoute vs Named Routes comparison',
       ],
       detailedTopics: {
-        productGrid: {
-          title: 'Product Grid Lab',
-          code: `class Product {
-  final String name;
-  final double price;
-  final String imageUrl;
-
-  const Product(this.name, this.price, this.imageUrl);
+        namedRoutes: {
+          title: 'Named Routes Setup',
+          code: `void main() {
+  runApp(MaterialApp(
+    initialRoute: '/',
+    routes: {
+      '/': (context) => HomePage(),
+      '/details': (context) => DetailsPage(),
+      '/about': (context) => AboutPage(),
+    },
+  ));
 }
 
-const products = [
-  Product('Laptop', 1200, 'https://picsum.photos/200?1'),
-  Product('Phone', 800, 'https://picsum.photos/200?2'),
-  Product('Watch', 250, 'https://picsum.photos/200?3'),
-  Product('Headphones', 150, 'https://picsum.photos/200?4'),
-  Product('Camera', 540, 'https://picsum.photos/200?5'),
-  Product('Tablet', 400, 'https://picsum.photos/200?6'),
-];
-
-class ProductGridPage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Products')),
-      body: GridView.builder(
-        padding: EdgeInsets.all(12),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 0.75, // taller cards
-        ),
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final p = products[index];
-          return Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Image.network(p.imageUrl, fit: BoxFit.cover),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        p.name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        '\\$\${p.price.toStringAsFixed(0)}',
-                        style: TextStyle(color: Colors.green[700]),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+      appBar: AppBar(title: Text('Home')),
+      body: Column(
+        children: [
+          ElevatedButton(
+            child: Text('Open Details'),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/details',
+                arguments: {'id': 42, 'title': 'Flutter'},
+              );
+            },
+          ),
+          ElevatedButton(
+            child: Text('Replace with About'),
+            onPressed: () {
+              // Removes current route, then pushes /about
+              Navigator.pushReplacementNamed(context, '/about');
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
+class DetailsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(args['title'])),
+      body: Center(child: Text('Item ID: \${args['id']}')),
+    );
+  }
+}`,
+        },
+        comparison: {
+          title: 'MaterialPageRoute vs Named Routes',
+          code: `/*
+MaterialPageRoute
+  ✅ Simple, type-safe constructor params
+  ✅ Great for prototypes / small apps
+  ❌ Hard to see all routes in one place
+  ❌ Deep linking needs extra work
+
+Named Routes
+  ✅ Central route table in MaterialApp
+  ✅ Easy to navigate from anywhere by string
+  ✅ Better for medium apps & splash→login flows
+  ❌ Arguments need casting
+  ❌ Less compile-time safety
+
+Tip: You can mix both in the same app.
+For large apps later, consider go_router.
+*/`,
+        },
+      },
+    },
+  },
+  {
+    id: 5,
+    title: 'Dialogs & SnackBars',
+    duration: '1 Hour',
+    icon: <MessageSquare className='w-6 h-6' />,
+    content: {
+      description:
+        'Give users clear feedback: blocking confirmations with AlertDialog, and lightweight messages with SnackBar via ScaffoldMessenger.',
+      topics: [
+        'showDialog + AlertDialog',
+        'Confirm delete pattern',
+        'Custom Dialog widgets',
+        'SnackBar via ScaffoldMessenger',
+        'SnackBar with action button',
+      ],
+      detailedTopics: {
+        dialogs: {
+          title: 'AlertDialog Confirm Delete',
+          code: `Future<void> confirmDelete(BuildContext context, VoidCallback onConfirm) async {
+  final result = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Delete item?'),
+      content: Text('This action cannot be undone.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.pop(context, true),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          child: Text('Delete'),
+        ),
+      ],
+    ),
+  );
+
+  if (result == true) {
+    onConfirm();
+  }
+}
+
+// Custom simple dialog
+void showInfoDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => Dialog(
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.info, size: 48, color: Colors.blue),
+            SizedBox(height: 12),
+            Text('Custom Dialog Content'),
+            SizedBox(height: 16),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Close'),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}`,
+        },
+        snackbars: {
+          title: 'SnackBar Feedback',
+          code: `void showSimpleSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 2),
+    ),
+  );
+}
+
+void showSnackBarWithAction(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Item deleted'),
+      backgroundColor: Colors.black87,
+      action: SnackBarAction(
+        label: 'UNDO',
+        textColor: Colors.amber,
+        onPressed: () {
+          // Restore the item
+        },
+      ),
+    ),
+  );
+}
+
 /*
-Use GridView when items share a uniform card layout
-Use ListView for rows of rich / varying content
+Use Dialog when the user MUST decide (delete, logout...).
+Use SnackBar for brief status (saved, error, offline...).
 */`,
         },
       },
@@ -525,11 +583,12 @@ const Day6 = () => {
                   Day 6
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  Material Design, Forms & Data Display
+                  Material Design, Forms, Navigation & Feedback
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Theme your app with Material Design, collect input with
-                  validated forms, and display data using ListView and GridView.
+                  Theme your app with Material Design, validate forms, connect
+                  screens with Navigator and Named Routes, and give users
+                  feedback with Dialogs and SnackBars.
                 </p>
 
                 <motion.button
@@ -538,7 +597,7 @@ const Day6 = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Forms & Data Display
+                  Explore Forms & Navigation
                 </motion.button>
               </motion.div>
             </div>
@@ -566,8 +625,8 @@ const Day6 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours: theming, buttons, forms, lists, and a product grid
-                  lab.
+                  5 hours: theming, form validation, navigation patterns, and
+                  user feedback.
                 </p>
               </motion.div>
 
@@ -704,15 +763,15 @@ const Day6 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Choose button emphasis wisely; use TextFormField + Form
-                          for validated input.
+                          Form + GlobalKey&lt;FormState&gt; validates input before
+                          submit.
                         </span>
                       </li>
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          ListView.builder is ideal for dynamic lists;
-                          GridView.builder for uniform product cards.
+                          Navigator.push/pop and Named Routes handle screen
+                          flows; Dialogs for decisions, SnackBars for feedback.
                         </span>
                       </li>
                     </ul>
@@ -722,73 +781,13 @@ const Day6 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 7, we'll connect screens with Navigator and Named
-                      Routes, and give users feedback with Dialogs and SnackBars.
+                      In Day 7, we'll work with Futures, the http package, and
+                      Dio for REST API integration.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 7
                       <ArrowRight className='w-5 h-5' />
                     </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
-                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  Hands-on Exercise
-                </h3>
-
-                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      📝
-                    </div>
-                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Themed Product Catalog with Form + Grid
-                    </h5>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Objective
-                    </h6>
-                    <p className='text-gray-700 dark:text-gray-300'>
-                      Apply ThemeData, build a validated form to add products,
-                      and display them in a GridView product catalog.
-                    </p>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-                      Requirements
-                    </h6>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Configure ThemeData (colorScheme + inputDecorationTheme)</li>
-                        <li>• Form fields: name, price, image URL with validators</li>
-                        <li>• On submit, add product to a list in state</li>
-                        <li>• Show products in GridView.builder with Card UI</li>
-                        <li>• Toggle between ListView and GridView (bonus)</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      👉 Bonus Challenge
-                    </h6>
-                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Delete product with a confirmation flow (prep for Day 7)</li>
-                        <li>• Empty-state message when no products exist</li>
-                        <li>• Placeholder image when URL fails</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </motion.div>

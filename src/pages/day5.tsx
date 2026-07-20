@@ -4,10 +4,10 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Columns3,
   Boxes,
   RefreshCw,
-  ToggleLeft,
+  MousePointerClick,
+  List,
   ArrowRight,
 } from 'lucide-react';
 
@@ -20,109 +20,6 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Core Layout Widgets',
-    duration: '1 Hour',
-    icon: <Columns3 className='w-6 h-6' />,
-    content: {
-      description:
-        'Master the building blocks of every Flutter screen: Column, Row, Container, SizedBox, Center, Padding, and Expanded — including alignment and flex sizing.',
-      topics: [
-        'Column and Row with mainAxisAlignment / crossAxisAlignment',
-        'Container for decoration, padding, and constraints',
-        'SizedBox for fixed gaps and sizes',
-        'Center and Padding helpers',
-        'Expanded and Flexible for flex layouts',
-      ],
-      detailedTopics: {
-        columnRow: {
-          title: 'Column, Row & Alignment',
-          code: `class LayoutBasics extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Layouts')),
-      body: Column(
-        // Vertical arrangement
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            color: Colors.blue,
-            height: 60,
-            child: Center(child: Text('Top', style: TextStyle(color: Colors.white))),
-          ),
-          SizedBox(height: 12),
-          Row(
-            // Horizontal arrangement
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(Icons.star, color: Colors.amber, size: 40),
-              Icon(Icons.favorite, color: Colors.red, size: 40),
-              Icon(Icons.thumb_up, color: Colors.blue, size: 40),
-            ],
-          ),
-          SizedBox(height: 12),
-          Container(
-            color: Colors.teal,
-            height: 60,
-            child: Center(child: Text('Bottom', style: TextStyle(color: Colors.white))),
-          ),
-        ],
-      ),
-    );
-  }
-}`,
-        },
-        expanded: {
-          title: 'Expanded & Flex Sizing',
-          code: `class FlexExample extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Takes 1 part of remaining space
-        Expanded(
-          flex: 1,
-          child: Container(
-            height: 80,
-            color: Colors.red,
-            child: Center(child: Text('1')),
-          ),
-        ),
-        // Takes 2 parts of remaining space
-        Expanded(
-          flex: 2,
-          child: Container(
-            height: 80,
-            color: Colors.green,
-            child: Center(child: Text('2')),
-          ),
-        ),
-        // Fixed width — does not expand
-        Container(
-          width: 60,
-          height: 80,
-          color: Colors.blue,
-          child: Center(child: Text('Fixed')),
-        ),
-      ],
-    );
-  }
-}
-
-/*
-Tips:
-  - Expanded must be a child of Row / Column / Flex
-  - Use SizedBox(width/height) for fixed gaps
-  - Padding wraps a child; Container can combine
-    color + padding + margin + decoration
-*/`,
-        },
-      },
-    },
-  },
-  {
-    id: 2,
     title: 'Advanced Layouts & Core Widgets',
     duration: '1 Hour',
     icon: <Boxes className='w-6 h-6' />,
@@ -261,7 +158,7 @@ Tips:
     },
   },
   {
-    id: 3,
+    id: 2,
     title: 'Stateful vs Stateless Widgets',
     duration: '1 Hour',
     icon: <RefreshCw className='w-6 h-6' />,
@@ -342,113 +239,280 @@ When to use which?
     },
   },
   {
-    id: 4,
-    title: 'Practical Lab — Toggle Controls',
+    id: 3,
+    title: 'Buttons & Text Input',
     duration: '1 Hour',
-    icon: <ToggleLeft className='w-6 h-6' />,
+    icon: <MousePointerClick className='w-6 h-6' />,
     content: {
       description:
-        'Build a Preferences Screen combining Switch, Radio, and Checkbox controls — applying StatefulWidget and setState in a real lab.',
+        'Use the right button for each action priority, then collect user input with TextField and TextFormField — controllers, decoration, keyboard types, and validators.',
       topics: [
-        'Switch and SwitchListTile',
-        'Radio and RadioListTile with enums',
-        'Checkbox and CheckboxListTile',
-        'Combining all controls in one screen',
-        'Persisting selections in local state',
+        'ElevatedButton, TextButton, OutlinedButton',
+        'IconButton, FAB, DropdownButton',
+        'TextField with controller and decoration',
+        'TextFormField with validator',
+        'keyboardType and onChanged',
       ],
       detailedTopics: {
-        preferenceScreen: {
-          title: 'Preferences Screen Lab',
-          code: `enum Gender { male, female, other }
-
-class PreferencesScreen extends StatefulWidget {
-  @override
-  _PreferencesScreenState createState() => _PreferencesScreenState();
-}
-
-class _PreferencesScreenState extends State<PreferencesScreen> {
-  bool darkMode = false;
-  bool notifications = true;
-  Gender gender = Gender.male;
-  bool acceptTerms = false;
-  bool newsletter = false;
-
+        buttons: {
+          title: 'Flutter Button Types',
+          code: `class ButtonsDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Preferences')),
-      body: ListView(
-        children: [
-          // Switches
-          SwitchListTile(
-            title: Text('Dark Mode'),
-            subtitle: Text('Use dark theme'),
-            secondary: Icon(Icons.dark_mode),
-            value: darkMode,
-            onChanged: (v) => setState(() => darkMode = v),
-          ),
-          SwitchListTile(
-            title: Text('Notifications'),
-            secondary: Icon(Icons.notifications),
-            value: notifications,
-            onChanged: (v) => setState(() => notifications = v),
-          ),
-          Divider(),
-
-          // Radio group
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, 4),
-            child: Text('Gender', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          RadioListTile<Gender>(
-            title: Text('Male'),
-            value: Gender.male,
-            groupValue: gender,
-            onChanged: (v) => setState(() => gender = v!),
-          ),
-          RadioListTile<Gender>(
-            title: Text('Female'),
-            value: Gender.female,
-            groupValue: gender,
-            onChanged: (v) => setState(() => gender = v!),
-          ),
-          RadioListTile<Gender>(
-            title: Text('Other'),
-            value: Gender.other,
-            groupValue: gender,
-            onChanged: (v) => setState(() => gender = v!),
-          ),
-          Divider(),
-
-          // Checkboxes
-          CheckboxListTile(
-            title: Text('Accept Terms & Conditions'),
-            value: acceptTerms,
-            onChanged: (v) => setState(() => acceptTerms = v!),
-          ),
-          CheckboxListTile(
-            title: Text('Subscribe to newsletter'),
-            value: newsletter,
-            onChanged: (v) => setState(() => newsletter = v!),
-          ),
-          SizedBox(height: 24),
-
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ElevatedButton(
-              onPressed: acceptTerms
-                  ? () {
-                      // Save preferences...
-                    }
-                  : null, // disabled until terms accepted
-              child: Text('Save Preferences'),
+      appBar: AppBar(title: Text('Buttons')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Primary action
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('ElevatedButton — primary'),
             ),
+            SizedBox(height: 12),
+
+            // Secondary action
+            OutlinedButton(
+              onPressed: () {},
+              child: Text('OutlinedButton — secondary'),
+            ),
+            SizedBox(height: 12),
+
+            // Lowest emphasis
+            TextButton(
+              onPressed: () {},
+              child: Text('TextButton — tertiary'),
+            ),
+            SizedBox(height: 12),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite),
+                  onPressed: () {},
+                ),
+                DropdownButton<String>(
+                  value: 'EGP',
+                  items: ['EGP', 'USD', 'EUR']
+                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                      .toList(),
+                  onChanged: (v) {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*
+Priority guide:
+  Elevated > Outlined > Text
+  FAB for the single main page action
+*/`,
+        },
+        textInput: {
+          title: 'TextField & TextFormField',
+          code: `class LoginFields extends StatefulWidget {
+  @override
+  _LoginFieldsState createState() => _LoginFieldsState();
+}
+
+class _LoginFieldsState extends State<LoginFields> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          // Plain TextField
+          TextField(
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              hintText: 'you@example.com',
+              prefixIcon: Icon(Icons.email),
+            ),
+            onChanged: (value) {
+              print('Email: \$value');
+            },
+          ),
+          SizedBox(height: 16),
+
+          // TextFormField with validator
+          TextFormField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              prefixIcon: Icon(Icons.lock),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Password is required';
+              }
+              if (value.length < 6) {
+                return 'At least 6 characters';
+              }
+              return null;
+            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
         ],
       ),
     );
   }
 }`,
+        },
+      },
+    },
+  },
+  {
+    id: 4,
+    title: 'ListView & GridView',
+    duration: '1 Hour',
+    icon: <List className='w-6 h-6' />,
+    content: {
+      description:
+        'Display dynamic collections efficiently with ListView.builder and ListView.separated, then build product catalogs with GridView.builder.',
+      topics: [
+        'ListView, ListView.builder, ListView.separated',
+        'scrollDirection, physics, shrinkWrap',
+        'GridView.count and GridView.builder',
+        'SliverGridDelegateWithFixedCrossAxisCount',
+        'ListView vs GridView — when to use each',
+      ],
+      detailedTopics: {
+        listView: {
+          title: 'ListView.builder & separated',
+          code: `final products = [
+  {'name': 'Laptop', 'price': 1200},
+  {'name': 'Phone', 'price': 800},
+  {'name': 'Headphones', 'price': 150},
+  {'name': 'Keyboard', 'price': 90},
+];
+
+class ProductList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      // physics: AlwaysScrollableScrollPhysics(),
+      // shrinkWrap: true, // when nested inside Column
+      itemCount: products.length,
+      separatorBuilder: (_, __) => Divider(height: 1),
+      itemBuilder: (context, index) {
+        final p = products[index];
+        return ListTile(
+          leading: CircleAvatar(child: Text('\${index + 1}')),
+          title: Text(p['name'] as String),
+          subtitle: Text('\\$\${p['price']}'),
+          trailing: Icon(Icons.chevron_right),
+          onTap: () {},
+        );
+      },
+    );
+  }
+}
+
+/*
+ListView          → small fixed children list
+ListView.builder  → large / dynamic lists (lazy)
+ListView.separated → builder + divider between items
+*/`,
+        },
+        gridView: {
+          title: 'GridView.builder Product Catalog',
+          code: `class Product {
+  final String name;
+  final double price;
+  final String imageUrl;
+
+  const Product(this.name, this.price, this.imageUrl);
+}
+
+const products = [
+  Product('Laptop', 1200, 'https://picsum.photos/200?1'),
+  Product('Phone', 800, 'https://picsum.photos/200?2'),
+  Product('Watch', 250, 'https://picsum.photos/200?3'),
+  Product('Headphones', 150, 'https://picsum.photos/200?4'),
+  Product('Camera', 540, 'https://picsum.photos/200?5'),
+  Product('Tablet', 400, 'https://picsum.photos/200?6'),
+];
+
+class ProductGridPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Products')),
+      body: GridView.builder(
+        padding: EdgeInsets.all(12),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.75, // taller cards
+        ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final p = products[index];
+          return Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Image.network(p.imageUrl, fit: BoxFit.cover),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        p.name,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        '\\$\${p.price.toStringAsFixed(0)}',
+                        style: TextStyle(color: Colors.green[700]),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*
+Use GridView when items share a uniform card layout
+Use ListView for rows of rich / varying content
+*/`,
         },
       },
     },
@@ -483,12 +547,12 @@ const Day5 = () => {
                   Day 5
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  Layouts, Widgets & State
+                  Layouts, State & UI Controls
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Build real UIs with layout and Material widgets, then learn
-                  Stateful vs Stateless and finish with a Preferences Screen of
-                  switches, radios, and checkboxes.
+                  Build real UIs with advanced layouts, learn Stateful vs
+                  Stateless, master buttons and text input, then display data
+                  with ListView and GridView.
                 </p>
 
                 <motion.button
@@ -497,7 +561,7 @@ const Day5 = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Layouts & State
+                  Explore Layouts & UI Controls
                 </motion.button>
               </motion.div>
             </div>
@@ -525,8 +589,8 @@ const Day5 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours covering layouts, core widgets, state, and a toggle
-                  controls lab.
+                  4 hours covering advanced layouts, state, buttons, and data
+                  display widgets.
                 </p>
               </motion.div>
 
@@ -656,13 +720,6 @@ const Day5 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Column, Row, Expanded, and Container drive most layout
-                          decisions.
-                        </span>
-                      </li>
-                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-                        <span>
                           Stack, Wrap, Card, and ListTile unlock richer screens
                           like Settings pages.
                         </span>
@@ -677,8 +734,15 @@ const Day5 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Switch, Radio, and Checkbox are the core Material
-                          toggle controls.
+                          Choose button emphasis wisely; use TextField and
+                          TextFormField for input.
+                        </span>
+                      </li>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
+                        <span>
+                          ListView.builder for dynamic lists; GridView.builder
+                          for uniform product cards.
                         </span>
                       </li>
                     </ul>
@@ -688,77 +752,14 @@ const Day5 = () => {
                       What's Next
                     </h4>
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
-                      In Day 6, we'll apply Material theming, buttons, text
-                      input and form validation, then display data with ListView
-                      and GridView.
+                      In Day 6, we'll apply Material theming, form validation,
+                      and connect screens with Navigator, Named Routes, Dialogs,
+                      and SnackBars.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Next: Day 6
                       <ArrowRight className='w-5 h-5' />
                     </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
-                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  Hands-on Exercise
-                </h3>
-
-                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      📝
-                    </div>
-                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Preferences Screen with Toggle Controls
-                    </h5>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Objective
-                    </h6>
-                    <p className='text-gray-700 dark:text-gray-300'>
-                      Build a Preferences Screen using StatefulWidget that
-                      combines Switch, Radio, and Checkbox controls, and enables
-                      Save only when terms are accepted.
-                    </p>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-                      Requirements
-                    </h6>
-                    <div className='space-y-4'>
-                      <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                        <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                          <li>• Dark Mode + Notifications SwitchListTiles</li>
-                          <li>• Gender RadioListTiles using an enum</li>
-                          <li>• Accept Terms + Newsletter CheckboxListTiles</li>
-                          <li>• Save button disabled until terms are accepted</li>
-                          <li>• Use ListView so the page scrolls on small screens</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      👉 Bonus Challenge
-                    </h6>
-                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• Add a PaymentMethod radio group (Cash / Card / Wallet)</li>
-                        <li>• Show a SnackBar when Save succeeds</li>
-                        <li>• Split sections into reusable widgets</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </motion.div>

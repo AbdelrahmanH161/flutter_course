@@ -4,10 +4,9 @@ import {
   ChevronDown,
   CheckCircle,
   Clock,
-  Timer,
-  Globe,
   HardDrive,
   Boxes,
+  Rocket,
   ArrowRight,
 } from 'lucide-react';
 
@@ -20,247 +19,6 @@ const Loading = () => <div>Loading...</div>;
 const sessions = [
   {
     id: 1,
-    title: 'Async Programming & Futures',
-    duration: '1 Hour',
-    icon: <Timer className='w-6 h-6' />,
-    content: {
-      description:
-        'Keep the UI responsive while work happens in the background. Master Futures, async/await, Future.delayed, and a splash screen that navigates after a delay.',
-      topics: [
-        'What is a Future?',
-        'async / await vs then / catchError',
-        'Future.delayed for timers',
-        'Future.any race pattern',
-        'Splash screen with delayed navigation',
-      ],
-      detailedTopics: {
-        futuresBasics: {
-          title: 'Futures, async & await',
-          code: `// Synchronous — blocks the thread
-String syncFetch() {
-  // Imagine a long calculation...
-  return 'Done sync';
-}
-
-// Asynchronous — returns a Future
-Future<String> asyncFetch() async {
-  await Future.delayed(Duration(seconds: 2));
-  return 'Done async';
-}
-
-void demo() {
-  // Style 1: then / catchError
-  asyncFetch()
-      .then((value) => print(value))
-      .catchError((e) => print('Error: \$e'));
-
-  // Style 2: async / await (preferred)
-  loadData();
-}
-
-Future<void> loadData() async {
-  try {
-    print('Loading...');
-    final result = await asyncFetch();
-    print(result);
-  } catch (e) {
-    print('Failed: \$e');
-  }
-}
-
-/*
-Common pitfall:
-  final x = asyncFetch(); // x is Future<String>, not String!
-  final x = await asyncFetch(); // correct
-*/`,
-        },
-        splash: {
-          title: 'Splash Screen with Future.delayed',
-          code: `class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _goNext();
-  }
-
-  Future<void> _goNext() async {
-    await Future.delayed(Duration(seconds: 2));
-    if (!mounted) return;
-    Navigator.pushReplacementNamed(context, '/home');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FlutterLogo(size: 96),
-            SizedBox(height: 24),
-            CircularProgressIndicator(),
-            SizedBox(height: 12),
-            Text('Loading...'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Race: take whoever finishes first
-Future<String> fastestSource() {
-  return Future.any([
-    Future.delayed(Duration(seconds: 3), () => 'From API'),
-    Future.delayed(Duration(seconds: 1), () => 'From Cache'),
-  ]);
-}`,
-        },
-      },
-    },
-  },
-  {
-    id: 2,
-    title: 'HTTP & API Integration',
-    duration: '1 Hour',
-    icon: <Globe className='w-6 h-6' />,
-    content: {
-      description:
-        'Talk to REST APIs with the http package. Perform GET, POST, PUT, DELETE, parse JSON, handle status codes, and build a simple Posts CRUD screen.',
-      topics: [
-        'Adding and importing the http package',
-        'GET / POST / PUT / DELETE requests',
-        'JSON decoding and model mapping',
-        'Status codes and error SnackBars',
-        'JSONPlaceholder Posts CRUD pattern',
-      ],
-      detailedTopics: {
-        httpBasics: {
-          title: 'HTTP CRUD with http package',
-          code: `// pubspec.yaml:
-//   dependencies:
-//     http: ^1.2.0
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-const baseUrl = 'https://jsonplaceholder.typicode.com';
-
-Future<List<dynamic>> fetchPosts() async {
-  final response = await http.get(Uri.parse('\$baseUrl/posts'));
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body) as List;
-  }
-  throw Exception('Failed to load posts (\${response.statusCode})');
-}
-
-Future<Map<String, dynamic>> createPost(String title, String body) async {
-  final response = await http.post(
-    Uri.parse('\$baseUrl/posts'),
-    headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    body: jsonEncode({
-      'title': title,
-      'body': body,
-      'userId': 1,
-    }),
-  );
-  if (response.statusCode == 201) {
-    return jsonDecode(response.body);
-  }
-  throw Exception('Failed to create post');
-}
-
-Future<void> updatePost(int id, String title) async {
-  final response = await http.put(
-    Uri.parse('\$baseUrl/posts/\$id'),
-    headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    body: jsonEncode({'id': id, 'title': title, 'userId': 1}),
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update');
-  }
-}
-
-Future<void> deletePost(int id) async {
-  final response = await http.delete(Uri.parse('\$baseUrl/posts/\$id'));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to delete');
-  }
-}`,
-        },
-        postsUi: {
-          title: 'Posts Screen Pattern',
-          code: `class PostsPage extends StatefulWidget {
-  @override
-  _PostsPageState createState() => _PostsPageState();
-}
-
-class _PostsPageState extends State<PostsPage> {
-  late Future<List<dynamic>> postsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    postsFuture = fetchPosts();
-  }
-
-  void _showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: Colors.red),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Posts')),
-      body: FutureBuilder<List<dynamic>>(
-        future: postsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: \${snapshot.error}'));
-          }
-          final posts = snapshot.data!;
-          return ListView.builder(
-            itemCount: posts.length,
-            itemBuilder: (context, index) {
-              final post = posts[index];
-              return ListTile(
-                title: Text(post['title']),
-                subtitle: Text(post['body'], maxLines: 2),
-              );
-            },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await createPost('New Post', 'Hello API');
-            setState(() => postsFuture = fetchPosts());
-          } catch (e) {
-            _showError(e.toString());
-          }
-        },
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}`,
-        },
-      },
-    },
-  },
-  {
-    id: 3,
     title: 'SharedPreferences',
     duration: '1 Hour',
     icon: <HardDrive className='w-6 h-6' />,
@@ -407,8 +165,8 @@ class HomePage extends StatelessWidget {
     },
   },
   {
-    id: 4,
-    title: 'Practical Lab — Provider State Management',
+    id: 2,
+    title: 'Provider State Management',
     duration: '1 Hour',
     icon: <Boxes className='w-6 h-6' />,
     content: {
@@ -417,9 +175,9 @@ class HomePage extends StatelessWidget {
       topics: [
         'Why setState is not enough for app-wide state',
         'ChangeNotifier + notifyListeners()',
-        'ChangeNotifierProvider setup',
-        'Consumer and Provider.of',
-        'Auth + Product providers lab',
+        'ChangeNotifierProvider and MultiProvider setup',
+        'Consumer, Provider.of, context.read / watch',
+        'AuthProvider + ProductProvider pattern',
       ],
       detailedTopics: {
         providerSetup: {
@@ -557,6 +315,90 @@ Consumer<T>                 → rebuilds only its subtree
       },
     },
   },
+  {
+    id: 3,
+    title: 'Build App for Production',
+    duration: '1 Hour',
+    icon: <Rocket className='w-6 h-6' />,
+    content: {
+      description:
+        'Structure a real Flutter project for maintainability, prepare release builds, and follow a production checklist before shipping.',
+      topics: [
+        'Recommended folder structure',
+        'Separating models, services, providers, screens',
+        'flutter build apk / appbundle --release',
+        'App signing basics',
+        'Production checklist before release',
+      ],
+      detailedTopics: {
+        folderStructure: {
+          title: 'Production Folder Structure',
+          code: `/*
+lib/
+  main.dart
+  app.dart                 → MaterialApp + routes + theme
+  models/
+    product.dart
+    user.dart
+  services/
+    api_service.dart       → Dio / http calls
+    prefs_service.dart     → SharedPreferences helpers
+  providers/
+    auth_provider.dart
+    product_provider.dart
+  screens/
+    splash_screen.dart
+    login_screen.dart
+    home_screen.dart
+    product_detail_screen.dart
+  widgets/
+    product_card.dart
+    loading_indicator.dart
+  utils/
+    constants.dart
+    validators.dart
+
+Tips:
+  - Keep widgets small and reusable
+  - Put network logic in services, not screens
+  - Providers orchestrate services + notify UI
+  - Models stay plain Dart classes (fromJson / toJson)
+*/`,
+        },
+        releaseBuild: {
+          title: 'Release Builds & Checklist',
+          code: `/*
+Build commands:
+
+  # Android APK
+  flutter build apk --release
+
+  # Android App Bundle (Play Store)
+  flutter build appbundle --release
+
+  # iOS (requires macOS + Xcode)
+  flutter build ios --release
+
+Signing (Android):
+  1. Create a keystore
+  2. Configure android/key.properties
+  3. Reference it in android/app/build.gradle
+
+Production checklist:
+  ☐ Remove debug prints / print()
+  ☐ Set debugShowCheckedModeBanner: false
+  ☐ Configure app name + icon
+  ☐ Test offline / error states
+  ☐ Handle loading & empty states
+  ☐ Persist login with SharedPreferences
+  ☐ Use Provider for shared state
+  ☐ Test release build on a real device
+  ☐ Review permissions in AndroidManifest / Info.plist
+*/`,
+        },
+      },
+    },
+  },
 ];
 
 const Day8 = () => {
@@ -587,12 +429,12 @@ const Day8 = () => {
                   Day 8
                 </h1>
                 <h2 className='text-3xl md:text-5xl font-bold text-[#02569B] mb-8'>
-                  Data, APIs & State Management
+                  Provider & Production
                 </h2>
                 <p className='text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed'>
-                  Work with Futures and HTTP APIs, persist login with
-                  SharedPreferences, and manage app-wide state with Provider —
-                  no BLoC.
+                  Persist login with SharedPreferences, manage app-wide state
+                  with Provider, and structure your Flutter app for a real
+                  production release.
                 </p>
 
                 <motion.button
@@ -601,7 +443,7 @@ const Day8 = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}>
                   <ChevronDown className='w-5 h-5' />
-                  Explore Data & Provider
+                  Explore Provider & Production
                 </motion.button>
               </motion.div>
             </div>
@@ -629,7 +471,8 @@ const Day8 = () => {
                   Today's Sessions
                 </h3>
                 <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                  4 hours: async, HTTP, SharedPreferences, and a Provider lab.
+                  3 hours: SharedPreferences, Provider state management, and
+                  production readiness.
                 </p>
               </motion.div>
 
@@ -759,20 +602,6 @@ const Day8 = () => {
                       <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
                         <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
                         <span>
-                          Futures + async/await keep the UI responsive during
-                          network and timer work.
-                        </span>
-                      </li>
-                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-                        <span>
-                          The http package covers REST CRUD; always check status
-                          codes and show errors.
-                        </span>
-                      </li>
-                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
-                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
-                        <span>
                           SharedPreferences persists small settings and login
                           state across app restarts.
                         </span>
@@ -784,6 +613,13 @@ const Day8 = () => {
                           management approach — no BLoC required.
                         </span>
                       </li>
+                      <li className='flex items-start gap-3 text-gray-600 dark:text-gray-300'>
+                        <CheckCircle className='w-5 h-5 text-[#02569B] mt-0.5 flex-shrink-0' />
+                        <span>
+                          Structure apps with models / services / providers /
+                          screens, then ship a release build.
+                        </span>
+                      </li>
                     </ul>
                   </div>
                   <div>
@@ -793,74 +629,12 @@ const Day8 = () => {
                     <p className='text-gray-600 dark:text-gray-300 mb-6'>
                       You can now build cross-platform Flutter apps with
                       layouts, Material Design, navigation, APIs, persistence,
-                      and Provider state management.
+                      Provider state management, and production releases.
                     </p>
                     <button className='inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors'>
                       Back to Home
                       <ArrowRight className='w-5 h-5' />
                     </button>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 mt-8'>
-                <h3 className='text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center'>
-                  Hands-on Exercise
-                </h3>
-
-                <div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-l-4 border-blue-500'>
-                  <div className='flex items-center gap-3 mb-4'>
-                    <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm'>
-                      📝
-                    </div>
-                    <h5 className='text-xl font-semibold text-blue-700 dark:text-blue-300'>
-                      Task: Auth + Products with Provider (No BLoC)
-                    </h5>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      Objective
-                    </h6>
-                    <p className='text-gray-700 dark:text-gray-300'>
-                      Combine SharedPreferences and Provider to build Splash →
-                      Login → Home. Auth and product lists should survive
-                      navigation using ChangeNotifier — do not use BLoC or Cubit.
-                    </p>
-                  </div>
-
-                  <div className='mb-6'>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg'>
-                      Requirements
-                    </h6>
-                    <div className='bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• AuthProvider: login, logout, loadFromPrefs</li>
-                        <li>• ProductProvider: add / remove products with notifyListeners</li>
-                        <li>• MultiProvider at app root</li>
-                        <li>• Splash checks loggedIn and routes accordingly</li>
-                        <li>• Home uses Consumer for products + Provider.of for auth</li>
-                        <li>• Optional: fetch initial products from an API (http)</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h6 className='font-semibold text-gray-800 dark:text-gray-200 mb-2 text-lg'>
-                      👉 Bonus Challenge
-                    </h6>
-                    <div className='bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-yellow-200 dark:border-yellow-700'>
-                      <ul className='text-sm text-gray-600 dark:text-gray-300 space-y-1'>
-                        <li>• rememberMe checkbox persisted in SharedPreferences</li>
-                        <li>• Dark mode toggle via a ThemeProvider</li>
-                        <li>• Pull-to-refresh that reloads API data into ProductProvider</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </motion.div>
